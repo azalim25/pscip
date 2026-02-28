@@ -12,7 +12,7 @@ export function Auth() {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
 
-    const constructSyntheticEmail = (bm: string) => `${bm.trim()}@pscip.sistema`;
+    const constructSyntheticEmail = (bm: string) => `${bm.trim().toLowerCase()}@pscip.com`;
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
