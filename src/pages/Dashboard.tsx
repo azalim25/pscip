@@ -88,22 +88,13 @@ export default function Dashboard() {
 
           <div className="flex flex-col sm:flex-row gap-4">
             <SearchBar />
-            <div className="flex gap-4">
-              <Link
-                to="/classification"
-                className="bg-white hover:bg-slate-50 text-slate-700 px-6 py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all active:scale-95 border border-slate-200 shadow-sm whitespace-nowrap"
-              >
-                <ScrollText className="w-5 h-5 text-red-600" />
-                Classificações
-              </Link>
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="bg-red-600 hover:bg-red-700 text-white px-8 py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-red-600/20 whitespace-nowrap"
-              >
-                <Plus className="w-5 h-5" />
-                Novo Projeto
-              </button>
-            </div>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="bg-red-600 hover:bg-red-700 text-white px-8 py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-red-600/20 whitespace-nowrap"
+            >
+              <Plus className="w-5 h-5" />
+              Novo Projeto
+            </button>
           </div>
         </div>
 
