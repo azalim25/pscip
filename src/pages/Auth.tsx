@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Lock, Mail, ShieldCheck, AlertCircle } from 'lucide-react';
+import { Lock, Mail, ShieldCheck, AlertCircle, User as UserIcon } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 export function Auth() {
     const [isLogin, setIsLogin] = useState(true);
+    const [numeroBM, setNumeroBM] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
+
+    const constructSyntheticEmail = (bm: string) => `${bm.trim()}@pscip.sistema`;
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -18,20 +21,33 @@ export function Auth() {
         setSuccess(null);
 
         try {
+            const syntheticEmail = constructSyntheticEmail(numeroBM);
+
             if (isLogin) {
                 const { error } = await supabase.auth.signInWithPassword({
-                    email,
+                    email: syntheticEmail,
                     password,
                 });
-                if (error) throw error;
+                if (error) {
+                    if (error.message.includes('Invalid login credentials')) {
+                        throw new Error('Número BM ou senha incorretos.');
+                    }
+                    throw error;
+                }
             } else {
                 const { error } = await supabase.auth.signUp({
-                    email,
+                    email: syntheticEmail,
                     password,
+                    options: {
+                        data: {
+                            real_email: email,
+                            numero_bm: numeroBM,
+                        }
+                    }
                 });
                 if (error) throw error;
                 setSuccess('Cadastro realizado com sucesso! Você já pode fazer login.');
-                setIsLogin(true); // Switch to login after registration
+                setIsLogin(true);
             }
         } catch (err: any) {
             setError(err.message || 'Ocorreu um erro durante a autenticação.');
@@ -58,7 +74,7 @@ export function Auth() {
 
                 <div className="p-8">
                     <h2 className="text-2xl font-bold text-center mb-6">
-                        {isLogin ? 'Bem-vindo de volta' : 'Crie sua conta'}
+                        {isLogin ? 'Acesso ao Portal' : 'Crie sua conta'}
                     </h2>
 
                     {error && (
@@ -77,19 +93,36 @@ export function Auth() {
 
                     <form onSubmit={handleSubmit} className="space-y-5">
                         <div>
-                            <label className="block text-sm font-bold text-slate-700 mb-2">E-mail</label>
+                            <label className="block text-sm font-bold text-slate-700 mb-2">Número BM</label>
                             <div className="relative">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                                <UserIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                                 <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    placeholder="Digite seu e-mail"
+                                    type="text"
+                                    value={numeroBM}
+                                    onChange={(e) => setNumeroBM(e.target.value)}
+                                    placeholder="Digite seu número BM"
                                     required
                                     className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-red-600 focus:border-transparent transition-all outline-none"
                                 />
                             </div>
                         </div>
+
+                        {!isLogin && (
+                            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}>
+                                <label className="block text-sm font-bold text-slate-700 mb-2">E-mail</label>
+                                <div className="relative">
+                                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        placeholder="Digite seu e-mail"
+                                        required={!isLogin}
+                                        className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-red-600 focus:border-transparent transition-all outline-none"
+                                    />
+                                </div>
+                            </motion.div>
+                        )}
 
                         <div>
                             <label className="block text-sm font-bold text-slate-700 mb-2">Senha</label>
@@ -136,4 +169,3 @@ export function Auth() {
         </div>
     );
 }
-
