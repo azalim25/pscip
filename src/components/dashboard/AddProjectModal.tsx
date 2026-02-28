@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, Layout, MapPin, Calendar, Image as ImageIcon, ShieldAlert } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
+import { OccupancySelector } from './OccupancySelector';
 
 interface AddProjectModalProps {
     isOpen: boolean;
@@ -14,6 +15,7 @@ export function AddProjectModal({ isOpen, onClose, onProjectAdded }: AddProjectM
     const { session } = useAuth();
     const [title, setTitle] = useState('');
     const [location, setLocation] = useState('');
+    const [occupancy, setOccupancy] = useState('');
     const [deadline, setDeadline] = useState('');
     const [isUrgent, setIsUrgent] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -32,6 +34,7 @@ export function AddProjectModal({ isOpen, onClose, onProjectAdded }: AddProjectM
                 .insert({
                     title,
                     location,
+                    occupancy,
                     deadline,
                     is_urgent: isUrgent,
                     user_id: session.user.id,
@@ -45,6 +48,7 @@ export function AddProjectModal({ isOpen, onClose, onProjectAdded }: AddProjectM
             // Reset form
             setTitle('');
             setLocation('');
+            setOccupancy('');
             setDeadline('');
             setIsUrgent(false);
         } catch (err: any) {
@@ -118,6 +122,11 @@ export function AddProjectModal({ isOpen, onClose, onProjectAdded }: AddProjectM
                                 </div>
                             </div>
 
+                            <OccupancySelector
+                                onSelect={(val) => setOccupancy(val)}
+                                selectedId={occupancy}
+                            />
+
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-bold text-slate-700 mb-2">Prazo / Data</label>
@@ -138,8 +147,8 @@ export function AddProjectModal({ isOpen, onClose, onProjectAdded }: AddProjectM
                                         type="button"
                                         onClick={() => setIsUrgent(!isUrgent)}
                                         className={`flex-1 flex items-center justify-center gap-2 rounded-2xl border-2 transition-all font-bold ${isUrgent
-                                                ? 'border-orange-500 bg-orange-50 text-orange-600'
-                                                : 'border-slate-100 bg-slate-50 text-slate-400'
+                                            ? 'border-orange-500 bg-orange-50 text-orange-600'
+                                            : 'border-slate-100 bg-slate-50 text-slate-400'
                                             }`}
                                     >
                                         <ShieldAlert className="w-5 h-5" />
