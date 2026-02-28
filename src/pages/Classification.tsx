@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Search, ArrowLeft, Info, HelpCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { occupancyData } from '../data/occupancyData';
+import { Header } from '../components/layout/Header';
 
 export default function Classification() {
     const [searchTerm, setSearchTerm] = useState('');
@@ -20,36 +21,14 @@ export default function Classification() {
 
     return (
         <div className="min-h-screen bg-[#f8f6f6] pb-12">
-            {/* Header */}
-            <header className="bg-red-600 text-white sticky top-0 z-50 shadow-lg">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                        <div className="flex items-center gap-4">
-                            <Link
-                                to="/"
-                                className="p-2 hover:bg-white/10 rounded-xl transition-colors shrink-0"
-                            >
-                                <ArrowLeft className="w-6 h-6" />
-                            </Link>
-                            <div>
-                                <h1 className="text-2xl font-bold">Classificação</h1>
-                                <p className="text-red-100 text-sm font-medium">Decreto 47.998/2020</p>
-                            </div>
-                        </div>
-
-                        <div className="relative flex-1 max-w-2xl">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-red-300 w-5 h-5" />
-                            <input
-                                type="text"
-                                placeholder="Pesquise por grupo, divisão, descrição ou exemplos..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-none bg-white/10 focus:bg-white/20 focus:ring-2 focus:ring-white placeholder-red-200 text-white outline-none transition-all shadow-inner"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </header>
+            <Header
+                title="Classificação"
+                subtitle="Decreto 47.998/2020"
+                showSearch={true}
+                searchValue={searchTerm}
+                onSearchChange={setSearchTerm}
+                searchPlaceholder="Pesquise por grupo, divisão, descrição ou exemplos..."
+            />
 
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
                 {/* Stats / Info */}
