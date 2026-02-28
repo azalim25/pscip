@@ -61,7 +61,7 @@ export function AddProjectModal({ isOpen, onClose, onProjectAdded }: AddProjectM
     return (
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto p-4 py-8 custom-scrollbar">
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -73,9 +73,9 @@ export function AddProjectModal({ isOpen, onClose, onProjectAdded }: AddProjectM
                         initial={{ opacity: 0, scale: 0.9, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden"
+                        className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl my-auto"
                     >
-                        <div className="bg-red-600 p-6 text-white flex items-center justify-between">
+                        <div className="bg-red-600 p-6 text-white flex items-center justify-between rounded-t-3xl">
                             <div className="flex items-center gap-3">
                                 <Layout className="w-6 h-6" />
                                 <h3 className="text-xl font-bold">Novo Projeto</h3>
