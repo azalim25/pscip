@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
+import { useNavigate } from 'react-router-dom';
 import { Lock, Mail, ShieldCheck, AlertCircle, User as UserIcon, ArrowLeft } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { useAuth } from '../contexts/AuthContext';
 
 type AuthMode = 'login' | 'signup' | 'forgot-password';
 
 export function Auth() {
+    const { session } = useAuth();
+    const navigate = useNavigate();
     const [mode, setMode] = useState<AuthMode>('login');
     const [numeroBM, setNumeroBM] = useState('');
     const [email, setEmail] = useState('');
@@ -13,6 +17,12 @@ export function Auth() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (session) {
+            navigate('/');
+        }
+    }, [session, navigate]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
