@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Auth } from './pages/Auth';
 import Dashboard from './pages/Dashboard';
+import Classification from './pages/Classification';
 
 import { ReactNode } from 'react';
 
@@ -34,6 +35,14 @@ export default function App() {
                         element={
                             <ProtectedRoute>
                                 <Dashboard />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/classification"
+                        element={
+                            <ProtectedRoute>
+                                <Classification />
                             </ProtectedRoute>
                         }
                     />

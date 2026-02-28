@@ -13,11 +13,12 @@ export function OccupancySelector({ onSelect, selectedId }: OccupancySelectorPro
     const [searchTerm, setSearchTerm] = useState('');
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    const selectedOccupancy = occupancyData.find(o => o.id === selectedId);
+    const selectedOccupancy = occupancyData.find(o => o.division === selectedId);
 
     const filteredOccupancies = occupancyData.filter(o =>
-        o.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        o.description.toLowerCase().includes(searchTerm.toLowerCase())
+        o.division.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        o.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        o.occupancy.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     useEffect(() => {
@@ -31,7 +32,7 @@ export function OccupancySelector({ onSelect, selectedId }: OccupancySelectorPro
     }, []);
 
     const handleSelect = (occupancy: OccupancyType) => {
-        onSelect(occupancy.id);
+        onSelect(occupancy.division);
         setSearchTerm('');
         setIsOpen(false);
     };
@@ -45,7 +46,7 @@ export function OccupancySelector({ onSelect, selectedId }: OccupancySelectorPro
                 className="w-full flex items-center justify-between pl-4 pr-4 py-3.5 rounded-2xl border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all text-left"
             >
                 <span className={selectedOccupancy ? "text-slate-900 font-medium" : "text-slate-400"}>
-                    {selectedOccupancy ? `${selectedOccupancy.id} - ${selectedOccupancy.description}` : "Pesquise por tipo ou divisão..."}
+                    {selectedOccupancy ? `${selectedOccupancy.division} - ${selectedOccupancy.description}` : "Pesquise por tipo ou divisão..."}
                 </span>
                 <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
             </button>
@@ -76,7 +77,7 @@ export function OccupancySelector({ onSelect, selectedId }: OccupancySelectorPro
                             {filteredOccupancies.length > 0 ? (
                                 filteredOccupancies.map((o) => (
                                     <button
-                                        key={o.id}
+                                        key={o.division}
                                         type="button"
                                         onClick={() => handleSelect(o)}
                                         className="w-full text-left p-3 rounded-xl hover:bg-red-50 group flex items-start justify-between transition-colors"
@@ -84,12 +85,15 @@ export function OccupancySelector({ onSelect, selectedId }: OccupancySelectorPro
                                         <div>
                                             <div className="text-sm font-bold text-slate-700 group-hover:text-red-600 flex items-center gap-2">
                                                 <span className="bg-slate-100 group-hover:bg-red-100 text-[10px] px-1.5 py-0.5 rounded font-mono transition-colors">
-                                                    {o.id}
+                                                    {o.division}
                                                 </span>
                                                 {o.description}
                                             </div>
+                                            <div className="text-[10px] text-slate-400 mt-1 uppercase tracking-wider font-semibold">
+                                                {o.group} - {o.occupancy}
+                                            </div>
                                         </div>
-                                        {selectedId === o.id && <Check className="w-4 h-4 text-red-600 self-center" />}
+                                        {selectedId === o.division && <Check className="w-4 h-4 text-red-600 self-center" />}
                                     </button>
                                 ))
                             ) : (
