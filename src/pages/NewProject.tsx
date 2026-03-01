@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { Layout, MapPin, Calendar, ShieldAlert, Save, ArrowLeft, Maximize, Ruler, Users } from 'lucide-react';
+import {
+    Layout, MapPin, Calendar, ShieldAlert, Save, ArrowLeft,
+    Maximize, Ruler, Users, Landmark, Layers, Droplets, Flame, Check
+} from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { Header } from '../components/layout/Header';
@@ -19,7 +22,14 @@ export default function NewProject() {
     const [area, setArea] = useState('');
     const [height, setHeight] = useState('');
     const [occupancyLoad, setOccupancyLoad] = useState('');
+
+    // Compliance and Storage State
     const [isUrgent, setIsUrgent] = useState(false);
+    const [isHeritage, setIsHeritage] = useState(false);
+    const [hasBasementUse, setHasBasementUse] = useState(false);
+    const [hasLiquidFuel, setHasLiquidFuel] = useState(false);
+    const [hasLpg, setHasLpg] = useState(false);
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -43,6 +53,10 @@ export default function NewProject() {
                     occupancy_load: occupancyLoad ? parseInt(occupancyLoad) : null,
                     deadline,
                     is_urgent: isUrgent,
+                    is_heritage: isHeritage,
+                    has_distinct_basement_use: hasBasementUse,
+                    has_liquid_fuel: hasLiquidFuel,
+                    has_lpg: hasLpg,
                     user_id: session.user.id,
                     status: 'EM ANÁLISE'
                 });
@@ -64,7 +78,7 @@ export default function NewProject() {
                 subtitle="Cadastre uma nova adequação PSCIP"
             />
 
-            <main className="max-w-4xl mx-auto px-4 mt-8">
+            <main className="max-w-5xl mx-auto px-4 mt-8">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -77,7 +91,7 @@ export default function NewProject() {
                             </div>
                             <div>
                                 <h2 className="text-xl font-bold text-slate-800">Detalhes do Projeto</h2>
-                                <p className="text-slate-500 text-sm font-medium">Preencha as informações técnicas do imóvel</p>
+                                <p className="text-slate-500 text-sm font-medium">Preencha as informações técnicas e de segurança</p>
                             </div>
                         </div>
                         <button
@@ -89,7 +103,7 @@ export default function NewProject() {
                         </button>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="p-8 space-y-10">
+                    <form onSubmit={handleSubmit} className="p-8 space-y-12">
                         {error && (
                             <div className="p-4 bg-red-50 text-red-600 rounded-2xl text-sm font-bold flex gap-3 border border-red-100 italic">
                                 <ShieldAlert className="w-5 h-5 shrink-0" />
@@ -97,133 +111,179 @@ export default function NewProject() {
                             </div>
                         )}
 
-                        <div className="grid lg:grid-cols-2 gap-10">
-                            {/* Information Group 1 */}
+                        <div className="grid lg:grid-cols-2 gap-12">
+                            {/* Information Group 1 - Technical */}
                             <div className="space-y-8">
-                                <div>
-                                    <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Título do Projeto</label>
-                                    <div className="relative group">
-                                        <Layout className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
-                                        <input
-                                            type="text"
-                                            value={title}
-                                            onChange={(e) => setTitle(e.target.value)}
-                                            placeholder="Ex: Reforma Shopping da Cidade"
-                                            required
-                                            className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 focus:ring-4 focus:ring-red-50 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
-                                        />
-                                    </div>
-                                </div>
+                                <h3 className="text-lg font-black text-slate-900 border-l-4 border-red-600 pl-4 py-1 flex items-center gap-3">
+                                    <ShieldAlert className="w-5 h-5 text-red-600" />
+                                    Informações Básicas e Técnicas
+                                </h3>
 
-                                <div>
-                                    <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Localização</label>
-                                    <div className="relative group">
-                                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
-                                        <input
-                                            type="text"
-                                            value={location}
-                                            onChange={(e) => setLocation(e.target.value)}
-                                            placeholder="Ex: Centro, Bloco B"
-                                            className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 focus:ring-4 focus:ring-red-50 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-6">
                                     <div>
-                                        <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Área Total</label>
+                                        <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Título do Projeto</label>
                                         <div className="relative group">
-                                            <Maximize className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
+                                            <Layout className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
                                             <input
-                                                type="number"
-                                                step="0.01"
-                                                value={area}
-                                                onChange={(e) => setArea(e.target.value)}
-                                                placeholder="0,00"
-                                                className="w-full pl-12 pr-12 py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 focus:ring-4 focus:ring-red-50 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
+                                                type="text"
+                                                value={title}
+                                                onChange={(e) => setTitle(e.target.value)}
+                                                placeholder="Ex: Reforma Shopping da Cidade"
+                                                required
+                                                className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 focus:ring-4 focus:ring-red-50 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
                                             />
-                                            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">m²</span>
                                         </div>
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Altura</label>
+                                        <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Localização</label>
                                         <div className="relative group">
-                                            <Ruler className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
+                                            <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
                                             <input
-                                                type="number"
-                                                step="0.01"
-                                                value={height}
-                                                onChange={(e) => setHeight(e.target.value)}
-                                                placeholder="0,00"
-                                                className="w-full pl-12 pr-12 py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 focus:ring-4 focus:ring-red-50 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
+                                                type="text"
+                                                value={location}
+                                                onChange={(e) => setLocation(e.target.value)}
+                                                placeholder="Ex: Centro, Bloco B"
+                                                className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 focus:ring-4 focus:ring-red-50 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
                                             />
-                                            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">m</span>
                                         </div>
                                     </div>
+
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Área Total</label>
+                                            <div className="relative group">
+                                                <Maximize className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
+                                                <input
+                                                    type="number"
+                                                    step="0.01"
+                                                    value={area}
+                                                    onChange={(e) => setArea(e.target.value)}
+                                                    placeholder="0,00"
+                                                    className="w-full pl-12 pr-12 py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 focus:ring-4 focus:ring-red-50 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
+                                                />
+                                                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">m²</span>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Altura</label>
+                                            <div className="relative group">
+                                                <Ruler className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
+                                                <input
+                                                    type="number"
+                                                    step="0.01"
+                                                    value={height}
+                                                    onChange={(e) => setHeight(e.target.value)}
+                                                    placeholder="0,00"
+                                                    className="w-full pl-12 pr-12 py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 focus:ring-4 focus:ring-red-50 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
+                                                />
+                                                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">m</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Lotação (Pessoas)</label>
+                                            <div className="relative group">
+                                                <Users className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
+                                                <input
+                                                    type="number"
+                                                    value={occupancyLoad}
+                                                    onChange={(e) => setOccupancyLoad(e.target.value)}
+                                                    placeholder="0"
+                                                    className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 focus:ring-4 focus:ring-red-50 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Prazo Estimado</label>
+                                            <div className="relative group">
+                                                <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
+                                                <input
+                                                    type="text"
+                                                    value={deadline}
+                                                    onChange={(e) => setDeadline(e.target.value)}
+                                                    placeholder="Ex: 24 Out, 2024"
+                                                    className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 focus:ring-4 focus:ring-red-50 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <OccupancySelector
+                                        onSelect={(val) => setOccupancy(val)}
+                                        selectedId={occupancy}
+                                    />
+
+                                    <CnaeSelector
+                                        onSelect={(val) => setCnae(val)}
+                                        selectedCnae={cnae}
+                                    />
                                 </div>
                             </div>
 
-                            {/* Information Group 2 */}
+                            {/* Information Group 2 - Compliance */}
                             <div className="space-y-8">
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Lotação (Pessoas)</label>
-                                        <div className="relative group">
-                                            <Users className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
-                                            <input
-                                                type="number"
-                                                value={occupancyLoad}
-                                                onChange={(e) => setOccupancyLoad(e.target.value)}
-                                                placeholder="0"
-                                                className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 focus:ring-4 focus:ring-red-50 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
-                                            />
-                                        </div>
+                                <h3 className="text-lg font-black text-slate-900 border-l-4 border-slate-800 pl-4 py-1 flex items-center gap-3">
+                                    <Check className="w-5 h-5 text-slate-800" />
+                                    Compliance e Armazenamento
+                                </h3>
+
+                                <div className="space-y-6">
+                                    <QuestionToggle
+                                        label="Patrimônio Histórico Cultural?"
+                                        icon={<Landmark className={`w-6 h-6 ${isHeritage ? 'text-red-600' : 'text-slate-300'}`} />}
+                                        value={isHeritage}
+                                        onChange={setIsHeritage}
+                                    />
+
+                                    <QuestionToggle
+                                        label="Subsolo com uso distinto de estacionamento?"
+                                        icon={<Layers className={`w-6 h-6 ${hasBasementUse ? 'text-red-600' : 'text-slate-300'}`} />}
+                                        value={hasBasementUse}
+                                        onChange={setHasBasementUse}
+                                    />
+
+                                    <QuestionToggle
+                                        label="Armazenamento de líquido combustível ou inflamável (> 1000 L)?"
+                                        icon={<Droplets className={`w-6 h-6 ${hasLiquidFuel ? 'text-red-600' : 'text-slate-300'}`} />}
+                                        value={hasLiquidFuel}
+                                        onChange={setHasLiquidFuel}
+                                        description="Inclui armazenamento fracionado"
+                                    />
+
+                                    <QuestionToggle
+                                        label="Armazenamento de GLP em quantidade superior a 190 Kg?"
+                                        icon={<Flame className={`w-6 h-6 ${hasLpg ? 'text-red-600' : 'text-slate-300'}`} />}
+                                        value={hasLpg}
+                                        onChange={setHasLpg}
+                                    />
+
+                                    <div className="pt-4">
+                                        <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Prioridade do Projeto</label>
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsUrgent(!isUrgent)}
+                                            className={`w-full flex items-center justify-between p-4 rounded-2xl border-2 transition-all font-bold ${isUrgent
+                                                ? 'border-orange-500 bg-orange-50 text-orange-600 shadow-inner'
+                                                : 'border-slate-100 bg-slate-50 text-slate-400 hover:border-red-200'
+                                                }`}
+                                        >
+                                            <div className="flex items-center gap-3 text-left">
+                                                <ShieldAlert className={`w-6 h-6 ${isUrgent ? 'text-orange-500' : 'text-slate-300'}`} />
+                                                <div>
+                                                    <span>{isUrgent ? 'Prioridade Urgente' : 'Prioridade Normal'}</span>
+                                                    <p className="text-[10px] font-medium opacity-70">Define a ordem de análise</p>
+                                                </div>
+                                            </div>
+                                            <div className={`w-12 h-6 rounded-full relative transition-colors shrink-0 ${isUrgent ? 'bg-orange-500' : 'bg-slate-200'}`}>
+                                                <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${isUrgent ? 'left-7' : 'left-1'}`} />
+                                            </div>
+                                        </button>
                                     </div>
-
-                                    <div>
-                                        <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Prazo Estimado</label>
-                                        <div className="relative group">
-                                            <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
-                                            <input
-                                                type="text"
-                                                value={deadline}
-                                                onChange={(e) => setDeadline(e.target.value)}
-                                                placeholder="Ex: 24 Out, 2024"
-                                                className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 focus:ring-4 focus:ring-red-50 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <OccupancySelector
-                                    onSelect={(val) => setOccupancy(val)}
-                                    selectedId={occupancy}
-                                />
-
-                                <CnaeSelector
-                                    onSelect={(val) => setCnae(val)}
-                                    selectedCnae={cnae}
-                                />
-
-                                <div>
-                                    <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Prioridade Urgente?</label>
-                                    <button
-                                        type="button"
-                                        onClick={() => setIsUrgent(!isUrgent)}
-                                        className={`w-full flex items-center justify-between p-4 rounded-2xl border-2 transition-all font-bold ${isUrgent
-                                            ? 'border-orange-500 bg-orange-50 text-orange-600 shadow-inner'
-                                            : 'border-slate-100 bg-slate-50 text-slate-400 hover:border-red-200'
-                                            }`}
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            <ShieldAlert className={`w-6 h-6 ${isUrgent ? 'text-orange-500' : 'text-slate-300'}`} />
-                                            <span>{isUrgent ? 'Projeto Marcado como Urgente' : 'Prioridade Normal'}</span>
-                                        </div>
-                                        <div className={`w-12 h-6 rounded-full relative transition-colors ${isUrgent ? 'bg-orange-500' : 'bg-slate-200'}`}>
-                                            <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${isUrgent ? 'left-7' : 'left-1'}`} />
-                                        </div>
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -251,5 +311,46 @@ export default function NewProject() {
                 </motion.div>
             </main>
         </div>
+    );
+}
+
+interface QuestionToggleProps {
+    label: string;
+    description?: string;
+    icon: React.ReactNode;
+    value: boolean;
+    onChange: (val: boolean) => void;
+}
+
+function QuestionToggle({ label, description, icon, value, onChange }: QuestionToggleProps) {
+    return (
+        <button
+            type="button"
+            onClick={() => onChange(!value)}
+            className={`w-full flex items-center justify-between p-5 rounded-[1.5rem] border-2 transition-all font-bold ${value
+                ? 'border-red-600 bg-red-50 text-red-600 shadow-inner'
+                : 'border-slate-50 bg-slate-50 text-slate-400 hover:border-red-100'
+                }`}
+        >
+            <div className="flex items-center gap-4 text-left">
+                <div className={`shrink-0 transition-transform ${value ? 'scale-110' : ''}`}>
+                    {icon}
+                </div>
+                <div>
+                    <span className="block leading-tight">{label}</span>
+                    {description && (
+                        <p className={`text-[10px] font-medium mt-1 ${value ? 'text-red-400' : 'text-slate-400'}`}>
+                            {description}
+                        </p>
+                    )}
+                </div>
+            </div>
+            <div className="flex flex-col items-center gap-1 shrink-0 ml-4">
+                <div className={`w-12 h-6 rounded-full relative transition-colors ${value ? 'bg-red-600' : 'bg-slate-200'}`}>
+                    <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${value ? 'left-7' : 'left-1'}`} />
+                </div>
+                <span className="text-[9px] uppercase tracking-tighter">{value ? 'Sim' : 'Não'}</span>
+            </div>
+        </button>
     );
 }
