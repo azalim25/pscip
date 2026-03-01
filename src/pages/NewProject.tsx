@@ -70,9 +70,12 @@ export default function NewProject() {
         const newOccupancies = [...additionalOccupancies];
         newOccupancies[index] = { ...newOccupancies[index], [field]: value };
         setAdditionalOccupancies(newOccupancies);
+    };
 
-        if (field === 'area' && value !== '') {
-            const areaVal = parseFloat(value);
+    const validateOccupancy = (index: number) => {
+        const occ = additionalOccupancies[index];
+        if (occ.area !== '') {
+            const areaVal = parseFloat(occ.area);
             if (areaVal > 0 && areaVal < 930) {
                 alert(`A ocupação secundária deve ter área superior a 930m² para ser considerada ocupação mista. Esta entrada será removida.`);
                 removeOccupancy(index);
@@ -422,6 +425,7 @@ export default function NewProject() {
                                                                         type="number"
                                                                         value={occ.area}
                                                                         onChange={(e) => updateOccupancy(idx, 'area', e.target.value)}
+                                                                        onBlur={() => validateOccupancy(idx)}
                                                                         placeholder="Área (m²)"
                                                                         className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-slate-200 bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
                                                                     />
