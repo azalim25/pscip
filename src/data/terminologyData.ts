@@ -591,6 +591,16 @@ export const terminologyData: TerminologyItem[] = [
         definition: "Medidas de proteção passiva, constituída de elementos de construção resistentes ao fogo, destinados a evitar ou minimizar a propagação do fogo, calor e gases, interna ou externamente ao edifício, no mesmo pavimento ou para pavimentos elevados consecutivos. Incluem-se neste conceito os elementos de vedação descritos nas subcategorias de compartimentação vertical e horizontal."
     },
     {
+        id: "4.113.1",
+        term: "Compartimentação vertical",
+        definition: "Elementos de vedação: a) entrepisos ou lajes corta-fogo de compartimentação de áreas; b) vedadores corta-fogo nos entrepisos ou lajes corta-fogo; c) enclausuramento de dutos (\"shafts\") por meio de paredes corta-fogo; d) enclausuramento das escadas por meio de paredes e portas corta-fogo; e) selagem corta-fogo dos dutos (\"shafts\") na altura dos pisos e/ou entrepisos; f) paredes resistentes ao fogo na envoltória do edifício; g) parapeitos ou abas resistentes ao fogo, separando aberturas de pavimentos consecutivos; h) registros corta-fogo nas aberturas em cada pavimento dos dutos de ventilação e de ar condicionado."
+    },
+    {
+        id: "4.113.2",
+        term: "Compartimentação horizontal",
+        definition: "Elementos de vedação: a) paredes corta-fogo de compartimentação de áreas; b) portas e vedadores corta-fogo nas paredes de compartimentação de áreas; c) selagem corta-fogo nas passagens das instalações prediais existentes nas paredes de compartimentação; d) registros corta-fogo nas tubulações de ventilação e de ar condicionado que transpassam as paredes de compartimentação; e) paredes corta-fogo de isolamento de riscos entre unidades autônomas; f) paredes corta-fogo entre unidades autônomas e áreas comuns; g) portas corta-fogo de ingresso de unidades autônomas."
+    },
+    {
         id: "4.114",
         term: "Compartimentação",
         definition: "Característica construtiva, concebida pelo arquiteto ou engenheiro, na qual se tem a divisão em nível (cômodos) ou vão vertical (pé direito), cujas características básicas são a vedação térmica e a estanqueidade à fumaça, onde o elemento construtivo estrutural e de vedação, possui resistência mecânica à variação térmica no tempo requerido de resistência ao fogo - TRRF, determinado pela norma correspondente, impedindo a passagem de calor ou fumaça, conferida à edificação em relação às suas divisões internas."
