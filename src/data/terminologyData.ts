@@ -1729,5 +1729,375 @@ export const terminologyData: TerminologyItem[] = [
         id: "4.339",
         term: "Monitor (canhão)",
         definition: "Equipamento destinado a formar e orientar jatos de água ou espuma de grande volume e alcance."
+    },
+    {
+        id: "4.340",
+        term: "Monitor fixo (canhão)",
+        definition: "Equipamento que lança jato de espuma e está montado num suporte estacionário fixo ao nível do solo ou em elevação. O monitor pode ser alimentado com a solução mediante tubulação permanente ou mangueiras."
+    },
+    {
+        id: "4.341",
+        term: "Monitor portátil (canhão)",
+        definition: "Equipamento que lança jato de espuma e encontra-se num suporte móvel ou sobre rodas, de modo que pode ser transportado para cena do incêndio."
+    },
+    {
+        id: "4.342",
+        term: "Mudança de ocupação",
+        definition: "Alteração de uso da edificação que motive a mudança de classificação da ocupação ou da divisão prevista na Tabela do Anexo do Regulamento de Segurança Contra Incêndio e Pânico do Estado de Minas Gerais."
+    },
+    {
+        id: "4.343",
+        term: "Neblina de água",
+        definition: "Jato de pequenas partículas d'água, produzido por esguichos especiais."
+    },
+    {
+        id: "4.344",
+        term: "Nível",
+        definition: "Parte da edificação não contida em um mesmo plano."
+    },
+    {
+        id: "4.345",
+        term: "Nível de acesso",
+        definition: "Ponto do terreno em que atravessa a projeção do paramento externo da parede do prédio, ao se entrar na edificação. Nota: É aplicado para a determinação da altura da edificação."
+    },
+    {
+        id: "4.346",
+        term: "Nível de descarga",
+        definition: "Nível no qual uma porta externa conduz ao exterior."
+    },
+    {
+        id: "4.347",
+        term: "Nível de segurança",
+        definition: "Enquadramento dado ao nível potencial de risco que a edificação oferece em sua utilização prevista, conforme concebida pelo arquiteto ou engenheiro."
+    },
+    {
+        id: "4.348",
+        term: "Ocupação",
+        definition: "Atividade ou uso dado a uma edificação ou espaço destinado ao uso coletivo."
+    },
+    {
+        id: "4.349",
+        term: "Ocupação mista",
+        definition: "O exercício de mais de uma atividade ou uso em uma edificação ou espaço destinado ao uso coletivo, quando não houver isolamento de risco entre as ocupações."
+    },
+    {
+        id: "4.350",
+        term: "Ocupação principal",
+        definition: "A atividade ou uso principal exercido na edificação ou no espaço destinado ao uso coletivo."
+    },
+    {
+        id: "4.351",
+        term: "Ocupação temporária",
+        definition: "Atividade desenvolvida de caráter temporário, tais como: circos, feiras, espetáculos e parques de diversões."
+    },
+    {
+        id: "4.352",
+        term: "Ocupações temporárias em instalações permanentes",
+        definition: "Instalações de caráter temporário e transitório, não definitivo em local com características de estrutura construtiva permanente, podendo ser anexadas ocupações temporárias."
+    },
+    {
+        id: "4.353",
+        term: "Operação automática",
+        definition: "Atividade que não depende de qualquer intervenção humana para determinar o funcionamento da instalação de gás."
+    },
+    {
+        id: "4.354",
+        term: "Operação de abastecimento",
+        definition: "Atividade de transferência de gás liquefeito de petróleo (GLP) entre o veículo abastecedor e a central de GLP."
+    },
+    {
+        id: "4.355",
+        term: "Operação manual",
+        definition: "Atividade que depende da ação do elemento humano."
+    },
+    {
+        id: "4.356",
+        term: "Operador",
+        definition: "Profissional habilitado a executar a operação de transferência de gás liquefeito de petróleo (GLP) entre o veículo abastecedor e a central de GLP podendo acumular a função de motorista, desde que reúna as habilitações necessárias."
+    },
+    {
+        id: "4.357",
+        term: "Órgão competente",
+        definition: "Órgão público, federal, estadual, municipal, ou ainda autarquias ou entidades por estes designadas capacitadas legalmente para determinar aspectos relevantes dos sistemas de proteção contra incêndio."
+    },
+    {
+        id: "4.358",
+        term: "Órgão de Preservação",
+        definition: "Órgão que atua na gestão, proteção e preservação do patrimônio histórico, artístico e cultural, podendo ser nas esferas, municipal, estadual, federal ou internacional."
+    },
+    {
+        id: "4.359",
+        term: "Pânico",
+        definition: "Susto ou pavor repentino, que provoca nas pessoas, reação desordenada, individual ou coletiva, de propagação rápida; susto ou pavor que repentino, provoca nas pessoas, reação desordenada, individual ou coletiva, de propagação rápida."
+    },
+    {
+        id: "4.360",
+        term: "Pantográfica",
+        definition: "Porta constituída por paralelogramos articulados."
+    },
+    {
+        id: "4.361",
+        term: "Parâmetros",
+        definition: "Requisitos e critérios técnicos específicos de cada medida de segurança, como capacidade extintora, capacidade de unidade de passagem, tipo de sistema de hidrante, volume da reserva técnica de incêndio, tipo de escada e outros."
+    },
+    {
+        id: "4.362",
+        term: "Parede corta-fogo",
+        definition: "Elemento construtivo que, sob a ação do fogo, conserva suas características de resistência mecânica, é estanque à propagação da chama e proporciona um isolamento térmico tal que a temperatura medida sobre a superfície não exposta não ultrapasse 140°C durante um tempo especificado."
+    },
+    {
+        id: "4.363",
+        term: "Parede corta-fogo portante",
+        definition: "Elemento construtivo, com características de resistência ao fogo (estanqueidade, isolação térmica e estabilidade), visando a separar uma edificação em relação à outra."
+    },
+    {
+        id: "4.364",
+        term: "Parede resistente ao fogo (parede de compartimentação)",
+        definition: "Elemento estrutural resistente ao fogo por um determinado período de tempo, mantendo sua integridade e as características de vedação contra gases e fumaça."
+    },
+    {
+        id: "4.365",
+        term: "Passagem subterrânea",
+        definition: "Obra de arte destinada à transposição de vias, em desnível subterrâneo, e ao uso de pedestres ou veículos."
+    },
+    {
+        id: "4.366",
+        term: "Passarela",
+        definition: "Obra de arte destinada à transposição de vias, em desnível aéreo, e ao uso de pedestres."
+    },
+    {
+        id: "4.367",
+        term: "Pavimento",
+        definition: "Espaço compreendido entre o plano do piso e o plano do teto imediatamente acima do piso de referência, admitindo-se um desnível máximo de 1,50 m."
+    },
+    {
+        id: "4.368",
+        term: "Pavimento de descarga",
+        definition: "Parte da saída de emergência de uma edificação que fica entre a escada e o logradouro público ou área externa com acesso a este."
+    },
+    {
+        id: "4.369",
+        term: "Percentual de aberturas em uma fachada",
+        definition: "Relação entre a área das aberturas do setor considerado da fachada, dividido pela área total de fachada do respectivo setor."
+    },
+    {
+        id: "4.370",
+        term: "PDF",
+        definition: "Portable document format (formato de documento portátil). Extensão de arquivo que permite a visualização de um documento."
+    },
+    {
+        id: "4.371",
+        term: "Perícia técnica",
+        definition: "Exame realizado por profissional especialista, legalmente habilitado, destinado a verificar ou esclarecer determinado fato ou sinistro relacionado a incêndio, apurando as causas, origens e as consequências motivadoras, ou o estado, a alegação de direitos ou a estimação da coisa que é objeto de litígio e processo."
+    },
+    {
+        id: "4.372",
+        term: "Perigo",
+        definition: "Propriedade de causar dano inerente a uma substância, a uma instalação ou a um procedimento."
+    },
+    {
+        id: "4.373",
+        term: "Pesquisa de incêndio",
+        definition: "Estudo das causas, desenvolvimento e consequências dos incêndios atendidos pelo CBMMG, realizado no local ou, se necessário, em laboratório especializado, por meio de exames técnicos das edificações, materiais e equipamentos e dos dados obtidos nas perícias técnicas."
+    },
+    {
+        id: "4.374",
+        term: "Pilotis",
+        definition: "Local edificado de uso comum, aberto em pelo menos três lados. Considera-se, também, como tal, o local coberto, aberto em pelo menos duas faces opostas, cujo perímetro aberto tenha, no mínimo, 70% do perímetro total. Também se inclui nesta categoria, atendidos os requisitos de abertura anteriores, o nível de transição das estruturas da edificação, onde os pilares se encontram com os elementos de fundação ou onde os pilares mudam de forma e ficam aparentes, em atendimento ao projeto arquitetônico."
+    },
+    {
+        id: "4.375",
+        term: "Piso",
+        definition: "Superfície superior do elemento construtivo horizontal sobre a qual haja previsão de estocagem de materiais ou onde os usuários da edificação tenham acesso irrestrito."
+    },
+    {
+        id: "4.376",
+        term: "Pista de rolagem",
+        definition: "Pista de dimensões definidas, destinada à rolagem de helicópteros entre área de pouso ou de decolagem e a área de estacionamento ou de serviços."
+    },
+    {
+        id: "4.377",
+        term: "Planilha de levantamento de dados",
+        definition: "Instrumento utilizado para a catalogação de todas as informações e dados da empresa, indispensável à elaboração de um PPI."
+    },
+    {
+        id: "4.378",
+        term: "Plano de Auxílio Mútuo (PAM)",
+        definition: "Plano que tem por objetivo conjugar os esforços dos órgãos públicos (Corpo de Bombeiros, Defesa Civil, Polícia etc.) e brigadas de incêndio e de abandono das empresas privadas, em caso de sinistro."
+    },
+    {
+        id: "4.379",
+        term: "Plano de intervenção de incêndio",
+        definition: "Plano estabelecido em função dos riscos da edificação para definir a melhor utilização dos recursos materiais e humanos em uma situação de emergência."
+    },
+    {
+        id: "4.380",
+        term: "Plano global de segurança",
+        definition: "Integração de todas as medidas de prevenção contra incêndios e pânico que garantam a segurança efetiva das pessoas (aspecto humano) e do edifício, envolvendo as medidas de proteção ativa e passiva."
+    },
+    {
+        id: "4.381",
+        term: "Plano particular de intervenção (PPI)",
+        definition: "Procedimento peculiar de atendimento de emergência em locais previamente definidos, elaborado por profissionais de grupo multidisciplinar (Engenheiros ou Técnicos que atuem na área de segurança de incêndio e ambiental), em conjunto com o Corpo de Bombeiros."
+    },
+    {
+        id: "4.382",
+        term: "Planta de bombeiro",
+        definition: "Representação gráfica da edificação, contendo informações através de legenda específica da localização, arranjo e previsão dos meios de segurança contra incêndio e riscos existentes."
+    },
+    {
+        id: "4.383",
+        term: "Planta de risco",
+        definition: "Mapa simplificado no formato A0, A1, A2, A3 ou A4, em escala padronizada, podendo ser em mais de uma folha/prancha, indicando: a) principais riscos; b) paredes corta-fogo e de compartimentação; c) hidrantes externos; d) número de pavimentos; e) registro de recalque; f) reserva de incêndio; g) armazenamento de produtos perigosos; h) vias de acesso às viaturas do Corpo de Bombeiros; i) hidrantes públicos próximos da edificação (se houver)."
+    },
+    {
+        id: "4.384",
+        term: "Planta",
+        definition: "Desenho onde estão situadas uma ou mais empresas, com uma única ou mais edificações."
+    },
+    {
+        id: "4.385",
+        term: "Poço de instalação",
+        definition: "Passagem essencialmente vertical deixada numa edificação com finalidade específica de facilitar a instalação de serviços tais como: dutos de ar-condicionado, ventilação, tubulações hidráulico-sanitárias, eletrodutos, cabos, tubos de lixo, elevadores, monta-cargas e outros."
+    },
+    {
+        id: "4.386",
+        term: "Poço de sucção",
+        definition: "Elemento construtivo do reservatório, destinado a maximizar a utilização do volume de água acumulado, bem como para evitar a entrada de impurezas no interior das tubulações."
+    },
+    {
+        id: "4.387",
+        term: "Ponto de abastecimento",
+        definition: "Ponto de interligação entre o engate de enchimento da mangueira de abastecimento e a válvula do recipiente que deve ser abastecido."
+    },
+    {
+        id: "4.388",
+        term: "Ponto de luz",
+        definition: "Dispositivo constituído de lâmpada (s) ou outros dispositivos de iluminação, invólucro (s) e/ou outros (s) componente (s) que têm a função de promover o aclaramento do ambiente ou a sinalização."
+    },
+    {
+        id: "4.389",
+        term: "População",
+        definition: "Número de pessoas para as quais uma edificação, ou parte dela é projetada."
+    },
+    {
+        id: "4.390",
+        term: "População fixa",
+        definition: "Número de pessoas que permanece regularmente na edificação, considerando-se os turnos de trabalho e a natureza da ocupação, bem como os terceiros nestas condições."
+    },
+    {
+        id: "4.391",
+        term: "População flutuante",
+        definition: "Número de pessoas que não se enquadra no item de população fixa. Será sempre pelo número máximo diário de pessoas."
+    },
+    {
+        id: "4.392",
+        term: "Porta corta-fogo (PCF)",
+        definition: "Dispositivo construtivo (Conjunto de folha (s) de porta, marco e acessórios), com tempo mínimo de resistência ao fogo, instalado nas aberturas da parede de compartimentação, destinadas à circulação de pessoas e de equipamentos. É um dispositivo móvel que, vedando aberturas em paredes, retarda a propagação do incêndio de um ambiente para outro. Quando instaladas nas escadas de segurança, possibilitam que os ocupantes das edificações atinjam os pisos de descarga com as suas integridades físicas garantidas. Deve atender às exigências de resistência mecânica, estanqueidade e isolamento térmico."
+    },
+    {
+        id: "4.393",
+        term: "Portal da Prevenção",
+        definition: "Página da rede mundial de computadores onde estão disponíveis os serviços prestados pelo Infoscip (www.prevencaobombeiros.mg.gov.br)."
+    },
+    {
+        id: "4.394",
+        term: "Posto de abastecimento",
+        definition: "Local restrito onde são abastecidos os tanques de combustível de motores de veículos, aeronaves, barcos, etc."
+    },
+    {
+        id: "4.395",
+        term: "Posto de abastecimento e serviço",
+        definition: "Atividade onde são abastecidos os tanques de combustível de motores de veículos."
+    },
+    {
+        id: "4.396",
+        term: "Posto de abastecimento interno",
+        definition: "Instalação interna a uma indústria ou empresa cuja finalidade única é o abastecimento de combustível e ou lubrificantes para sua frota própria ou de seu uso."
+    },
+    {
+        id: "4.397",
+        term: "Posto de comando",
+        definition: "Local fixo ou móvel, com representantes de todos os órgãos envolvidos no atendimento de uma emergência."
+    },
+    {
+        id: "4.398",
+        term: "Prevenção contra incêndio e pânico",
+        definition: "Conjunto de ações e medidas que visam a orientação das pessoas, objetivando diminuir a possibilidade da ocorrência de um princípio de incêndio e pânico, e estabelecer o comportamento a ser adotado frente à emergência."
+    },
+    {
+        id: "4.399",
+        term: "Princípio de incêndio",
+        definition: "Período inicial da queima de materiais, compostos químicos ou equipamentos, enquanto o incêndio é incipiente."
+    },
+    {
+        id: "4.400",
+        term: "Procedimento meramente declaratório",
+        definition: "O ato próprio do empresário ou do seu representante constituído para fins de licenciamento de atividades econômicas por meio de autodeclaração, conforme estabelecido em Instrução Técnica específica."
+    },
+    {
+        id: "4.401",
+        term: "Processo de Segurança contra Incêndio e Pânico – PSCIP",
+        definition: "Processo administrativo que visa ao licenciamento, junto ao CBMMG, das edificações, dos eventos temporários e dos espaços destinados ao uso coletivo, sendo composto pela documentação que contém informações sobre edificações ou espaços destinados ao uso coletivo e o respectivo projeto técnico contendo as medidas de segurança contra incêndio e pânico."
+    },
+    {
+        id: "4.402",
+        term: "Processo de Segurança Contra Incêndio e Pânico digital (PSCIP digital)",
+        definition: "É o conjunto de documentos digitalizados, dados e metadados necessários à regularização de uma edificação."
+    },
+    {
+        id: "4.403",
+        term: "Produtos perigosos",
+        definition: "Todas as substâncias cuja liberação ou ameaça de liberação cause risco ao ser humano, ao meio ambiente e às propriedades. Ou ainda, conforme o Manual de Defesa Civil Estudos de Riscos e Medicina de Desastres, aqueles produtos cujo manuseio e tráfego apresentam risco à vida, ao meio ambiente e ao patrimônio individual ou público."
+    },
+    {
+        id: "4.404",
+        term: "Autônomo",
+        definition: "Pessoa física que exerce atividade econômica por conta própria."
+    },
+    {
+        id: "4.405",
+        term: "Profissional habilitado",
+        definition: "Toda pessoa com formação em higiene, segurança e medicina do Trabalho, engenharias, etc., devidamente registrado nos Conselhos Regionais competentes, conforme sua área de especialização."
+    },
+    {
+        id: "4.406",
+        term: "Profissional legalmente habilitado",
+        definition: "Pessoa física ou jurídica que goza do direito, segundo as leis vigentes, de prestar serviços especializados de proteção contra incêndio."
+    },
+    {
+        id: "4.407",
+        term: "Profundidade de piso em subsolo",
+        definition: "Profundidade medida em relação ao nível de descarga da edificação."
+    },
+    {
+        id: "4.408",
+        term: "Projetista",
+        definition: "Pessoa física ou jurídica responsável pela elaboração de todos os documentos de um projeto, assim como do memorial."
+    },
+    {
+        id: "4.409",
+        term: "Projeto",
+        definition: "Conjunto de peças gráficas e escritas, necessárias à definição das características principais do sistema de combate a incêndio, composto de plantas, seções, elevações, detalhes e perspectivas isométricas e, inclusive das especificações de materiais e equipamentos."
+    },
+    {
+        id: "4.410",
+        term: "Propagação por condução",
+        definition: "Decorrente do contato direto de chamas pela fachada ou pela cobertura (em colapso) de um incêndio em uma edificação, que se propaga para outra edificação contígua."
+    },
+    {
+        id: "4.411",
+        term: "Propagação por convecção",
+        definition: "Decorrente de gases quentes emitidos pelas aberturas existentes na fachada ou pela cobertura da edificação incendiada, que atingem a fachada da outra edificação adjacente."
+    },
+    {
+        id: "4.412",
+        term: "Propagação por radiação térmica",
+        definition: "Aquela emitida por um incêndio em uma edificação, que se propaga por radiação por meio de aberturas existentes na fachada, pela cobertura (em colapso), ou pela própria fachada (composta de material combustível) para uma outra edificação adjacente."
+    },
+    {
+        id: "4.413",
+        term: "Proteção",
+        definition: "Ações técnicas, administrativas ou legais que visem garantir a perenidade do bem (edificação) reconhecido como possuidor de valor cultural."
     }
 ];
