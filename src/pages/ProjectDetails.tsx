@@ -66,6 +66,18 @@ export default function ProjectDetails() {
         return false;
     }, [project]);
 
+    const isPTS = useMemo(() => {
+        if (!project || isPT) return false;
+        const risk = project.risk_level?.split(' ').pop();
+        return risk === 'III';
+    }, [project, isPT]);
+
+    const isPTD = useMemo(() => {
+        if (!project || isPT) return false;
+        const risk = project.risk_level?.split(' ').pop();
+        return risk === 'II';
+    }, [project, isPT]);
+
     useEffect(() => {
         async function fetchProject() {
             if (!id) return;
@@ -167,6 +179,18 @@ export default function ProjectDetails() {
                                 <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-slate-900 border-2 border-slate-950 shadow-lg shadow-slate-900/20 text-white font-black text-xs uppercase tracking-wider">
                                     <ShieldCheck className="w-4 h-4 text-red-500" />
                                     <span>Projeto Técnico (PT)</span>
+                                </div>
+                            )}
+                            {isPTS && (
+                                <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-blue-600 border-2 border-blue-700 shadow-lg shadow-blue-600/20 text-white font-black text-xs uppercase tracking-wider">
+                                    <ShieldCheck className="w-4 h-4 text-blue-200" />
+                                    <span>Projeto Técnico Simplificado (PTS)</span>
+                                </div>
+                            )}
+                            {isPTD && (
+                                <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-teal-600 border-2 border-teal-700 shadow-lg shadow-teal-600/20 text-white font-black text-xs uppercase tracking-wider">
+                                    <ShieldCheck className="w-4 h-4 text-teal-200" />
+                                    <span>Projeto Técnico Declaratório (PTD)</span>
                                 </div>
                             )}
                         </div>
@@ -318,7 +342,7 @@ export default function ProjectDetails() {
                         </div>
                     ) : (
                         <div className="grid lg:grid-cols-1 gap-8">
-                            <SafetyMeasuresView project={project} isPT={isPT} />
+                            <SafetyMeasuresView project={project} isPT={isPT} isPTS={isPTS} isPTD={isPTD} />
                         </div>
                     )}
                 </motion.div>
@@ -327,7 +351,7 @@ export default function ProjectDetails() {
     );
 }
 
-function SafetyMeasuresView({ project, isPT }: { project: ProjectDetails, isPT: boolean }) {
+function SafetyMeasuresView({ project, isPT, isPTS, isPTD }: { project: ProjectDetails, isPT: boolean, isPTS: boolean, isPTD: boolean }) {
     const risk = project.risk_level?.split(' ').pop();
     const isE6 = project.occupancy?.includes('E-6');
     const isH2H5 = project.occupancy?.includes('H-2') || project.occupancy?.includes('H-5');
@@ -365,7 +389,9 @@ function SafetyMeasuresView({ project, isPT }: { project: ProjectDetails, isPT: 
                     <h3 className="text-2xl font-black text-slate-800">Medidas de Segurança Requeridas</h3>
                     <p className="text-slate-500 font-medium italic">
                         Baseado no nível de risco e ocupação do projeto
-                        {isPT && <span className="text-red-600"> • Projeto Técnico</span>}
+                        {isPT && <span className="text-red-600"> • Projeto Técnico (PT)</span>}
+                        {isPTS && <span className="text-blue-600"> • Projeto Técnico Simplificado (PTS)</span>}
+                        {isPTD && <span className="text-teal-600"> • Projeto Técnico Declaratório (PTD)</span>}
                     </p>
                 </div>
             </div>
