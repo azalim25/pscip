@@ -27,6 +27,7 @@ interface ProjectDetails {
     has_lpg: boolean;
     risk_level: string;
     has_hydraulic_system: boolean;
+    building_type: 'EXISTENTE' | 'CONSTRUIDA';
     status: string;
 }
 
@@ -260,6 +261,10 @@ export default function ProjectDetails() {
                                             <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">Uso / Grupo</p>
                                             <p className="text-base font-bold leading-tight">{project.occupancy || "Não informada"}</p>
                                         </div>
+                                        <div>
+                                            <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">Tipo de Edificação</p>
+                                            <p className="text-base font-bold leading-tight">{project.building_type === 'EXISTENTE' ? 'Edificação Existente' : 'Edificação Construída / Nova'}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -355,6 +360,7 @@ function SafetyMeasuresView({ project, isPT, isPTS, isPTD }: { project: ProjectD
     const risk = project.risk_level?.split(' ').pop();
     const isE6 = project.occupancy?.includes('E-6');
     const isH2H5 = project.occupancy?.includes('H-2') || project.occupancy?.includes('H-5');
+    const isExistente = project.building_type === 'EXISTENTE';
 
     const measures = [];
 
@@ -380,6 +386,18 @@ function SafetyMeasuresView({ project, isPT, isPTS, isPTD }: { project: ProjectD
             measures.push({ icon: <Users />, title: "Brigada de Incêndio", description: "Grupo organizado de pessoas treinadas para atuar na prevenção e combate." });
         }
         measures.push({ icon: <Paintbrush />, title: "CMAR", description: "Controle de Materiais de Acabamento e Revestimento." });
+    }
+
+    // Advanced Measures for PT (conditionally added if not Existente)
+    if (isPT && !isExistente) {
+        measures.push(
+            { icon: <ShieldAlert />, title: "Acesso de Viaturas", description: "Vias de acesso para viaturas do Corpo de Bombeiros." },
+            { icon: <Building2 />, title: "Segurança Estrutural", description: "Segurança estrutural contra incêndio (TRRF)." },
+            { icon: <Layers />, title: "Compartimentação Horizontal", description: "Exigências de compartimentação para evitar propagação de calor e fumaça." },
+            { icon: <Layers />, title: "Compartimentação Vertical", description: "Exigências de compartimentação para evitar propagação entre pavimentos." },
+            { icon: <Droplets />, title: "Chuveiros Automáticos", description: "Sistemas de chuveiros automáticos (Sprinklers)." },
+            { icon: <Flame />, title: "Controle de Fumaça", description: "Sistemas para controle de movimentação de fumaça." }
+        );
     }
 
     return (

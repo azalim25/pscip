@@ -32,6 +32,7 @@ export default function EditProject() {
     const [hasLiquidFuel, setHasLiquidFuel] = useState(false);
     const [hasLpg, setHasLpg] = useState(false);
     const [hasHydraulicSystem, setHasHydraulicSystem] = useState(false);
+    const [buildingType, setBuildingType] = useState<'EXISTENTE' | 'CONSTRUIDA'>('CONSTRUIDA');
 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -65,6 +66,7 @@ export default function EditProject() {
                     setHasLiquidFuel(data.has_liquid_fuel || false);
                     setHasLpg(data.has_lpg || false);
                     setHasHydraulicSystem(data.has_hydraulic_system || false);
+                    setBuildingType(data.building_type || 'CONSTRUIDA');
                 }
             } catch (err: any) {
                 console.error('Error fetching project:', err);
@@ -127,6 +129,7 @@ export default function EditProject() {
                     has_lpg: hasLpg,
                     has_hydraulic_system: hasHydraulicSystem,
                     risk_level: riskLevel ? `Nível de Risco ${riskLevel}` : null,
+                    building_type: buildingType,
                 })
                 .eq('id', id)
                 .eq('user_id', session.user.id);
@@ -315,6 +318,37 @@ export default function EditProject() {
                                         onSelect={(val) => setOccupancy(val)}
                                         selectedId={occupancy}
                                     />
+
+                                    <div className="pt-4">
+                                        <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Tipo de Edificação</label>
+                                        <div className="flex p-1 bg-slate-100 rounded-2xl w-full">
+                                            <button
+                                                type="button"
+                                                onClick={() => setBuildingType('CONSTRUIDA')}
+                                                className={`flex-1 py-3 rounded-xl font-bold text-sm transition-all ${buildingType === 'CONSTRUIDA'
+                                                    ? 'bg-white text-red-600 shadow-sm'
+                                                    : 'text-slate-500 hover:text-slate-700'
+                                                    }`}
+                                            >
+                                                Edificação Construída / Nova
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => setBuildingType('EXISTENTE')}
+                                                className={`flex-1 py-3 rounded-xl font-bold text-sm transition-all ${buildingType === 'EXISTENTE'
+                                                    ? 'bg-white text-red-600 shadow-sm'
+                                                    : 'text-slate-500 hover:text-slate-700'
+                                                    }`}
+                                            >
+                                                Edificação Existente
+                                            </button>
+                                        </div>
+                                        <p className="text-[10px] font-medium text-slate-400 mt-2 ml-1 italic text-center">
+                                            {buildingType === 'EXISTENTE'
+                                                ? 'Edificações existentes possuem isenções em certas medidas de segurança.'
+                                                : 'Edificações novas/construídas devem atender a todos os requisitos normativos.'}
+                                        </p>
+                                    </div>
 
                                 </div>
                             </div>
