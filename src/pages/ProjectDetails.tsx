@@ -5,7 +5,7 @@ import {
     Layout, MapPin, Calendar, ShieldAlert, ArrowLeft,
     Maximize, Ruler, Users, Landmark, Layers, Droplets, Flame,
     Check, AlertTriangle, Building2, Tag, Edit3, ShieldCheck,
-    FlameKindling, Lightbulb, Navigation, LogOut, Users2, Paintbrush
+    Lightbulb, Navigation, LogOut, Paintbrush
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Header } from '../components/layout/Header';
@@ -37,6 +37,34 @@ export default function ProjectDetails() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<'info' | 'safety'>('info');
+
+    const isPT = useMemo(() => {
+        if (!project) return false;
+        const h = project.height || 0;
+        const a = project.area || 0;
+        const l = project.occupancy_load || 0;
+        const occ = project.occupancy || '';
+
+        // 1. Manual trigger
+        if (project.has_hydraulic_system) return true;
+
+        // 2. Height > 12m
+        if (h > 12) return true;
+
+        // 3. Area > 1200m2 for A-1, A-2, A-3
+        const isResidential = occ.includes('A-1') || occ.includes('A-2') || occ.includes('A-3');
+        if (isResidential && a > 1200) return true;
+
+        // 4. Area > 930m2 (except M-8)
+        const isM8 = occ.includes('M-8');
+        if (!isM8 && a > 930) return true;
+
+        // 5. Group F with population > 200
+        const isGroupF = occ.includes('F-');
+        if (isGroupF && l > 200) return true;
+
+        return false;
+    }, [project]);
 
     useEffect(() => {
         async function fetchProject() {
@@ -89,33 +117,6 @@ export default function ProjectDetails() {
 
     const risk = project.risk_level?.split(' ').pop();
 
-    const isPT = useMemo(() => {
-        const h = project.height || 0;
-        const a = project.area || 0;
-        const l = project.occupancy_load || 0;
-        const occ = project.occupancy || '';
-
-        // 1. Manual trigger
-        if (project.has_hydraulic_system) return true;
-
-        // 2. Height > 12m
-        if (h > 12) return true;
-
-        // 3. Area > 1200m2 for A-1, A-2, A-3
-        const isResidential = occ.includes('A-1') || occ.includes('A-2') || occ.includes('A-3');
-        if (isResidential && a > 1200) return true;
-
-        // 4. Area > 930m2 (except M-8)
-        const isM8 = occ.includes('M-8');
-        if (!isM8 && a > 930) return true;
-
-        // 5. Group F with population > 200
-        const isGroupF = occ.includes('F-');
-        if (isGroupF && l > 200) return true;
-
-        return false;
-    }, [project]);
-
     return (
         <div className="min-h-screen bg-[#f8f6f6] pb-24">
             <Header
@@ -156,8 +157,8 @@ export default function ProjectDetails() {
                             </div>
                             {risk && risk !== 'null' && (
                                 <div className={`flex items-center gap-2 px-4 py-2 rounded-2xl border-2 font-black text-xs uppercase tracking-wider shadow-sm ${risk === 'III' ? 'bg-red-600 border-red-700 text-white' :
-                                    risk === 'II' ? 'bg-orange-500 border-orange-600 text-white' :
-                                        'bg-green-600 border-green-700 text-white'
+                                        risk === 'II' ? 'bg-orange-500 border-orange-600 text-white' :
+                                            'bg-green-600 border-green-700 text-white'
                                     }`}>
                                     <span>Risco {risk}</span>
                                 </div>
@@ -176,8 +177,8 @@ export default function ProjectDetails() {
                         <button
                             onClick={() => setActiveTab('info')}
                             className={`flex-1 sm:flex-none px-8 py-3 rounded-xl font-bold text-sm transition-all ${activeTab === 'info'
-                                ? 'bg-white text-slate-900 shadow-sm'
-                                : 'text-slate-500 hover:text-slate-700'
+                                    ? 'bg-white text-slate-900 shadow-sm'
+                                    : 'text-slate-500 hover:text-slate-700'
                                 }`}
                         >
                             Características
@@ -185,8 +186,8 @@ export default function ProjectDetails() {
                         <button
                             onClick={() => setActiveTab('safety')}
                             className={`flex-1 sm:flex-none px-8 py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 ${activeTab === 'safety'
-                                ? 'bg-white text-slate-900 shadow-sm'
-                                : 'text-slate-500 hover:text-slate-700'
+                                    ? 'bg-white text-slate-900 shadow-sm'
+                                    : 'text-slate-500 hover:text-slate-700'
                                 }`}
                         >
                             <ShieldCheck className="w-4 h-4" />
@@ -330,7 +331,7 @@ function SafetyMeasuresView({ project, isPT }: { project: ProjectDetails, isPT: 
     // Basic Measures for Risco I and II
     if (risk === 'I' || risk === 'II' || risk === 'III') {
         measures.push(
-            { icon: <FlameKindling />, title: "Extintores", description: "Proteção por extintores de incêndio portáteis ou sobre rodas." },
+            { icon: <Flame />, title: "Extintores", description: "Proteção por extintores de incêndio portáteis ou sobre rodas." },
             { icon: <Lightbulb />, title: "Iluminação de Emergência", description: "Sistema de iluminação para facilitar a saída em emergências." },
             { icon: <Navigation />, title: "Sinalização de Emergência", description: "Placas e sinais indicativos de rotas de fuga e equipamentos." },
             { icon: <LogOut />, title: "Saídas de Emergência", description: "Vias de saída dimensionadas e desobstruídas." }
@@ -339,14 +340,14 @@ function SafetyMeasuresView({ project, isPT }: { project: ProjectDetails, isPT: 
 
     // Occupancy E-6 Rule
     if (isE6) {
-        measures.push({ icon: <Users2 />, title: "Brigada de Incêndio", description: "Grupo organizado de pessoas treinadas para atuar na prevenção e combate." });
+        measures.push({ icon: <Users />, title: "Brigada de Incêndio", description: "Grupo organizado de pessoas treinadas para atuar na prevenção e combate." });
     }
 
     // Risk III or H-2, H-5 Rules
     if (risk === 'III' || isH2H5) {
         // Add Brigada if not already added by E-6
         if (!isE6) {
-            measures.push({ icon: <Users2 />, title: "Brigada de Incêndio", description: "Grupo organizado de pessoas treinadas para atuar na prevenção e combate." });
+            measures.push({ icon: <Users />, title: "Brigada de Incêndio", description: "Grupo organizado de pessoas treinadas para atuar na prevenção e combate." });
         }
         measures.push({ icon: <Paintbrush />, title: "CMAR", description: "Controle de Materiais de Acabamento e Revestimento." });
     }
