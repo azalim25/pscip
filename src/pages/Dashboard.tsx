@@ -6,7 +6,6 @@ import { Header } from '../components/layout/Header';
 import { StatCard, Stat } from '../components/dashboard/StatCard';
 import { ProjectCard, Project } from '../components/dashboard/ProjectCard';
 import { SearchBar } from '../components/ui/SearchBar';
-import { AddProjectModal } from '../components/dashboard/AddProjectModal';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -22,7 +21,6 @@ export default function Dashboard() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [stats, setStats] = useState<Stat[]>(STATS_TEMPLATES);
   const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchProjects = useCallback(async () => {
     if (!session?.user?.id) return;
@@ -88,13 +86,13 @@ export default function Dashboard() {
 
           <div className="flex flex-col sm:flex-row gap-4">
             <SearchBar />
-            <button
-              onClick={() => setIsModalOpen(true)}
+            <Link
+              to="/new-project"
               className="bg-red-600 hover:bg-red-700 text-white px-8 py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-red-600/20 whitespace-nowrap"
             >
               <Plus className="w-5 h-5" />
               Novo Projeto
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -141,12 +139,6 @@ export default function Dashboard() {
           </div>
         </div>
       </main>
-
-      <AddProjectModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onProjectAdded={fetchProjects}
-      />
     </div>
   );
 }

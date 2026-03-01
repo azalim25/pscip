@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Layout, ScrollText, ChevronRight, LogOut } from 'lucide-react';
+import { X, Layout, ScrollText, ChevronRight, LogOut, Plus } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -15,6 +15,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
     const menuItems = [
         { label: 'Painel', path: '/', icon: Layout },
+        { label: 'Novo Projeto', path: '/new-project', icon: Plus },
         { label: 'Classificações', path: '/classification', icon: ScrollText },
     ];
 
@@ -68,8 +69,8 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                                         to={item.path}
                                         onClick={onClose}
                                         className={`flex items-center justify-between p-4 rounded-2xl transition-all group ${isActive
-                                                ? 'bg-red-50 text-red-600'
-                                                : 'hover:bg-slate-50 text-slate-600'
+                                            ? 'bg-red-50 text-red-600'
+                                            : 'hover:bg-slate-50 text-slate-600'
                                             }`}
                                     >
                                         <div className="flex items-center gap-4">
