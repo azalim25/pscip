@@ -261,10 +261,6 @@ export default function NewProject() {
                                         selectedId={occupancy}
                                     />
 
-                                    <CnaeSelector
-                                        onSelect={(val) => setCnae(val)}
-                                        selectedCnae={cnae}
-                                    />
                                 </div>
                             </div>
 
@@ -276,6 +272,12 @@ export default function NewProject() {
                                 </h3>
 
                                 <div className="space-y-6">
+                                    <div className="mb-4">
+                                        <CnaeSelector
+                                            onSelect={(val) => setCnae(val)}
+                                            selectedCnae={cnae}
+                                        />
+                                    </div>
                                     <QuestionToggle
                                         label="Patrimônio Histórico Cultural?"
                                         icon={<Landmark className={`w-6 h-6 ${isHeritage ? 'text-red-600' : 'text-slate-300'}`} />}

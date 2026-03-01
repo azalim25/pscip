@@ -169,15 +169,11 @@ export default function ProjectDetails() {
                             <div className="bg-slate-900 text-white p-8 rounded-[2.5rem] shadow-xl relative overflow-hidden">
                                 <Building2 className="absolute -bottom-4 -right-4 w-32 h-32 text-white/5" />
                                 <h3 className="text-lg font-black mb-6 flex items-center gap-3">
-                                    Classificação
+                                    Ocupação
                                 </h3>
                                 <div className="space-y-6 relative z-10">
                                     <div>
-                                        <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">CNAE</p>
-                                        <p className="text-base font-bold text-red-400">{project.cnae || "Não se aplica"}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">Ocupação</p>
+                                        <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">Uso / Grupo</p>
                                         <p className="text-base font-bold leading-tight">{project.occupancy || "Não informada"}</p>
                                     </div>
                                 </div>
@@ -212,6 +208,23 @@ export default function ProjectDetails() {
                                 <h3 className="text-xl font-black text-slate-800 mb-8 border-l-4 border-slate-800 pl-4">Conformidade e Segurança</h3>
 
                                 <div className="grid sm:grid-cols-2 gap-4">
+                                    <div className="sm:col-span-2 mb-2">
+                                        <div className="p-5 rounded-[1.5rem] bg-slate-50 border-2 border-slate-100 flex items-center justify-between group hover:border-red-100 transition-all">
+                                            <div className="flex items-center gap-4">
+                                                <div className="p-3 bg-red-50 text-red-600 rounded-2xl group-hover:bg-red-600 group-hover:text-white transition-all">
+                                                    <Tag className="w-5 h-5" />
+                                                </div>
+                                                <div>
+                                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">CNAE</p>
+                                                    <p className="text-sm font-black text-slate-700">{project.cnae || "Não se aplica"}</p>
+                                                </div>
+                                            </div>
+                                            <div className="px-4 py-1.5 bg-white rounded-xl border border-slate-100 shadow-sm">
+                                                <span className="text-[10px] font-black text-red-600 uppercase tracking-tighter">Classificação Econômica</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <CheckItem
                                         icon={<Landmark />}
                                         label="Patrimônio Histórico Cultural"
