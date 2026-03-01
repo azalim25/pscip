@@ -336,7 +336,7 @@ export default function EditProject() {
                                     />
 
                                     <QuestionToggle
-                                        label="Subsolo com uso distinto de estacionamento?"
+                                        label="Subsolo com uso distinto de estacionamento"
                                         icon={<Layers className={`w-6 h-6 ${hasBasementUse ? 'text-red-600' : 'text-slate-300'}`} />}
                                         value={hasBasementUse}
                                         onChange={setHasBasementUse}

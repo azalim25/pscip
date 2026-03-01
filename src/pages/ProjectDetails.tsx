@@ -232,7 +232,7 @@ export default function ProjectDetails() {
                                     />
                                     <CheckItem
                                         icon={<Layers />}
-                                        label="Uso Distinto de Estacionamento"
+                                        label="Subsolo com uso distinto de estacionamento"
                                         status={project.has_distinct_basement_use}
                                     />
                                     <CheckItem
