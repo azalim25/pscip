@@ -1399,5 +1399,335 @@ export const terminologyData: TerminologyItem[] = [
         id: "4.273",
         term: "Instalações industriais",
         definition: "Conjunto de equipamentos que não se enquadram como depósitos, postos de serviço ou refinarias, mas, onde líquidos inflamáveis são armazenados e processados."
+    },
+    {
+        id: "4.274",
+        term: "Instalação interna",
+        definition: "Conjunto de tubulações, medidores, reguladores, registros e aparelhos de utilização de gás, com os necessários complementos, destinado à condução e ao uso do gás no interior da edificação."
+    },
+    {
+        id: "4.275",
+        term: "Instalações sob comando",
+        definition: "O agente extintor fica armazenado em depósitos fixos e é conduzido através de tubulações rígidas até pontos táticos, onde existem válvulas terminais (difusores). Destes pontos, por meio da intervenção do homem, as tubulações são complementadas com mangotinhos até o local do foco de incêndio onde o agente é aplicado."
+    },
+    {
+        id: "4.276",
+        term: "Instalações temporárias",
+        definition: "Locais que não possuem características construtivas em caráter definitivo podendo ser desmontadas e transferidas para outros locais."
+    },
+    {
+        id: "4.277",
+        term: "Instalador",
+        definition: "Pessoa física ou jurídica responsável pela execução da instalação do sistema de proteção contra incêndio em uma edificação."
+    },
+    {
+        id: "4.278",
+        term: "Instrução Técnica – IT",
+        definition: "Documento emanado pelo CBMMG com objetivo de estabelecer procedimentos administrativos e normalizar medidas de segurança contra incêndio e pânico nas edificações e nos espaços destinados ao uso coletivo."
+    },
+    {
+        id: "4.279",
+        term: "Interface da camada de fumaça (\"smoke layer interface\")",
+        definition: "Limite teórico entre uma camada de fumaça e a fumaça provinda do ar externo (livre). Na prática, a interface da camada de fumaça é um limite efetivo dentro da zona de diminuição de impacto, que pode ter vários metros de espessura. Abaixo desse limite efetivo, a densidade da fumaça na zona de transição cai a zero."
+    },
+    {
+        id: "4.280",
+        term: "Intervenções",
+        definition: "Todas as medidas técnicas implementadas em uma edificação. Em específico no âmbito desta normativa, além das premissas de segurança contra incêndio, devem atender ao disposto na legislação patrimonial tendo o objetivo primordial de garantir ao acervo cultural sua conservação e/ou integridade. Portanto, se busca que não acarretem quaisquer alterações em seu aspecto físico, em suas condições de visibilidade ou ambiência, ou minimizem ao máximo."
+    },
+    {
+        id: "4.281",
+        term: "Inundação total",
+        definition: "Descarga de gases limpos, por meio de difusores fixos no interior do recinto que contém o equipamento protegido, de modo a permitir uma atmosfera inerte com uma concentração determinada de gás a ser atingida em tempo determinado."
+    },
+    {
+        id: "4.282",
+        term: "Isolamento de risco",
+        definition: "Característica construtiva, concebida pelo arquiteto/engenheiro, na qual se tem a separação física de uma edificação em relação às demais circunvizinhas, cuja característica básica é a impossibilidade técnica de uma edificação ser atingida pelo calor irradiado, conduzido ou propagado pela convecção de massas gasosas aquecidas, emanadas de outra atingida por incêndio."
+    },
+    {
+        id: "4.283",
+        term: "Itinerário",
+        definition: "Trajeto a ser percorrido pelas guarnições do Corpo de Bombeiros na ida ou no regresso do atendimento de uma emergência, previamente estabelecido por meio de croqui."
+    },
+    {
+        id: "4.284",
+        term: "Jato compacto",
+        definition: "Tipo de jato de água caracterizado por linhas de corrente de escoamento paralelas, observado na extremidade do esguicho."
+    },
+    {
+        id: "4.285",
+        term: "Jato de espuma de monitor (canhão)",
+        definition: "Jato de grande capacidade de esguicho, que está apoiado em posição e que pode ser dirigido por um homem. O fluxo de solução de 1200L/min ou mais pode ser usado."
+    },
+    {
+        id: "4.286",
+        term: "Jato de fumaça sob o teto (\"ceiling jet\")",
+        definition: "Fluxo de fumaça sob o teto, estendendo-se radialmente do ponto de choque da coluna de fogo contra o teto. Normalmente, a temperatura do jato de fumaça sob o teto será maior que a camada de fogo adjacente."
+    },
+    {
+        id: "4.287",
+        term: "Jato de linha de mangueira",
+        definition: "Jato de espuma de um esguicho que pode ser segurado e dirigido manualmente. A reação do esguicho usualmente limita o fluxo da solução a aproximadamente 1000L/min no máximo."
+    },
+    {
+        id: "4.288",
+        term: "Jirau",
+        definition: "Entende-se por jirau o piso compreendido entre dois pavimentos contíguos, os quais tenham entre si altura suficiente para a interposição de um terceiro nível, o qual não configure um pavimento, possuindo altura do pé direito diferenciado do pé direito do pavimento tipo e com área de projeção em planta que não ultrapasse a metade da área do piso imediatamente abaixo. A principal característica do jirau em relação à sobreloja ou ao mezanino reside na característica de poder ser contido lateralmente apenas por duas paredes e com a possibilidade de ter ou não guarda corpo nas outras laterais. Sua função principal é de acondicionamento de materiais, servindo como área de depósito. Não constitui jirau, níveis cujo aproveitamento seja constituído por escritórios, ou fechamentos de área para fins de qualquer espécie. O acesso a este nível pode utilizar a escada principal da edificação ou possuir escada exclusiva. É comum o seu emprego em edificações industriais e comércio atacadista."
+    },
+    {
+        id: "4.289",
+        term: "Lanço de escada",
+        definition: "Sucessão ininterrupta de degraus entre dois patamares sucessivos. Nota: Um lanço de escada nunca pode ter menos de três degraus, nem subir altura superior a 3,70m."
+    },
+    {
+        id: "4.290",
+        term: "Largura do degrau (b)",
+        definition: "Distância entre o bocel do degrau e a projeção do bocel do degrau imediatamente superior, medida horizontalmente sobre a linha de percurso da escada."
+    },
+    {
+        id: "4.291",
+        term: "Laudo",
+        definition: "Peça na qual o profissional habilitado relata o que observou e dá as suas conclusões."
+    },
+    {
+        id: "4.292",
+        term: "Leiaute",
+        definition: "Distribuição física de elementos num determinado espaço."
+    },
+    {
+        id: "4.293",
+        term: "Licenciamento definitivo",
+        definition: "Ato no qual o Corpo de Bombeiros Militar emite o Auto de Vistoria do Corpo de Bombeiros (AVCB) atestando através de vistoria que a edificação ou espaço destinado a uso coletivo (respeitados os casos de dispensa de AVCB) se encontra em conformidade com a legislação de Segurança Contra Incêndio e Pânico no Estado."
+    },
+    {
+        id: "4.294",
+        term: "Licenciamento prévio de empreendimentos",
+        definition: "Procedimento que resulta na emissão do Certificado de Licenciamento Provisório junto à Redesim-MG, às empresas, edificações ou espaços destinados ao uso coletivo classificados como nível de risco II, mediante o fornecimento de informações e declarações pelo empreendedor, visando permitir o reconhecimento formal do cumprimento dos requisitos de prevenção contra incêndios e pânico, em que é dispensada a vistoria prévia da edificação ou espaço destinado ao uso coletivo para início de seu funcionamento, sem que haja prejuízo das vistorias de fiscalização e aplicação de sanções administrativas em caso de irregularidades."
+    },
+    {
+        id: "4.295",
+        term: "Licenciamento de empresários e pessoas jurídicas",
+        definition: "Etapa do processo de registro e legalização, presencial ou eletrônica, que conduz o interessado à autorização para o exercício de determinada atividade econômica em estabelecimento indicado."
+    },
+    {
+        id: "4.296",
+        term: "Limite de área de armazenamento",
+        definition: "Linha fixada pela fileira externa de recipientes transportáveis de gás liquefeito de petróleo (GLP), em um lote de recipientes, acrescida da largura do corredor de inspeção, quando este for exigido."
+    },
+    {
+        id: "4.297",
+        term: "Limite do lote de recipientes",
+        definition: "Linha fixada pela fileira externa de recipientes transportáveis de gás liquefeito de petróleo (GLP), em um lote de recipientes."
+    },
+    {
+        id: "4.298",
+        term: "Linha de espuma",
+        definition: "Tubulação ou linha de mangueiras destinada a conduzir a espuma."
+    },
+    {
+        id: "4.299",
+        term: "Linha de percurso de uma escada",
+        definition: "Linha imaginária sobre a qual sobe ou desce uma pessoa que segura o corrimão, estando afastada 0,55m da borda livre da escada ou da parede. Nota: Sobre esta linha, todos os degraus possuem piso de largura igual, inclusive os degraus ingrauxidos nos locais em que a escada faz deflexão. Nas escadas de menos de 1,10 m de largura, a linha de percurso coincide com o eixo da escada, ficando, pois, mais perto da borda."
+    },
+    {
+        id: "4.300",
+        term: "Linha de solução",
+        definition: "Tubulação ou linha de mangueiras destinada a conduzir a solução de espuma mecânica."
+    },
+    {
+        id: "4.301",
+        term: "Líquido combustível",
+        definition: "Líquido que possui ponto de fulgor igual ou superior a 37,8°C, subdividido como segue: classe II: líquidos que possuem ponto de fulgor igual ou superior a 37,8°C e inferior a 60°C; classe IIIA: líquidos que possuem ponto de fulgor igual ou superior a 60°C e inferior a 93,4°C; classe IIIB: Líquidos que possuem ponto de fulgor igual ou superior a 93,4°C."
+    },
+    {
+        id: "4.302",
+        term: "Líquido inflamável",
+        definition: "Líquido que possui ponto de fulgor inferior a 37,8°C, também conhecido como líquido Classe I, subdividindo-se em: classe IA: líquido com ponto de fulgor abaixo de 22,8°C e ponto de ebulição abaixo de 37,8°C; classe IB: líquido com ponto de fulgor abaixo de 22,8°C e ponto de ebulição igual ou acima de 37,8°C; classe IC: líquido com ponto de fulgor igual ou acima de 22,8°C e ponto de ebulição abaixo de 37,8°C."
+    },
+    {
+        id: "4.303",
+        term: "Líquidos instáveis ou reativos",
+        definition: "Líquidos que, no estado puro ou nas especificações comerciais, por efeito de variação de temperatura e pressão, ou de choque mecânico, na estocagem ou no transporte, se tornem auto reativos e, em consequência, se decomponham, polimerizem ou venham a explodir."
+    },
+    {
+        id: "4.304",
+        term: "Listagem confiável",
+        definition: "Relação de dados e características de projeto de equipamentos ou dispositivos, publicada pelo fabricante e reconhecida por órgãos regulamentadores ou normativos, aceita pelo proprietário da instalação ou seu preposto legal designado."
+    },
+    {
+        id: "4.305",
+        term: "Local de abastecimento",
+        definition: "Área determinada pelo conjunto de veículo abastecedor, mangueira flexível de abastecimento e central de gás liquefeito de petróleo (GLP)."
+    },
+    {
+        id: "4.306",
+        term: "Local de segurança",
+        definition: "Local fora da edificação ou fora do perímetro do evento, no qual as pessoas estão sem perigo imediato dos efeitos do fogo e fumaça."
+    },
+    {
+        id: "4.307",
+        term: "Local de risco",
+        definition: "Área interna ou externa da edificação, onde haja a probabilidade de um perigo se materializar causando um dano."
+    },
+    {
+        id: "4.308",
+        term: "Local de saída única",
+        definition: "Condição de um pavimento da edificação, onde a saída é possível apenas em um sentido."
+    },
+    {
+        id: "4.309",
+        term: "Lojas âncoras",
+        definition: "São estabelecimentos onde a abrangência e cobertura do sistema de hidrantes previsto e instalado na área comum da edificação se apresentam insuficientes, havendo necessidade de instalação de sistema de hidrante em seu interior, a serem dimensionados através do PSCIP Geral. Será considerado também como loja âncora, o estabelecimento que não possua sistema de hidrante em seu interior, em razão de estar protegido por mais de um ponto de tomada de água localizado na área comum. A apresentação de PSCIP específico para loja âncora será obrigatória, exceto se todas as medidas estiverem projetadas no PSCIP Geral."
+    },
+    {
+        id: "4.310",
+        term: "Lojas satélites",
+        definition: "São estabelecimentos onde não há necessidade de instalação de sistema de hidrantes em sua área privativa, devido ao fato de estarem protegidas pela medida instalada na área comum da edificação. Não deverá ser apresentado PSCIP específico para sua área privativa."
+    },
+    {
+        id: "4.311",
+        term: "Loteamento",
+        definition: "Parcelamento do solo com abertura de novos sistemas de circulação ou prolongamento, modificação ou ampliação dos existentes."
+    },
+    {
+        id: "4.312",
+        term: "Lotes de recipientes",
+        definition: "Conjunto de recipientes transportáveis de gás liquefeito de petróleo (GLP) sem que haja corredor de inspeção entre estes."
+    },
+    {
+        id: "4.313",
+        term: "Maior risco",
+        definition: "Aquele que possa existir oriundo de instalações projetadas ou existentes que requeira a maior demanda de água para o combate a incêndio."
+    },
+    {
+        id: "4.314",
+        term: "Mangotinho",
+        definition: "Ponto de tomada de água onde há uma simples saída contendo válvula de abertura rápida, adaptador (se necessário), mangueira semirrígida, esguicho regulável e demais acessórios."
+    },
+    {
+        id: "4.315",
+        term: "Mangueira de incêndio",
+        definition: "Tubo flexível, fabricado com fios naturais ou artificiais, usado para canalizar água, solução ou espuma."
+    },
+    {
+        id: "4.316",
+        term: "Mangueira flexível",
+        definition: "Tubo flexível de material sintético com características comprovadas para uso de gás liquefeito de petróleo (GLP), podendo ou não possuir proteção metálica ou têxtil."
+    },
+    {
+        id: "4.317",
+        term: "Manômetro",
+        definition: "Instrumento que realiza a medição de pressões efetivas ou relativas."
+    },
+    {
+        id: "4.318",
+        term: "Manômetro de líquido ajustável",
+        definition: "Tipo de manômetro que permite a realização da avaliação da diferença de pressão entre dois ambientes por meio da comparação entre alturas de colunas de líquido dito manométrico. Permite o ajuste do valor inicial, antes do início da medição (ajuste do \"zero\")."
+    },
+    {
+        id: "4.319",
+        term: "Manutenção",
+        definition: "Conjunto de operações destinadas a manter, principalmente, a edificação em bom funcionamento e uso."
+    },
+    {
+        id: "4.320",
+        term: "Mapeamento de risco",
+        definition: "Estudo desenvolvido pelo responsável por uma edificação em conjunto com o Corpo de Bombeiros, visando relacionar os meios humanos e materiais disponíveis por uma empresa, seguido da qualificação e otimização da capacidade de reação."
+    },
+    {
+        id: "4.321",
+        term: "Materiais combustíveis",
+        definition: "Produtos ou substâncias (não resistentes ao fogo) que sofrem ignição ou combustão quando sujeitos a calor."
+    },
+    {
+        id: "4.322",
+        term: "Materiais de acabamento",
+        definition: "Produtos ou substâncias que, não fazendo parte da estrutura principal, são agregados à mesma com fins de conforto, estética ou segurança."
+    },
+    {
+        id: "4.323",
+        term: "Materiais fogo-retardantes",
+        definition: "Produtos ou substâncias que, em seu processo químico, recebem tratamento para melhor se comportarem frente à ação do calor, ou ainda aqueles protegidos por produtos que dificultem a queima."
+    },
+    {
+        id: "4.324",
+        term: "Materiais incombustíveis",
+        definition: "Produtos ou substâncias que, submetidos à ignição ou combustão, não apresentam rachaduras, derretimento, deformações excessivas e não desenvolvem elevada quantia de fumaça e gases."
+    },
+    {
+        id: "4.325",
+        term: "Materiais sem combustíveis",
+        definition: "Produtos ou substâncias que, submetidos à ignição ou combustão, apresentam baixa taxa de queima e pouco desenvolvimento de fumaça."
+    },
+    {
+        id: "4.326",
+        term: "Máximo enchimento",
+        definition: "Volume máximo de gás liquefeito de petróleo (GLP) em estado líquido que um recipiente pode armazenar com segurança."
+    },
+    {
+        id: "4.327",
+        term: "Medidas de segurança contra incêndio e pânico",
+        definition: "Conjunto de ações e dispositivos necessários a evitar o surgimento de incêndio e pânico, limitar sua propagação, possibilitar sua extinção e propiciar a proteção à incolumidade das pessoas, ao meio ambiente e ao patrimônio."
+    },
+    {
+        id: "4.328",
+        term: "Medida sinalizadora de incêndio",
+        definition: "Medidas que visam detectar o início de um incêndio, possibilitando comunicar a usuários, autoridades públicas e demais pessoas vizinhas da edificação."
+    },
+    {
+        id: "4.329",
+        term: "Medida extintiva",
+        definition: "Medidas que visam extinguir um incêndio, seja pela ação humana ou automaticamente, minimizando prejuízos decorrentes do calor excessivo e da fumaça."
+    },
+    {
+        id: "4.330",
+        term: "Megajoule – MJ",
+        definition: "Medida de capacidade calorífica dos corpos e materiais, estabelecida pelo Sistema Internacional de Unidades."
+    },
+    {
+        id: "4.331",
+        term: "Meio defensável (\"tenable environment\")",
+        definition: "Meio no qual a fumaça e o calor estão limitados e restritos, visando preservar os ocupantes num nível que não exista ameaça de vida."
+    },
+    {
+        id: "4.332",
+        term: "Meio de Alerta",
+        definition: "Dispositivos ou equipamentos destinados a avisar os ocupantes de uma edificação por ocasião de uma emergência qualquer."
+    },
+    {
+        id: "4.333",
+        term: "Meio de Fuga",
+        definition: "Medidas que estabelecem rotas de fuga seguras aos ocupantes de uma edificação."
+    },
+    {
+        id: "4.334",
+        term: "Meio digital",
+        definition: "Ambiente de tráfego ou armazenamento de informações digitais."
+    },
+    {
+        id: "4.335",
+        term: "Memorial",
+        definition: "Conceitos, premissas e etapas utilizados para definir, localizar, caracterizar e detalhar o projeto do sistema de hidrantes e mangotinhos de uma edificação, desde a concepção até a sua implantação e manutenção. É composto de parte descritiva, cálculos, ábacos e tabelas."
+    },
+    {
+        id: "4.336",
+        term: "Mezanino",
+        definition: "Estrutura que subdivide parcialmente um pavimento em dois pisos, sendo considerado pavimento a estrutura que possuir área superior à metade da área do pavimento subdividido ou superior a 200m²."
+    },
+    {
+        id: "4.337",
+        term: "Microempreendedor Individual - MEI",
+        definition: "Empresário individual, optante pelo Simples Nacional, que atende, cumulativamente, ao disposto no art. 18-A, da Lei Complementar nº 123, de 2006."
+    },
+    {
+        id: "4.338",
+        term: "Módulo habitável",
+        definition: "Contêiner adaptado, que recebeu portas e janelas, além de instalação elétrica e/ou hidráulica; empregado como escritório, sala de reuniões, sala de treinamento ou de aula, depósito, almoxarifado ou guarita. O módulo habitável pode ser formado por um ou mais contêineres conjugados, dispostos horizontalmente (afastados ou não entre si) ou verticalmente, havendo comunicação entre os módulos, através de portas, com ou sem emprego de escadas."
+    },
+    {
+        id: "4.339",
+        term: "Monitor (canhão)",
+        definition: "Equipamento destinado a formar e orientar jatos de água ou espuma de grande volume e alcance."
     }
 ];
