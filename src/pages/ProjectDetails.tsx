@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import {
@@ -26,6 +26,7 @@ interface ProjectDetails {
     has_liquid_fuel: boolean;
     has_lpg: boolean;
     risk_level: string;
+    has_hydraulic_system: boolean;
     status: string;
 }
 
@@ -88,6 +89,33 @@ export default function ProjectDetails() {
 
     const risk = project.risk_level?.split(' ').pop();
 
+    const isPT = useMemo(() => {
+        const h = project.height || 0;
+        const a = project.area || 0;
+        const l = project.occupancy_load || 0;
+        const occ = project.occupancy || '';
+
+        // 1. Manual trigger
+        if (project.has_hydraulic_system) return true;
+
+        // 2. Height > 12m
+        if (h > 12) return true;
+
+        // 3. Area > 1200m2 for A-1, A-2, A-3
+        const isResidential = occ.includes('A-1') || occ.includes('A-2') || occ.includes('A-3');
+        if (isResidential && a > 1200) return true;
+
+        // 4. Area > 930m2 (except M-8)
+        const isM8 = occ.includes('M-8');
+        if (!isM8 && a > 930) return true;
+
+        // 5. Group F with population > 200
+        const isGroupF = occ.includes('F-');
+        if (isGroupF && l > 200) return true;
+
+        return false;
+    }, [project]);
+
     return (
         <div className="min-h-screen bg-[#f8f6f6] pb-24">
             <Header
@@ -131,8 +159,13 @@ export default function ProjectDetails() {
                                     risk === 'II' ? 'bg-orange-500 border-orange-600 text-white' :
                                         'bg-green-600 border-green-700 text-white'
                                     }`}>
-                                    <AlertTriangle className="w-4 h-4" />
                                     <span>Risco {risk}</span>
+                                </div>
+                            )}
+                            {isPT && (
+                                <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-slate-900 border-2 border-slate-950 shadow-lg shadow-slate-900/20 text-white font-black text-xs uppercase tracking-wider">
+                                    <ShieldCheck className="w-4 h-4 text-red-500" />
+                                    <span>Projeto Técnico (PT)</span>
                                 </div>
                             )}
                         </div>
@@ -278,7 +311,7 @@ export default function ProjectDetails() {
                         </div>
                     ) : (
                         <div className="grid lg:grid-cols-1 gap-8">
-                            <SafetyMeasuresView project={project} />
+                            <SafetyMeasuresView project={project} isPT={isPT} />
                         </div>
                     )}
                 </motion.div>
@@ -287,7 +320,7 @@ export default function ProjectDetails() {
     );
 }
 
-function SafetyMeasuresView({ project }: { project: ProjectDetails }) {
+function SafetyMeasuresView({ project, isPT }: { project: ProjectDetails, isPT: boolean }) {
     const risk = project.risk_level?.split(' ').pop();
     const isE6 = project.occupancy?.includes('E-6');
     const isH2H5 = project.occupancy?.includes('H-2') || project.occupancy?.includes('H-5');
@@ -323,7 +356,10 @@ function SafetyMeasuresView({ project }: { project: ProjectDetails }) {
             <div className="flex items-center gap-4 mb-10 border-l-4 border-red-600 pl-4">
                 <div>
                     <h3 className="text-2xl font-black text-slate-800">Medidas de Segurança Requeridas</h3>
-                    <p className="text-slate-500 font-medium italic">Baseado no nível de risco e ocupação do projeto</p>
+                    <p className="text-slate-500 font-medium italic">
+                        Baseado no nível de risco e ocupação do projeto
+                        {isPT && <span className="text-red-600"> • Projeto Técnico</span>}
+                    </p>
                 </div>
             </div>
 

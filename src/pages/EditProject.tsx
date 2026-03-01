@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
     Layout, MapPin, Calendar, ShieldAlert, Save, ArrowLeft,
-    Maximize, Ruler, Users, Landmark, Layers, Droplets, Flame, Check, AlertTriangle
+    Maximize, Ruler, Users, Landmark, Layers, Droplets, Flame, Check, AlertTriangle, Droplet
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
@@ -31,6 +31,7 @@ export default function EditProject() {
     const [hasBasementUse, setHasBasementUse] = useState(false);
     const [hasLiquidFuel, setHasLiquidFuel] = useState(false);
     const [hasLpg, setHasLpg] = useState(false);
+    const [hasHydraulicSystem, setHasHydraulicSystem] = useState(false);
 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -63,6 +64,7 @@ export default function EditProject() {
                     setHasBasementUse(data.has_distinct_basement_use || false);
                     setHasLiquidFuel(data.has_liquid_fuel || false);
                     setHasLpg(data.has_lpg || false);
+                    setHasHydraulicSystem(data.has_hydraulic_system || false);
                 }
             } catch (err: any) {
                 console.error('Error fetching project:', err);
@@ -123,6 +125,7 @@ export default function EditProject() {
                     has_distinct_basement_use: hasBasementUse,
                     has_liquid_fuel: hasLiquidFuel,
                     has_lpg: hasLpg,
+                    has_hydraulic_system: hasHydraulicSystem,
                     risk_level: riskLevel ? `Nível de Risco ${riskLevel}` : null,
                 })
                 .eq('id', id)
@@ -357,6 +360,14 @@ export default function EditProject() {
                                         icon={<Flame className={`w-6 h-6 ${hasLpg ? 'text-red-600' : 'text-slate-300'}`} />}
                                         value={hasLpg}
                                         onChange={setHasLpg}
+                                    />
+
+                                    <QuestionToggle
+                                        label="Projeção de Sistema Hidráulico de Combate a Incêndio?"
+                                        icon={<Droplet className={`w-6 h-6 ${hasHydraulicSystem ? 'text-blue-600' : 'text-slate-300'}`} />}
+                                        value={hasHydraulicSystem}
+                                        onChange={setHasHydraulicSystem}
+                                        description="Hidrantes, chuveiros automáticos, nebulizadores, CO2, etc."
                                     />
 
                                     <div className="pt-4">
