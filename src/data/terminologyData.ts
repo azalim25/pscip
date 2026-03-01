@@ -2099,5 +2099,375 @@ export const terminologyData: TerminologyItem[] = [
         id: "4.413",
         term: "Proteção",
         definition: "Ações técnicas, administrativas ou legais que visem garantir a perenidade do bem (edificação) reconhecido como possuidor de valor cultural."
+    },
+    {
+        id: "4.414",
+        term: "PSCIP aprovado",
+        definition: "Situação na qual o Projeto analisado pelo CBMMG que recebeu aprovação do militar do SSCIP responsável pela análise."
+    },
+    {
+        id: "4.415",
+        term: "PSCIP Geral/Principal",
+        definition: "Processo de Segurança Contra Incêndio e Pânico que contempla toda a edificação onde se encontram os estabelecimentos."
+    },
+    {
+        id: "4.416",
+        term: "PSCIP liberado ou licenciamento definitivo",
+        definition: "Situação na qual a edificação ou espaço destinado ao uso coletivo foi vistoriado pelo CBMMG e recebeu o AVCB ou documento similar."
+    },
+    {
+        id: "4.417",
+        term: "Quadra de armazenamento",
+        definition: "Área totalmente destinada ao armazenamento de cargas, desconsideradas as vias internas, os raios de giro e os corredores, podendo ter formato regular e irregular."
+    },
+    {
+        id: "4.418",
+        term: "Quadro de áreas",
+        definition: "Tabela que contém as áreas individualizadas das edificações e seus pavimentos."
+    },
+    {
+        id: "4.419",
+        term: "QR code",
+        definition: "Quick response code (código de resposta rápida). Tipo de código gráfico bidimensional que compõe um dos dispositivos de segurança do AVCB."
+    },
+    {
+        id: "4.420",
+        term: "Rampa",
+        definition: "Parte construtiva inclinada de uma rota de saída, que se destina a unir dois níveis ou setores de um recinto de evento."
+    },
+    {
+        id: "4.421",
+        term: "Reabilitação",
+        definition: "Intervenções destinadas à revitalização física e cultural do bem, que pode eventualmente implicar em mudança de ocupação."
+    },
+    {
+        id: "4.422",
+        term: "Recalque",
+        definition: "Válvula angular diâmetro 2½\" corpo em latão, pressão mínima de trabalho 13,8 Kgf/cm² (200PSI), vedação em borracha (etileno-propileno), conexão de entrada de 2½\", rosca interna 11FPP (BSTP), conexão de saída rosca externa 5FPP, haste ascendente com castelo quadrado para uso específico do CBMMG, com chave especial."
+    },
+    {
+        id: "4.423",
+        term: "Recipiente estacionário",
+        definition: "Recipiente fixo, com capacidade superior a 0,25m³."
+    },
+    {
+        id: "4.424",
+        term: "Recipiente transportável",
+        definition: "Recipiente que pode ser transportado manualmente ou por qualquer outro meio. É considerado transportável para efeito de proteção contra incêndio o recipiente com volume máximo de 500L."
+    },
+    {
+        id: "4.425",
+        term: "Reconstrução",
+        definition: "Intervenção destinada a reproduzir as características arquitetônicas e técnicas de edificações pré-existentes. Reedificação de prédio ou edifício, total ou parcialmente, arruinado por motivo de sinistros (incêndio, desabamento, outros) ou demolição."
+    },
+    {
+        id: "4.426",
+        term: "Rede de alimentação",
+        definition: "Conjunto de condutores elétricos, dutos e demais equipamentos empregados na transmissão de energia do sistema, inclusive a sua proteção."
+    },
+    {
+        id: "4.427",
+        term: "Rede de detecção, sinalização e alarme",
+        definition: "Conjunto de dispositivos de atuação automática destinados a detectar calor, fumaça ou chama e a atuar equipamentos de proteção e dispositivos de sinalização e alarme."
+    },
+    {
+        id: "4.428",
+        term: "Rede de distribuição",
+        definition: "Parte do sistema de abastecimento formado de tubulações e órgãos acessórios, destinada a colocar água potável à disposição dos consumidores, de forma contínua, em quantidade e pressão recomendada."
+    },
+    {
+        id: "4.429",
+        term: "Rede elétrica da concessionária",
+        definition: "Energia elétrica fornecida pela concessionária do município, a qual opera independente da vontade do usuário."
+    },
+    {
+        id: "4.430",
+        term: "Refinaria",
+        definition: "Unidade industrial na qual são produzidos líquidos inflamáveis, em escala comercial, a partir de petróleo, gasolina natural ou outras fontes de hidrocarbonetos."
+    },
+    {
+        id: "4.431",
+        term: "Reforma",
+        definition: "Alterações nas edificações e espaços destinados ao uso coletivo sem aumento de área construída."
+    },
+    {
+        id: "4.432",
+        term: "Registro (\"dumper\") de sobre pressão",
+        definition: "Dispositivo que atua como regulador em ambiente que deva ser mantido em determinado nível de pressão, evitando que a pressão assuma valores maiores por onde ocorra escape do ar."
+    },
+    {
+        id: "4.433",
+        term: "Registro de fluxo",
+        definition: "Dispositivo com a função de direcionar o fluxo de ar, normalmente utilizado na saída dos grupos motoventiladores, quando utilizada duplicidade de equipamentos."
+    },
+    {
+        id: "4.434",
+        term: "Registro de fumaça (\"smoke damper\")",
+        definition: "Dispositivo utilizado no sistema de controle de fumaça, projetado para resistir à passagem de ar ou fumaça. Um registro de fumaça pode ser combinado, atendendo a requisitos de resistência a fogo e fumaça."
+    },
+    {
+        id: "4.435",
+        term: "Registro de paragem",
+        definition: "Dispositivo hidráulico manual, destinado a interromper o fluxo de água das instalações hidráulicas de combate a incêndio em edificações."
+    },
+    {
+        id: "4.436",
+        term: "Registro de recalque",
+        definition: "Dispositivo hidráulico destinado a permitir a introdução de água proveniente de fontes externas, na instalação hidráulica de combate a incêndio das edificações."
+    },
+    {
+        id: "4.437",
+        term: "Registros corta-fogo (\"dampers\")",
+        definition: "Dispositivos construtivos com tempo mínimo de resistência ao fogo, instalados nos dutos de ventilação e dutos de exaustão, que cruzam as paredes de compartimentação ou entrepisos."
+    },
+    {
+        id: "4.438",
+        term: "Reserva de incêndio",
+        definition: "Volume de água destinado exclusivamente ao combate a incêndio."
+    },
+    {
+        id: "4.439",
+        term: "Reservatório ao nível do solo",
+        definition: "Reserva de incêndio cujo fundo se encontra instalado no mesmo nível do terreno natural."
+    },
+    {
+        id: "4.440",
+        term: "Reservatório de escorva",
+        definition: "Reservatório de água com volume necessário para manter a tubulação de sucção da bomba de incêndio sempre cheia d'água."
+    },
+    {
+        id: "4.441",
+        term: "Reservatório elevado",
+        definition: "Reserva de incêndio cujo fundo se encontra instalado acima do nível do terreno natural com a tubulação formando uma coluna d'água."
+    },
+    {
+        id: "4.442",
+        term: "Reservatório enterrado ou subterrâneo",
+        definition: "Reserva de incêndio cuja parte superior encontra-se instalada abaixo do nível do terreno natural."
+    },
+    {
+        id: "4.443",
+        term: "Reservatório semienterrado",
+        definition: "Reserva de incêndio cujo fundo se encontra instalado abaixo do nível do terreno natural e com a parte superior acima do nível do terreno natural."
+    },
+    {
+        id: "4.444",
+        term: "Resistência ao fogo",
+        definition: "Propriedade de um elemento construtivo, de resistir à ação do fogo por um determinado período de tempo, mantendo sua integridade, estanqueidade e isolação e/ou características de vedação aos gases e chamas."
+    },
+    {
+        id: "4.445",
+        term: "Responsável técnico",
+        definition: "Profissional legalmente habilitado perante o órgão de fiscalização profissional, para elaboração ou execução das atividades relacionadas com a segurança contra incêndio e pânico."
+    },
+    {
+        id: "4.446",
+        term: "Restauração",
+        definition: "Ações técnicas que tenham por objetivo restabelecer a unidade do bem cultural. Buscam garantir sua integridade, preservando as características essenciais ao seu pleno entendimento. Para tanto, deve respeitar sua concepção original, os valores de tombamento e seu processo histórico de intervenções."
+    },
+    {
+        id: "4.447",
+        term: "Reversibilidade",
+        definition: "Ações técnicas implementadas com o objetivo de garantir as condições para o pleno restabelecimento, após sua retirada ou desfazimento, de suas condições estruturais, plásticas, ambientais e de ambiência do bem cultural originais que foram objeto de intervenção."
+    },
+    {
+        id: "4.448",
+        term: "Risco Máximo Admissível de Incêndio",
+        definition: "Corresponde à exigência de implantação na edificação de medidas de segurança ativas e passivas em certo número, admitida como suficientemente seguras e economicamente viáveis, as quais se sobrepõem aos parâmetros que favorecem a ocorrência de um incêndio de severidade máxima provável admissível."
+    },
+    {
+        id: "4.449",
+        term: "Risco",
+        definition: "Exposição ao perigo e à probabilidade da ocorrência de um sinistro."
+    },
+    {
+        id: "4.450",
+        term: "Risco iminente",
+        definition: "A constatação de situação atual e iminente de exposição ao perigo e a probabilidade de ocorrência de um sinistro que deve ser fundamentada pelo Bombeiro Militar durante a realização de vistoria, levando-se em consideração a exposição ao perigo potencial e as medidas de segurança adotadas no local."
+    },
+    {
+        id: "4.451",
+        term: "Risco isolado – isolamento de risco ou separação entre edificações",
+        definition: "A característica construtiva, concebida pelo arquiteto ou engenheiro, na qual se tem a separação física de uma edificação em relação às demais circunvizinhas, cuja característica básica é a impossibilidade de uma edificação ser atingida pelo calor irradiado, conduzido ou propagado pela convecção de massas gasosas aquecidas, emanadas de outra atingida por incêndio."
+    },
+    {
+        id: "4.452",
+        term: "Risco isolado de central de GLP",
+        definition: "Distância da central de gás liquefeito de petróleo (GLP) à projeção da edificação."
+    },
+    {
+        id: "4.453",
+        term: "Risco predominante",
+        definition: "Atividade principal exercida na edificação, que também pode ser definido como risco principal na edificação, ou que predomina sobre os demais, ou ainda o maior nível de risco, desde que na ocorrência de um sinistro ele contribua de alguma forma para o agravamento da situação de forma significativa e em termos proporcionais. Notas: a) ocorrendo equivalência na somatória da carga de incêndio, adotar-se-á para efeito da classificação do maior risco, a ocupação que possuir maior carga de incêndio por m²; b) ocorrendo concentração de público, prevalecerá como sendo o maior risco, para o dimensionamento das saídas de emergências."
+    },
+    {
+        id: "4.454",
+        term: "Risco primário",
+        definition: "Risco principal do produto de acordo com tabela do Decreto 96.044, 18Mai88, Regulamento Federal para o transporte rodoviário de produtos perigosos."
+    },
+    {
+        id: "4.455",
+        term: "Risco secundário",
+        definition: "Risco subsidiário do produto de acordo com tabela do Decreto 96.044, 18Mai88, Regulamento Federal para o transporte rodoviário de produtos perigosos."
+    },
+    {
+        id: "4.456",
+        term: "Rolagem",
+        definition: "Movimento do helicóptero de um ponto para outro, realizado na superfície ou pouco acima desta, conforme o tipo de trem de pouso do helicóptero."
+    },
+    {
+        id: "4.457",
+        term: "Rota de fuga",
+        definition: "Trajeto que deve ser percorrido pelos ocupantes da edificação a partir de qualquer ponto, de qualquer pavimento, até um local seguro completamente livre dos efeitos de um incêndio."
+    },
+    {
+        id: "4.458",
+        term: "Rota de Retirada de Acervo",
+        definition: "Caminho destinado para retirada de acervos de edificações."
+    },
+    {
+        id: "4.459",
+        term: "Saída de emergência",
+        definition: "Caminho contínuo, devidamente protegido e sinalizado, proporcionado por portas, corredores, halls, passagens externas, balcões, vestíbulos, escadas, rampas ou outros dispositivos de saída ou combinações destes, a ser percorrido pelos usuários em caso de um incêndio e pânico, que conduzam os usuários de qualquer ponto da edificação até atingir a via pública ou espaço aberto, protegido do incêndio ou pânico, em comunicação com o logradouro."
+    },
+    {
+        id: "4.460",
+        term: "Saída ou rota de fuga",
+        definition: "Caminho contínuo proporcionado por portas, corredores, \"halls\", escadas, rampas ou outros dispositivos de saída ou combinações destes, a ser percorrido pelo usuário, para acesso e descarga."
+    },
+    {
+        id: "4.461",
+        term: "Saída horizontal",
+        definition: "Passagem de um edifício para outro por meio de porta corta-fogo, vestíbulo, passagem coberta, passadiço ou balcão."
+    },
+    {
+        id: "4.462",
+        term: "Saída única",
+        definition: "Local em um setor do recinto de evento, onde a saída é possível apenas em um sentido."
+    },
+    {
+        id: "4.463",
+        term: "Salvaguardo",
+        definition: "Toda ação de proteção de acervo cultural visando resguardar sua integridade podendo ser de ordem administrativa, técnica ou legal."
+    },
+    {
+        id: "4.464",
+        term: "Sapé, piaçava (ou piaçaba)",
+        definition: "Fibras vegetais de fácil combustão, de largo emprego na zona rural para cobertura de ranchos, no fabrico de vassouras e também utilizadas como cobertura de edificações destinadas à reunião de público, tais como bares, lanchonetes, restaurantes, casas de espetáculos etc."
+    },
+    {
+        id: "4.465",
+        term: "Segurança contra Incêndio e pânico",
+        definition: "O conjunto de ações e recursos internos e externos à edificação ou espaço destinado ao uso coletivo que permitem controlar a situação de incêndio e pânico e remoção das pessoas do local de sinistro em segurança."
+    },
+    {
+        id: "4.466",
+        term: "Segurança",
+        definition: "Compromisso acerca da relativa proteção da exposição a riscos."
+    },
+    {
+        id: "4.467",
+        term: "Selos corta-fogo",
+        definition: "Dispositivos construtivos com tempo mínimo de resistência ao fogo, instalados nas passagens de eletrodutos e tubulações que cruzam as paredes de compartimentação ou entrepisos."
+    },
+    {
+        id: "4.468",
+        term: "Separação corta-fogo",
+        definition: "Elemento de construção que funciona como barreira contra a propagação do fogo, avaliado conforme norma existente."
+    },
+    {
+        id: "4.469",
+        term: "Separação de riscos de incêndio",
+        definition: "Recursos que visam a separar fisicamente edificações ou equipamentos. Podem ser áreas livres, barreiras de proteção, anteparos e/ou paredes de material incombustível, com resistência mínima à exposição ao fogo de 2 horas."
+    },
+    {
+        id: "4.470",
+        term: "Separação entre edificações",
+        definition: "Distância segura entre cobertura e fachada de edificações adjacentes, que se caracteriza pela distância medida horizontalmente entre a cobertura de uma edificação e a fachada de outra edificação adjacente. Fachadas de edificações adjacentes, que se caracterizam pela distância medida horizontalmente entre as fachadas de edificações adjacentes."
+    },
+    {
+        id: "4.471",
+        term: "Serviço de Segurança contra Incêndio e Pânico",
+        definition: "Compreende todas as unidades do CBMMG que direta ou indiretamente desenvolvem as atividades relacionadas à segurança contra incêndio e pânico nas edificações e espaços destinados ao uso coletivo, observando-se o cumprimento das exigências estabelecidas no Regulamento de Segurança Contra Incêndio e Pânico do Estado de Minas Gerais."
+    },
+    {
+        id: "4.472",
+        term: "Setor",
+        definition: "Espaço delimitado por elementos construtivos que condicionam a circulação das pessoas para outras partes do recinto, permitindo ainda a lotação ordenada do local."
+    },
+    {
+        id: "4.473",
+        term: "Severidade da exposição",
+        definition: "Soma total da energia produzida com a evolução de um incêndio, que resulta na intensidade de uma exposição."
+    },
+    {
+        id: "4.474",
+        term: "Máxima provável de um incêndio em uma edificação",
+        definition: "É determinada em função do risco de incêndio decorrente de suas características construtivas, de sua ocupação, de sua relação com as edificações vizinhas e o meio ambiente e das medidas de segurança nela já implementadas ou disponibilizadas pela infraestrutura pública."
+    },
+    {
+        id: "4.475",
+        term: "\"Shaft\"",
+        definition: "Abertura existente na edificação, vertical ou horizontal, que permite a passagem e interligação de instalações elétricas, hidráulicas ou outros dispositivos necessários."
+    },
+    {
+        id: "4.476",
+        term: "\"Shopping\" coberto (\"covered mall\")",
+        definition: "Espaço amplo criado por uma área coberta de pedestre em uma edificação agregando um número de ocupantes, tais como lojas de varejo, bares, entretenimento e diversão, escritórios ou outros usos similares, onde esses espaços ocupados são abertos permitindo comunicação direta com a área de pedestres."
+    },
+    {
+        id: "4.477",
+        term: "Simulado",
+        definition: "Emprego técnico e tático dos meios disponíveis, realizados por pessoal especializado, em situação não real, visando o treinamento dos participantes."
+    },
+    {
+        id: "4.478",
+        term: "Sinais visuais",
+        definition: "Compreendem a combinação de símbolos, mensagens, formas geométricas, dimensões e cores."
+    },
+    {
+        id: "4.479",
+        term: "Sinalização de emergência",
+        definition: "Conjunto de sinais visuais que indicam, de forma rápida e eficaz, a existência, a localização e os procedimentos referentes às saídas de emergência, equipamentos de segurança contra incêndios e riscos potenciais de uma edificação ou áreas relacionadas a produtos perigosos."
+    },
+    {
+        id: "4.480",
+        term: "Sinistro",
+        definition: "Ocorrência de prejuízo ou dano, causado por incêndio ou acidente, explosão etc."
+    },
+    {
+        id: "4.481",
+        term: "Sistema de aspersão de espuma",
+        definition: "Sistema especial, ligado à fonte da solução produtora, estando equipado com aspersores de neblina para descarga e distribuição na área a ser protegida."
+    },
+    {
+        id: "4.482",
+        term: "Sistema de carregamento",
+        definition: "Dispositivo para o abastecimento de tanques de combustível de motores de veículos, que engloba uma ou mais unidades de abastecimento."
+    },
+    {
+        id: "4.483",
+        term: "Sistema de chuveiros automáticos",
+        definition: "Conjunto integrado de tubulações, acessórios, abastecimento de água, válvulas e dispositivos sensíveis à elevação de temperatura, de forma a processar água sobre o foco de incêndio em uma densidade adequada para extingui-lo ou controlá-lo em seu estágio inicial."
+    },
+    {
+        id: "4.484",
+        term: "Sistema de controle de fumaça (\"smoke management system\")",
+        definition: "Sistema projetado, que inclui todos os métodos isolados ou combinados, para modificar o movimento da fumaça."
+    },
+    {
+        id: "4.485",
+        term: "Sistema de detecção e alarme",
+        definition: "Conjunto de dispositivos que visa a identificar um princípio de incêndio, notificando sua ocorrência a uma central, que repassará este aviso a uma equipe de intervenção, ou determinará o alarme para a edificação, com o consequente abandono da área."
+    },
+    {
+        id: "4.486",
+        term: "Sistemas de hidrantes ou de mangotinhos",
+        definition: "Conjunto de dispositivos de combate a incêndio composto por reserva de incêndio, bombas de incêndio (quando necessário), rede de tubulação, hidrantes ou mangotinhos e outros acessórios descritos nesta norma."
+    },
+    {
+        id: "4.487",
+        term: "Sistema de Informações do Serviço de Segurança Contra Incêndio e Pânico (Infoscip)",
+        definition: "Sistema de regularização de edificações, controle e gestão de processos por meio digital."
     }
 ];
