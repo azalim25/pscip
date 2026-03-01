@@ -32,7 +32,8 @@ export default function NewProject() {
     const [hasLpg, setHasLpg] = useState(false);
     const [hasHydraulicSystem, setHasHydraulicSystem] = useState(false);
     const [isMixedOccupancy, setIsMixedOccupancy] = useState(false);
-    const [additionalOccupancies, setAdditionalOccupancies] = useState<{ occupancy: string, area: string }[]>([]);
+    const [hasCompartmentation, setHasCompartmentation] = useState(false);
+    const [additionalOccupancies, setAdditionalOccupancies] = useState<{ occupancy: string, area: string, height: string }[]>([]);
 
     // Risk Level Calculation
     const riskLevel = useMemo(() => {
@@ -59,14 +60,14 @@ export default function NewProject() {
     }, [area, height, occupancyLoad, isHeritage, hasLiquidFuel, hasLpg, cnae, occupancy]);
 
     const addOccupancy = () => {
-        setAdditionalOccupancies([...additionalOccupancies, { occupancy: '', area: '' }]);
+        setAdditionalOccupancies([...additionalOccupancies, { occupancy: '', area: '', height: '' }]);
     };
 
     const removeOccupancy = (index: number) => {
         setAdditionalOccupancies(additionalOccupancies.filter((_, i) => i !== index));
     };
 
-    const updateOccupancy = (index: number, field: 'occupancy' | 'area', value: string) => {
+    const updateOccupancy = (index: number, field: 'occupancy' | 'area' | 'height', value: string) => {
         const newOccupancies = [...additionalOccupancies];
         newOccupancies[index] = { ...newOccupancies[index], [field]: value };
         setAdditionalOccupancies(newOccupancies);
@@ -115,9 +116,14 @@ export default function NewProject() {
                     user_id: session.user.id,
                     status: 'EM ANÁLISE',
                     building_type: buildingType,
+                    has_compartmentation: hasCompartmentation,
                     mixed_occupancies: additionalOccupancies
                         .filter(o => o.occupancy !== '' && parseFloat(o.area) >= 930)
-                        .map(o => ({ occupancy: o.occupancy, area: parseFloat(o.area) }))
+                        .map(o => ({
+                            occupancy: o.occupancy,
+                            area: parseFloat(o.area),
+                            height: parseFloat(o.height) || 0
+                        }))
                 });
 
             if (insertError) throw insertError;
@@ -389,7 +395,10 @@ export default function NewProject() {
                                             value={isMixedOccupancy}
                                             onChange={(val) => {
                                                 setIsMixedOccupancy(val);
-                                                if (!val) setAdditionalOccupancies([]);
+                                                if (!val) {
+                                                    setAdditionalOccupancies([]);
+                                                    setHasCompartmentation(false);
+                                                }
                                             }}
                                             description="Possui mais de um tipo de ocupação"
                                         />
@@ -402,6 +411,29 @@ export default function NewProject() {
                                                     exit={{ opacity: 0, height: 0 }}
                                                     className="space-y-4 overflow-hidden"
                                                 >
+                                                    <div className="flex p-1 bg-slate-100 rounded-2xl w-full mb-2">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setHasCompartmentation(true)}
+                                                            className={`flex-1 py-3 rounded-xl font-bold text-xs transition-all ${hasCompartmentation
+                                                                ? 'bg-white text-red-600 shadow-sm'
+                                                                : 'text-slate-500 hover:text-slate-700'
+                                                                }`}
+                                                        >
+                                                            Possui Compartimentação
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setHasCompartmentation(false)}
+                                                            className={`flex-1 py-3 rounded-xl font-bold text-xs transition-all ${!hasCompartmentation
+                                                                ? 'bg-white text-red-600 shadow-sm'
+                                                                : 'text-slate-500 hover:text-slate-700'
+                                                                }`}
+                                                        >
+                                                            Não possui Compartimentação
+                                                        </button>
+                                                    </div>
+
                                                     {additionalOccupancies.map((occ, idx) => (
                                                         <div key={idx} className="p-4 bg-slate-50 rounded-2xl border-2 border-slate-100 space-y-4">
                                                             <div className="flex items-center justify-between">
@@ -414,21 +446,33 @@ export default function NewProject() {
                                                                     <Trash2 className="w-4 h-4" />
                                                                 </button>
                                                             </div>
-                                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                            <div className="space-y-4">
                                                                 <OccupancySelector
                                                                     onSelect={(val) => updateOccupancy(idx, 'occupancy', val)}
                                                                     selectedId={occ.occupancy}
                                                                 />
-                                                                <div className="relative group">
-                                                                    <Maximize className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
-                                                                    <input
-                                                                        type="number"
-                                                                        value={occ.area}
-                                                                        onChange={(e) => updateOccupancy(idx, 'area', e.target.value)}
-                                                                        onBlur={() => validateOccupancy(idx)}
-                                                                        placeholder="Área (m²)"
-                                                                        className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-slate-200 bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
-                                                                    />
+                                                                <div className="grid grid-cols-2 gap-4">
+                                                                    <div className="relative group">
+                                                                        <Maximize className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
+                                                                        <input
+                                                                            type="number"
+                                                                            value={occ.area}
+                                                                            onChange={(e) => updateOccupancy(idx, 'area', e.target.value)}
+                                                                            onBlur={() => validateOccupancy(idx)}
+                                                                            placeholder="Área (m²)"
+                                                                            className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-slate-200 bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
+                                                                        />
+                                                                    </div>
+                                                                    <div className="relative group">
+                                                                        <Ruler className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
+                                                                        <input
+                                                                            type="number"
+                                                                            value={occ.height}
+                                                                            onChange={(e) => updateOccupancy(idx, 'height', e.target.value)}
+                                                                            placeholder="Altura (m)"
+                                                                            className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-slate-200 bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
+                                                                        />
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>

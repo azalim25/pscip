@@ -28,7 +28,8 @@ interface ProjectDetails {
     risk_level: string;
     has_hydraulic_system: boolean;
     building_type: 'EXISTENTE' | 'CONSTRUIDA';
-    mixed_occupancies?: { occupancy: string, area: number }[];
+    has_compartmentation: boolean;
+    mixed_occupancies?: { occupancy: string, area: number, height: number }[];
     status: string;
 }
 
@@ -40,45 +41,72 @@ export default function ProjectDetails() {
     const [error, setError] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<'info' | 'safety'>('info');
 
-    const isPT = useMemo(() => {
-        if (!project) return false;
-        const h = project.height || 0;
-        const a = project.area || 0;
-        const l = project.occupancy_load || 0;
-        const occ = project.occupancy || '';
-
+    const getClassification = (occ: string, a: number, h: number, l: number, hydraulic: boolean) => {
         // 1. Manual trigger
-        if (project.has_hydraulic_system) return true;
+        if (hydraulic) return { pt: true, pts: false, ptd: false };
 
+        let pt = false;
         // 2. Height > 12m
-        if (h > 12) return true;
+        if (h > 12) pt = true;
 
         // 3. Area > 1200m2 for A-1, A-2, A-3
         const isResidential = occ.includes('A-1') || occ.includes('A-2') || occ.includes('A-3');
-        if (isResidential && a > 1200) return true;
+        if (isResidential && a > 1200) pt = true;
 
         // 4. Area > 930m2 (except M-8)
         const isM8 = occ.includes('M-8');
-        if (!isM8 && a > 930) return true;
+        if (!isM8 && a > 930) pt = true;
 
         // 5. Group F with population > 200
         const isGroupF = occ.includes('F-');
-        if (isGroupF && l > 200) return true;
+        if (isGroupF && l > 200) pt = true;
 
-        return false;
+        const risk = project?.risk_level?.split(' ').pop();
+        const pts = !pt && risk === 'III';
+        const ptd = !pt && risk === 'II';
+
+        return { pt, pts, ptd };
+    };
+
+    const projectClassification = useMemo(() => {
+        if (!project) return { pt: false, pts: false, ptd: false };
+
+        if (!project.mixed_occupancies || project.mixed_occupancies.length === 0) {
+            return getClassification(project.occupancy, project.area, project.height, project.occupancy_load, project.has_hydraulic_system);
+        }
+
+        if (project.has_compartmentation) {
+            // "Se a ocupação tem compartimentação as medidas de segurança serão exigidas para cada ocupação e projetadas individualmente"
+            // The main classification of the project itself could be seen as the most rigorous one for the summary
+            const main = getClassification(project.occupancy, project.area, project.height, project.occupancy_load, project.has_hydraulic_system);
+            const secondary = project.mixed_occupancies.map(m => getClassification(m.occupancy, m.area, m.height, 0, false));
+
+            return {
+                pt: main.pt || secondary.some(s => s.pt),
+                pts: main.pts || secondary.some(s => s.pts),
+                ptd: main.ptd || secondary.some(s => s.ptd)
+            };
+        } else {
+            // "Se a ocupação não tem compartimentação... A área de cada ocupação deve ser somada e a altura de cada ocupação também deve ser somada."
+            const totalArea = project.area + project.mixed_occupancies.reduce((sum, m) => sum + m.area, 0);
+            const totalHeight = project.height + project.mixed_occupancies.reduce((sum, m) => sum + m.height, 0);
+
+            // Check individual triggers AND combined trigger
+            const main = getClassification(project.occupancy, project.area, project.height, project.occupancy_load, project.has_hydraulic_system);
+            const secondary = project.mixed_occupancies.map(m => getClassification(m.occupancy, m.area, m.height, 0, false));
+            const combined = getClassification(project.occupancy, totalArea, totalHeight, project.occupancy_load, project.has_hydraulic_system);
+
+            return {
+                pt: main.pt || secondary.some(s => s.pt) || combined.pt,
+                pts: (main.pts || secondary.some(s => s.pts) || combined.pts) && !combined.pt,
+                ptd: (main.ptd || secondary.some(s => s.ptd) || combined.ptd) && !combined.pt && !combined.pts
+            };
+        }
     }, [project]);
 
-    const isPTS = useMemo(() => {
-        if (!project || isPT) return false;
-        const risk = project.risk_level?.split(' ').pop();
-        return risk === 'III';
-    }, [project, isPT]);
-
-    const isPTD = useMemo(() => {
-        if (!project || isPT) return false;
-        const risk = project.risk_level?.split(' ').pop();
-        return risk === 'II';
-    }, [project, isPT]);
+    const isPT = projectClassification.pt;
+    const isPTS = projectClassification.pts;
+    const isPTD = projectClassification.ptd;
 
     useEffect(() => {
         async function fetchProject() {
@@ -268,13 +296,24 @@ export default function ProjectDetails() {
                                         </div>
 
                                         {project.mixed_occupancies && project.mixed_occupancies.length > 0 && (
-                                            <div className="pt-2 border-t border-slate-100 mt-2">
-                                                <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2">Ocupações Secundárias (Mista)</p>
+                                            <div className="pt-2 border-t border-slate-700/50 mt-2">
+                                                <div className="flex items-center justify-between mb-2">
+                                                    <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest">Ocupações Secundárias</p>
+                                                    <span className={`text-[8px] font-black px-2 py-0.5 rounded-full ${project.has_compartmentation ? 'bg-green-500/20 text-green-400' : 'bg-orange-500/20 text-orange-400'}`}>
+                                                        {project.has_compartmentation ? 'COM COMPARTIMENTAÇÃO' : 'SEM COMPARTIMENTAÇÃO'}
+                                                    </span>
+                                                </div>
                                                 <div className="space-y-2">
                                                     {project.mixed_occupancies.map((occ, i) => (
-                                                        <div key={i} className="flex items-center justify-between bg-slate-50 px-3 py-2 rounded-lg border border-slate-100">
-                                                            <span className="text-sm font-bold text-slate-700">{occ.occupancy}</span>
-                                                            <span className="text-xs font-black text-red-600 bg-red-50 px-2 py-1 rounded-md">{occ.area} m²</span>
+                                                        <div key={i} className="flex flex-col bg-white/5 p-3 rounded-xl border border-white/10">
+                                                            <div className="flex items-center justify-between mb-1">
+                                                                <span className="text-sm font-bold text-white">{occ.occupancy}</span>
+                                                                <span className="text-[10px] font-black text-red-400">{occ.area} m²</span>
+                                                            </div>
+                                                            <div className="flex items-center gap-2">
+                                                                <Ruler className="w-3 h-3 text-slate-500" />
+                                                                <span className="text-[10px] font-bold text-slate-400">Altura: {occ.height}m</span>
+                                                            </div>
                                                         </div>
                                                     ))}
                                                 </div>
@@ -293,12 +332,14 @@ export default function ProjectDetails() {
                                         <TechnicalBox
                                             icon={<Maximize className="w-6 h-6" />}
                                             label="Área"
-                                            value={project.area ? `${project.area} m²` : "N/A"}
+                                            value={project.area ? `${project.area + (project.has_compartmentation ? 0 : (project.mixed_occupancies?.reduce((sum, m) => sum + m.area, 0) || 0))} m²` : "N/A"}
+                                            subValue={!project.has_compartmentation && project.mixed_occupancies && project.mixed_occupancies.length > 0 ? `(Principal: ${project.area}m²)` : undefined}
                                         />
                                         <TechnicalBox
                                             icon={<Ruler className="w-6 h-6" />}
                                             label="Altura"
-                                            value={project.height ? `${project.height} m` : "N/A"}
+                                            value={project.height ? `${project.height + (project.has_compartmentation ? 0 : (project.mixed_occupancies?.reduce((sum, h) => sum + h.height, 0) || 0))} m` : "N/A"}
+                                            subValue={!project.has_compartmentation && project.mixed_occupancies && project.mixed_occupancies.length > 0 ? `(Principal: ${project.height}m)` : undefined}
                                         />
                                         <TechnicalBox
                                             icon={<Users className="w-6 h-6" />}
@@ -361,8 +402,49 @@ export default function ProjectDetails() {
                             </div>
                         </div>
                     ) : (
-                        <div className="grid lg:grid-cols-1 gap-8">
-                            <SafetyMeasuresView project={project} isPT={isPT} isPTS={isPTS} isPTD={isPTD} />
+                        <div className="space-y-12">
+                            {project.has_compartmentation ? (
+                                <>
+                                    <div className="p-6 bg-green-50 border-2 border-green-100 rounded-[2rem] flex items-center gap-4 mb-8">
+                                        <Layers className="w-10 h-10 text-green-600" />
+                                        <div>
+                                            <h4 className="text-lg font-black text-green-800">Projeto com Compartimentação</h4>
+                                            <p className="text-sm font-bold text-green-600/70 italic">As medidas de segurança são exigidas para cada ocupação e projetadas individualmente.</p>
+                                        </div>
+                                    </div>
+
+                                    <OccupancySafetyMeasures
+                                        title="Ocupação Principal"
+                                        occupancy={project.occupancy}
+                                        area={project.area}
+                                        height={project.height}
+                                        load={project.occupancy_load}
+                                        project={project}
+                                    />
+
+                                    {project.mixed_occupancies?.map((occ, idx) => (
+                                        <OccupancySafetyMeasures
+                                            key={idx}
+                                            title={`Ocupação Secundária: ${occ.occupancy}`}
+                                            occupancy={occ.occupancy}
+                                            area={occ.area}
+                                            height={occ.height}
+                                            load={0}
+                                            project={project}
+                                        />
+                                    ))}
+                                </>
+                            ) : (
+                                <OccupancySafetyMeasures
+                                    title="Projeto Integrado (Sem Compartimentação)"
+                                    occupancy={project.occupancy}
+                                    area={project.area + (project.mixed_occupancies?.reduce((sum, m) => sum + m.area, 0) || 0)}
+                                    height={project.height + (project.mixed_occupancies?.reduce((sum, h) => sum + h.height, 0) || 0)}
+                                    load={project.occupancy_load}
+                                    project={project}
+                                    isIntegrated={true}
+                                />
+                            )}
                         </div>
                     )}
                 </motion.div>
@@ -371,15 +453,56 @@ export default function ProjectDetails() {
     );
 }
 
-function SafetyMeasuresView({ project, isPT, isPTS, isPTD }: { project: ProjectDetails, isPT: boolean, isPTS: boolean, isPTD: boolean }) {
+function OccupancySafetyMeasures({
+    title,
+    occupancy,
+    area,
+    height,
+    load,
+    project,
+    isIntegrated = false
+}: {
+    title: string,
+    occupancy: string,
+    area: number,
+    height: number,
+    load: number,
+    project: ProjectDetails,
+    isIntegrated?: boolean
+}) {
+    // Component classification for this specific occupancy
+    const getIndividualClassification = (occ: string, a: number, h: number, l: number) => {
+        if (project.has_hydraulic_system) return { pt: true, pts: false, ptd: false };
+        let pt = false;
+        if (h > 12) pt = true;
+        const isResidential = occ.includes('A-1') || occ.includes('A-2') || occ.includes('A-3');
+        if (isResidential && a > 1200) pt = true;
+        const isM8 = occ.includes('M-8');
+        if (!isM8 && a > 930) pt = true;
+        const isGroupF = occ.includes('F-');
+        if (isGroupF && l > 200) pt = true;
+        const risk = project.risk_level?.split(' ').pop();
+        return { pt, pts: !pt && risk === 'III', ptd: !pt && risk === 'II' };
+    };
+
+    const classification = getIndividualClassification(occupancy, area, height, load);
+
+    // If integrated, we also need to check if ANY occupancy triggered PT
+    const isPT = classification.pt || (isIntegrated && project.mixed_occupancies?.some(m => {
+        const c = getIndividualClassification(m.occupancy, m.area, m.height, 0);
+        return c.pt;
+    }));
+    const isPTS = classification.pts && !isPT;
+    const isPTD = classification.ptd && !isPT && !isPTS;
+
     const risk = project.risk_level?.split(' ').pop();
-    const isE6 = project.occupancy?.includes('E-6');
-    const isH2H5 = project.occupancy?.includes('H-2') || project.occupancy?.includes('H-5');
+    const isE6 = occupancy?.includes('E-6') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.includes('E-6')));
+    const isH2H5 = occupancy?.includes('H-2') || occupancy?.includes('H-5') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.includes('H-2') || m.occupancy.includes('H-5')));
     const isExistente = project.building_type === 'EXISTENTE';
 
     const measures = [];
 
-    // Basic Measures for Risco I and II
+    // Basic Measures
     if (risk === 'I' || risk === 'II' || risk === 'III') {
         measures.push(
             { icon: <Flame />, title: "Extintores", description: "Proteção por extintores de incêndio portáteis ou sobre rodas." },
@@ -389,21 +512,15 @@ function SafetyMeasuresView({ project, isPT, isPTS, isPTD }: { project: ProjectD
         );
     }
 
-    // Occupancy E-6 Rule
-    if (isE6) {
+    if (isE6 || risk === 'III' || isH2H5) {
         measures.push({ icon: <Users />, title: "Brigada de Incêndio", description: "Grupo organizado de pessoas treinadas para atuar na prevenção e combate." });
     }
 
-    // Risk III or H-2, H-5 Rules
     if (risk === 'III' || isH2H5) {
-        // Add Brigada if not already added by E-6
-        if (!isE6) {
-            measures.push({ icon: <Users />, title: "Brigada de Incêndio", description: "Grupo organizado de pessoas treinadas para atuar na prevenção e combate." });
-        }
         measures.push({ icon: <Paintbrush />, title: "CMAR", description: "Controle de Materiais de Acabamento e Revestimento." });
     }
 
-    // Advanced Measures for PT (conditionally added if not Existente)
+    // Advanced Measures for PT
     if (isPT && !isExistente) {
         measures.push(
             { icon: <ShieldAlert />, title: "Acesso de Viaturas", description: "Vias de acesso para viaturas do Corpo de Bombeiros." },
@@ -415,17 +532,22 @@ function SafetyMeasuresView({ project, isPT, isPTS, isPTD }: { project: ProjectD
         );
     }
 
+    // Handle Integrated Rules: "Se a ocupação não tem compartimentação todas as medidas de segurança deverão ser projetadas em todo o projeto"
+    // This is already handled by calculating across the integrated state.
+
     return (
         <div className="bg-white p-6 sm:p-10 rounded-[2.5rem] shadow-xl border border-slate-50">
-            <div className="flex items-center gap-4 mb-10 border-l-4 border-red-600 pl-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 border-l-4 border-red-600 pl-4">
                 <div>
-                    <h3 className="text-2xl font-black text-slate-800">Medidas de Segurança Requeridas</h3>
+                    <h3 className="text-2xl font-black text-slate-800">{title}</h3>
                     <p className="text-slate-500 font-medium italic">
-                        Baseado no nível de risco e ocupação do projeto
-                        {isPT && <span className="text-red-600"> • Projeto Técnico (PT)</span>}
-                        {isPTS && <span className="text-blue-600"> • Projeto Técnico Simplificado (PTS)</span>}
-                        {isPTD && <span className="text-teal-600"> • Projeto Técnico Declaratório (PTD)</span>}
+                        {occupancy} • {area}m² • {height}m
                     </p>
+                </div>
+                <div className="flex gap-2">
+                    {isPT && <span className="px-3 py-1 bg-slate-900 text-white text-[10px] font-black rounded-lg">PT</span>}
+                    {isPTS && <span className="px-3 py-1 bg-blue-600 text-white text-[10px] font-black rounded-lg">PTS</span>}
+                    {isPTD && <span className="px-3 py-1 bg-teal-600 text-white text-[10px] font-black rounded-lg">PTD</span>}
                 </div>
             </div>
 
@@ -435,7 +557,7 @@ function SafetyMeasuresView({ project, isPT, isPTS, isPTD }: { project: ProjectD
                         key={idx}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.1 }}
+                        transition={{ delay: idx * 0.05 }}
                         className="p-6 rounded-[2rem] bg-slate-50 border-2 border-slate-100 hover:border-red-100 hover:bg-white hover:shadow-lg transition-all"
                     >
                         <div className="flex items-center gap-4 mb-4">
@@ -450,18 +572,6 @@ function SafetyMeasuresView({ project, isPT, isPTS, isPTD }: { project: ProjectD
                     </motion.div>
                 ))}
             </div>
-
-            {risk === 'I' && (
-                <div className="mt-12 p-6 rounded-[2rem] bg-green-50 border-2 border-green-100 flex flex-col sm:flex-row items-center gap-6">
-                    <div className="w-16 h-16 bg-green-600 text-white rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-green-600/20">
-                        <ShieldCheck className="w-8 h-8" />
-                    </div>
-                    <div>
-                        <h4 className="text-xl font-black text-green-700 mb-1 leading-tight">Dispensado do Licenciamento</h4>
-                        <p className="text-sm font-bold text-green-600/70 italic">Este projeto possui Nível de Risco I e está isento de processos de licenciamento formais.</p>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }
@@ -480,12 +590,13 @@ function DetailItem({ icon, label, value, highlight = false }: { icon: React.Rea
     );
 }
 
-function TechnicalBox({ icon, label, value }: { icon: React.ReactNode, label: string, value: string }) {
+function TechnicalBox({ icon, label, value, subValue }: { icon: React.ReactNode, label: string, value: string, subValue?: string }) {
     return (
         <div className="p-6 rounded-[2rem] bg-slate-50 border border-slate-100 transition-all hover:bg-white hover:shadow-lg hover:shadow-slate-200/50">
             <div className="text-red-600 mb-3">{icon}</div>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{label}</p>
             <p className="text-lg font-black text-slate-800">{value}</p>
+            {subValue && <p className="text-[10px] font-bold text-slate-400 mt-1">{subValue}</p>}
         </div>
     );
 }
