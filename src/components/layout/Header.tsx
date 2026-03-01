@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Menu, User, LogOut, Search } from 'lucide-react';
+import { Menu, User, LogOut, Search, ChevronDown } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Sidebar } from './Sidebar';
+import { ProfileModal } from './ProfileModal';
 
 interface HeaderProps {
     title?: string;
@@ -20,8 +21,9 @@ export function Header({
     searchValue,
     searchPlaceholder
 }: HeaderProps) {
-    const { signOut } = useAuth();
+    const { signOut, profile } = useAuth();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
     const isHome = !title;
 
@@ -69,16 +71,36 @@ export function Header({
                         </div>
                     )}
 
-                    <div className="flex items-center gap-3">
-                        <div className={`h-10 w-10 rounded-full flex items-center justify-center shadow-sm ${isHome ? 'bg-red-600 text-white' : 'bg-white text-red-600'
-                            }`}>
-                            <User className="w-6 h-6" />
-                        </div>
+                    <div className="flex items-center gap-2 sm:gap-4">
+                        <button
+                            onClick={() => setIsProfileModalOpen(true)}
+                            className={`flex items-center gap-3 p-1.5 sm:pl-1.5 sm:pr-4 rounded-full transition-all group ${isHome
+                                ? 'hover:bg-red-50 text-slate-700'
+                                : 'hover:bg-white/10 text-white'
+                                }`}
+                        >
+                            <div className={`h-9 w-9 sm:h-10 sm:w-10 rounded-full flex items-center justify-center shadow-sm shrink-0 transition-transform group-hover:scale-105 ${isHome ? 'bg-red-600 text-white' : 'bg-white text-red-600'
+                                }`}>
+                                <User className="w-5 h-5 sm:w-6 sm:h-6" />
+                            </div>
+                            <div className="hidden sm:block text-left leading-tight">
+                                <p className={`text-[10px] font-black uppercase tracking-wider opacity-70 ${isHome ? 'text-red-600' : 'text-red-100'}`}>
+                                    {profile?.rank || 'Militar'}
+                                </p>
+                                <p className="text-sm font-bold truncate max-w-[120px]">
+                                    {profile?.full_name || 'Completar Perfil'}
+                                </p>
+                            </div>
+                            <ChevronDown className={`hidden sm:block w-4 h-4 opacity-40 group-hover:opacity-100 transition-opacity ${isHome ? 'text-slate-400' : 'text-white'}`} />
+                        </button>
+
+                        <div className={`w-px h-8 hidden sm:block ${isHome ? 'bg-slate-200' : 'bg-white/20'}`} />
+
                         <button
                             onClick={signOut}
                             className={`p-2 rounded-full transition-colors ${isHome ? 'hover:bg-red-50 text-red-600' : 'hover:bg-red-500 text-white'
                                 }`}
-                            title="Sign Out"
+                            title="Sair da Conta"
                         >
                             <LogOut className="w-5 h-5" />
                         </button>
@@ -107,6 +129,7 @@ export function Header({
             </header>
 
             <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+            <ProfileModal isOpen={isProfileModalOpen} onClose={() => setIsProfileModalOpen(false)} />
         </>
     );
 }
