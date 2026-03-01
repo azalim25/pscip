@@ -1004,5 +1004,400 @@ export const terminologyData: TerminologyItem[] = [
         id: "4.194",
         term: "Escoamento (E)",
         definition: "Número máximo de pessoas possíveis de abandonar um recinto dentro do tempo máximo de abandono."
+    },
+    {
+        id: "4.195",
+        term: "Esguicho",
+        definition: "Dispositivo adaptado na extremidade das mangueiras, destinado a dar forma, direção e controle ao jato, podendo ser do tipo regulável (neblina ou compacto) ou de jato compacto."
+    },
+    {
+        id: "4.196",
+        term: "Esguicho regulável",
+        definition: "Acessório hidráulico que dá forma ao jato, permitindo o uso d'água em forma de chuveiro de alta velocidade."
+    },
+    {
+        id: "4.197",
+        term: "Espaço confinado",
+        definition: "Local onde a presença humana é apenas momentânea para prestação de um serviço de manutenção em máquinas, tubulações e sistemas."
+    },
+    {
+        id: "4.198",
+        term: "Espaço livre exterior",
+        definition: "Espaço externo à edificação para o qual abram seus vãos de ventilação e iluminação. Pode ser constituído por logradouro público ou pátio amplo."
+    },
+    {
+        id: "4.199",
+        term: "Espaços comuns (\"communicating space\")",
+        definition: "Espaços dentro de uma edificação com comunicação com espaços amplos adjacentes, nos quais a fumaça proveniente de um incêndio pode propagar-se livremente. Os espaços comuns podem permitir aberturas diretamente dentro dos espaços amplos ou podem conectar-se por meio de passagens abertas."
+    },
+    {
+        id: "4.200",
+        term: "Espaços comuns e amplos (\"large volume spaces\")",
+        definition: "Espaço descompartimentado, geralmente com dois ou mais pavimentos que se comunicam internamente, dentro do qual a fumaça proveniente de um incêndio, tanto no espaço amplo como no espaço comum, pode mover-se ou acumular-se sem restrições. Os átrios e shoppings cobertos são exemplos de espaços amplos."
+    },
+    {
+        id: "4.201",
+        term: "Espaços separados (\"separated spaces\")",
+        definition: "Espaços dentro de edificações que são isolados das áreas grandes por barreiras de fumaça, os quais não podem ser utilizados no suprimento de ar, visando restringir o movimento da fumaça."
+    },
+    {
+        id: "4.202",
+        term: "Espuma mecânica",
+        definition: "Agente extintor constituído por um aglomerado de bolhas produzidas por agitação da água com Líquido Gerador de Espuma (LGE) e ar."
+    },
+    {
+        id: "4.203",
+        term: "Estabelecimento",
+        definition: "Local que ocupa, no todo ou em parte, um imóvel individualmente identificado, edificado ou não, onde é exercida atividade econômica por empresário ou pessoa jurídica, de caráter permanente, periódico ou eventual."
+    },
+    {
+        id: "4.204",
+        term: "Estação de carregamento",
+        definition: "Instalação especialmente construída para carregamento de caminhões-tanques ou de vagões-tanques."
+    },
+    {
+        id: "4.205",
+        term: "Estação fixa de emulsificação",
+        definition: "Local onde se situam bombas, dosadores, válvulas e reservatórios de extrato formador de espuma."
+    },
+    {
+        id: "4.206",
+        term: "Estação móvel de emulsificação",
+        definition: "Veículo especificado para transporte de extrato formador de espuma (EFE) e o seu emulsionamento com a água."
+    },
+    {
+        id: "4.207",
+        term: "Estado de flutuação",
+        definition: "Condição em que a bateria de acumuladores elétricos recebe uma corrente necessária para a manutenção de sua capacidade nominal."
+    },
+    {
+        id: "4.208",
+        term: "Estado de funcionamento do sistema",
+        definition: "Condição na qual a (s) fonte (s) de energia alimenta (m), efetivamente, os dispositivos da iluminação de emergência."
+    },
+    {
+        id: "4.209",
+        term: "Estado de repouso do sistema",
+        definition: "Condição na qual o sistema foi inibido de iluminar propositadamente. Tanto inibido manualmente com religamento automático ou por meio de célula fotoelétrica, para conservar energia e manter a bateria em estado de carga para uso em emergência, quando do escurecimento da noite."
+    },
+    {
+        id: "4.210",
+        term: "Estado de vigília do sistema",
+        definition: "Condição em que a fonte de energia alternativa (sistema de iluminação de emergência) está pronta para entrar em funcionamento na falta ou na falha da rede elétrica da concessionária."
+    },
+    {
+        id: "4.211",
+        term: "Estanqueidade",
+        definition: "Propriedade de um elemento construtivo da vedação de impedir a passagem de gases e/ou chamas."
+    },
+    {
+        id: "4.212",
+        term: "Exaustão",
+        definition: "Princípio pelo qual os gases e produtos de combustão são retirados do interior do túnel."
+    },
+    {
+        id: "4.213",
+        term: "Exercício simulado",
+        definition: "Atividade prática realizada periodicamente para manter a brigada e os ocupantes das edificações com condições de enfrentar uma situação real de emergência."
+    },
+    {
+        id: "4.214",
+        term: "Exercício simulado parcial",
+        definition: "Atividade prática abrangendo apenas uma parte da planta, respeitando-se os turnos de trabalho."
+    },
+    {
+        id: "4.215",
+        term: "Expedidor",
+        definition: "Pessoa responsável pela contratação do embarque e transporte de logística envolvendo produtos perigosos expressos em nota fiscal ou conhecimento de transporte internacional. É responsável pela segurança veicular, compatibilidade entre os produtos e a identificação de seus riscos."
+    },
+    {
+        id: "4.216",
+        term: "Explosivos",
+        definition: "Substâncias capazes de rapidamente se transformarem em gases, produzindo calor intenso e pressões elevadas."
+    },
+    {
+        id: "4.217",
+        term: "Extensão de arquivo",
+        definition: "São sufixos que identificam o formato do arquivo e a função que desempenham em um computador."
+    },
+    {
+        id: "4.218",
+        term: "Extintor de incêndio",
+        definition: "Aparelho de acionamento manual, constituído de recipiente e acessórios contendo o agente extintor destinado a combater princípios de incêndio."
+    },
+    {
+        id: "4.219",
+        term: "Extintor portátil",
+        definition: "Extintor de incêndio que pode ser transportado manualmente, sendo que sua massa total não pode ultrapassar 20 kg."
+    },
+    {
+        id: "4.220",
+        term: "Extintor sobre rodas",
+        definition: "Extintor de incêndio, montado sobre rodas, cuja massa total não pode ultrapassar 250 kg, operado e transportado por um único operador."
+    },
+    {
+        id: "4.221",
+        term: "Fachada",
+        definition: "Face de uma edificação constituída de vedos e aberturas, que emitirá ou receberá a propagação de um incêndio."
+    },
+    {
+        id: "4.222",
+        term: "Fachada de acesso operacional",
+        definition: "Face da edificação localizada ao longo de uma via pública ou privada com largura livre maior ou igual a 6 m, sem obstrução, possibilitando o acesso operacional dos equipamentos de combate e seu posicionamento em relação a ela. A fachada deve possuir pelo menos um meio de acesso ao interior do edifício e não ter obstáculos."
+    },
+    {
+        id: "4.223",
+        term: "Faixa de estacionamento",
+        definition: "Trecho das vias de acesso que se destina ao estacionamento e operação das viaturas do Corpo de Bombeiros Militar de Minas Gerais (CBMMG)."
+    },
+    {
+        id: "4.224",
+        term: "Fator de massividade (\"fator de forma\") (m-1)",
+        definition: "Razão entre o perímetro exposto ao incêndio e a área da seção transversal de um perfil estrutural, de acordo com a descrição da NBR 14432."
+    },
+    {
+        id: "4.225",
+        term: "Filtro de partículas",
+        definition: "Elemento destinado a realizar retenção de partículas existentes no escoamento de ar e que estão sendo arrastadas por este fluxo."
+    },
+    {
+        id: "4.226",
+        term: "Fluxo (F)",
+        definition: "Número de pessoas que passam por unidade de tempo (pessoas/min) em um determinado meio de abandono, adotando-se para o cálculo do escoamento, fluxo igual a 88 pessoas por minuto (F=88), contemplando duas unidades de passagem."
+    },
+    {
+        id: "4.227",
+        term: "Fluxo luminoso nominal",
+        definition: "Fluxo luminoso medido após 2 min de funcionamento do sistema."
+    },
+    {
+        id: "4.228",
+        term: "Fluxo luminoso residual",
+        definition: "Fluxo luminoso medido após o tempo de autonomia garantida pelo fabricante no funcionamento do sistema."
+    },
+    {
+        id: "4.229",
+        term: "Fogos de artifício e estampido",
+        definition: "Artefato pirotécnico, que produz ruídos e efeitos luminosos."
+    },
+    {
+        id: "4.230",
+        term: "Fonte de energia alternativa",
+        definition: "Dispositivo destinado a fornecer energia elétrica ao(s) ponto(s) de luz de emergência na falta ou falha de alimentação na rede elétrica da concessionária."
+    },
+    {
+        id: "4.231",
+        term: "Formulário de segurança contra incêndios",
+        definition: "Documento que contém os dados básicos da edificação, signatários, sistemas previstos e trâmite no Corpo de Bombeiros Militar de Minas Gerais (CBMMG)."
+    },
+    {
+        id: "4.232",
+        term: "Formulário para atendimento técnico (FAT)",
+        definition: "Instrumento administrativo utilizado pelo interessado para sanar dúvidas quanto a procedimentos administrativos e técnicos, solicitar alterações em Processo e Auto de Vistoria do Corpo de Bombeiros, solicitar reuniões técnicas, solicitar migração do PSCIP impresso para PSCIP digital (Infoscip), solicitar juntada de documentos, entre outros."
+    },
+    {
+        id: "4.233",
+        term: "Fumaça (\"smoke\")",
+        definition: "Partículas de ar transportadas na forma sólida, líquida e gasosa, decorrente de um material submetido a pirólise ou combustão, que juntamente com a quantidade de ar que é conduzida, ou de qualquer outra forma, misturada formando uma massa."
+    },
+    {
+        id: "4.234",
+        term: "Gás liquefeito de petróleo (GLP)",
+        definition: "Produto constituído de hidrocarbonetos com três ou quatro átomos de carbono (propano, propeno, butano, buteno), podendo apresentar-se em mistura entre si e com pequenas frações de outros hidrocarbonetos."
+    },
+    {
+        id: "4.235",
+        term: "Gás natural liquefeito (GNL)",
+        definition: "Fluido no estado líquido em condições criogênicas, composto predominantemente de metano e que pode conter quantidades mínimas de etano, propano, nitrogênio ou outros componentes normalmente encontrados no gás natural."
+    },
+    {
+        id: "4.236",
+        term: "Gases limpos",
+        definition: "Agentes extintores na forma de gás que não degradam a natureza e não afetam a camada de ozônio. São inodoros, incolores, maus condutores de eletricidade e não corrosivos."
+    },
+    {
+        id: "4.237",
+        term: "Gerador de espuma",
+        definition: "Equipamento que se destina a facilitar a mistura da solução com o ar para a formação de espuma."
+    },
+    {
+        id: "4.238",
+        term: "Grelha de insuflamento",
+        definition: "Dispositivo utilizado nas redes de distribuição de ar, posicionado no final de cada trecho. Este elemento terminal é utilizado para direcionar e/ou distribuir de modo adequado o fluxo de ar em determinado ambiente."
+    },
+    {
+        id: "4.239",
+        term: "Grupo motoventilador",
+        definition: "Equipamento composto por motor elétrico e ventilador, com a finalidade de insuflar ar dentro de um corpo de escada de segurança para pressurizá-la e expulsar a possível entrada de fumaça."
+    },
+    {
+        id: "4.240",
+        term: "Grupo motogerador",
+        definition: "Equipamento cuja força provém da explosão do combustível misturado ao ar, com a finalidade de gerar energia elétrica."
+    },
+    {
+        id: "4.241",
+        term: "Guarda ou guarda-corpo",
+        definition: "Barreira protetora vertical, maciça ou não delimitando as faces laterais abertas de escadas, rampas, patamares, terraços, balcões, galerias e assemelhados, servindo como proteção contra eventuais quedas de um nível para outro."
+    },
+    {
+        id: "4.242",
+        term: "Habite-se",
+        definition: "Documento em que a Prefeitura Municipal local aceita as obras e serviços realizados e autoriza a sua ocupação."
+    },
+    {
+        id: "4.243",
+        term: "Heliponto",
+        definition: "Área homologada ou registrada, ao nível do solo ou elevada, utilizada para pousos e decolagens de helicópteros."
+    },
+    {
+        id: "4.244",
+        term: "Heliponto civil",
+        definition: "Local destinado, em princípio, ao uso de helicópteros civis."
+    },
+    {
+        id: "4.245",
+        term: "Heliponto elevado",
+        definition: "Local instalado sobre edificações."
+    },
+    {
+        id: "4.246",
+        term: "Heliponto militar",
+        definition: "Local destinado ao uso de helicópteros militares."
+    },
+    {
+        id: "4.247",
+        term: "Heliponto privado",
+        definition: "Local destinado ao uso de helicópteros civis, de seu proprietário ou de pessoas por ele autorizadas, sendo vedada sua utilização em caráter comercial."
+    },
+    {
+        id: "4.248",
+        term: "Heliponto público",
+        definition: "Local destinado ao uso de helicópteros em geral."
+    },
+    {
+        id: "4.249",
+        term: "Heliportos",
+        definition: "Helipontos públicos dotados de instalações e facilidades para apoio de helicópteros e de embarque e desembarque de pessoas, tais como: pátio de estacionamento, estação de passageiros, locais de abastecimento, equipamentos de manutenção etc."
+    },
+    {
+        id: "4.250",
+        term: "Heliportos elevados",
+        definition: "Heliportos localizados sobre edificações."
+    },
+    {
+        id: "4.251",
+        term: "Help Desk",
+        definition: "É o serviço de atendimento aos usuários do Infoscip."
+    },
+    {
+        id: "4.252",
+        term: "Hidrante",
+        definition: "Ponto de tomada de água onde há uma (simples) ou duas (duplo) saídas contendo válvulas angulares com seus respectivos adaptadores, tampões, mangueiras de incêndio e demais acessórios."
+    },
+    {
+        id: "4.253",
+        term: "Hidrante de coluna",
+        definition: "Aparelho ligado à rede pública de distribuição de água, que permite a adaptação de bombas e/ou mangueiras para o serviço de extinção de incêndios."
+    },
+    {
+        id: "4.254",
+        term: "Hidrante de parede",
+        definition: "Ponto de tomada de água instalado na rede particular, embutido em parede, podendo estar no interior de um abrigo de mangueira."
+    },
+    {
+        id: "4.255",
+        term: "Hidrante para sistema de espuma",
+        definition: "Equipamento destinado a alimentar com água ou solução de espuma as mangueiras para combate a incêndio."
+    },
+    {
+        id: "4.256",
+        term: "Hidrante urbano",
+        definition: "Ponto de tomada de água provido de dispositivo de manobra (registro) e união de engate rápido, ligado à rede pública de abastecimento de água, podendo ser emergente (de coluna) ou subterrâneo (de piso)."
+    },
+    {
+        id: "4.257",
+        term: "Iluminação auxiliar",
+        definition: "Iluminação destinada a permitir a continuação do trabalho, em caso de falha do sistema normal de iluminação. Por exemplo: centros médicos, aeroportos, metrô, etc."
+    },
+    {
+        id: "4.258",
+        term: "Iluminação de ambiente ou aclaramento",
+        definition: "Iluminação com intensidade suficiente para garantir a saída segura de todas as pessoas do local em caso de emergência."
+    },
+    {
+        id: "4.259",
+        term: "Iluminação de balizamento",
+        definition: "Sistema composto por símbolos iluminados que indicam a rota de fuga em caso de emergência."
+    },
+    {
+        id: "4.260",
+        term: "Iluminação de balizamento ou de sinalização",
+        definition: "Iluminação de sinalização com símbolos e/ou letras que indicam a rota de saída que pode ser utilizada em caso de emergência."
+    },
+    {
+        id: "4.261",
+        term: "Iluminação de emergência",
+        definition: "Sistema que permite clarear áreas escuras de passagens, horizontais e verticais, incluindo áreas de trabalho e áreas técnicas de controle de restabelecimento de serviços essenciais e normais, na falta de iluminação normal."
+    },
+    {
+        id: "4.262",
+        term: "Iluminação de emergência e de aclaramento",
+        definition: "Sistema composto por dispositivos de iluminação de ambientes para permitir a saída fácil e segura das pessoas para o exterior da edificação, bem como proporcionar a execução de intervenção ou garantir a continuação do trabalho em certas áreas, em caso de interrupção da alimentação normal."
+    },
+    {
+        id: "4.263",
+        term: "Iluminação não permanente",
+        definition: "Sistema no qual, as lâmpadas de iluminação de emergência não são alimentadas pela rede elétrica da concessionária e, só em caso de falta da fonte normal, são alimentadas automaticamente pela fonte de alimentação de energia alternativa."
+    },
+    {
+        id: "4.264",
+        term: "Iluminação permanente",
+        definition: "Sistema no qual, as lâmpadas de iluminação de emergência são alimentadas pela rede elétrica da concessionária, sendo comutadas automaticamente para a fonte de alimentação de energia alternativa em caso de falta e/ou falha da fonte normal."
+    },
+    {
+        id: "4.265",
+        term: "Incêndio",
+        definition: "É o fogo sem controle."
+    },
+    {
+        id: "4.266",
+        term: "Incêndio natural",
+        definition: "Variação de temperatura que simula o incêndio real, em função da geometria, ventilação, características térmicas dos elementos de vedação e da carga de incêndio específica."
+    },
+    {
+        id: "4.267",
+        term: "Incêndio-padrão",
+        definition: "Elevação padronizada de temperatura em função do tempo, dada pela seguinte expressão: θg=θ₀ + 345 log₁₀(8t+1). Onde: t é o tempo, expresso em minutos; θ₀ é a temperatura do ambiente antes do início do aquecimento em graus Celsius, geralmente tomada igual a 20º C; e θg é a temperatura dos gases, em graus Celsius no instante t."
+    },
+    {
+        id: "4.268",
+        term: "Inibidor de vórtice",
+        definition: "Acessório de tubulação de sucção da bomba destinado a eliminar o efeito do vórtice (redemoinho) dentro de um reservatório."
+    },
+    {
+        id: "4.269",
+        term: "Instalação",
+        definition: "Toda montagem mecânica, hidráulica, elétrica, eletroeletrônica, ou outra, para fins de atividades de produção industrial, geração ou controle de energia, contenção ou distribuição de fluidos líquidos ou gasosos, ocupação de toda espécie, cuja montagem tenha caráter permanente ou temporária, que necessite de proteção contra incêndio previsto na legislação."
+    },
+    {
+        id: "4.270",
+        term: "Instalação de gás liquefeito de petróleo (GLP)",
+        definition: "Sistema constituído de tubulações, acessórios e equipamentos que conduzem e utilizam o GLP para consumo, por meio da queima e/ou outro meio previsto e autorizado na legislação competente."
+    },
+    {
+        id: "4.271",
+        term: "Instalações fixas de aplicação local",
+        definition: "Dispositivos com suprimento de gás permanentemente conectados a uma tubulação que alimenta esguichos difusores distribuídos de maneira a descarregar o gás carbônico diretamente sobre o material que queima. Podem ser de comando automático ou manual."
+    },
+    {
+        id: "4.272",
+        term: "Instalações fixas de mangotinhos",
+        definition: "Dispositivo com suprimento fixo de gases compreendendo um ou mais cilindros que alimentam um mangotinho acondicionado em um carretel de alimentação axial, equipado na sua extremidade livre um esguicho difusor com válvula de comando manual de jato. Este equipamento é de comando manual."
+    },
+    {
+        id: "4.273",
+        term: "Instalações industriais",
+        definition: "Conjunto de equipamentos que não se enquadram como depósitos, postos de serviço ou refinarias, mas, onde líquidos inflamáveis são armazenados e processados."
     }
 ];
