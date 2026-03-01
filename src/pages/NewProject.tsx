@@ -105,19 +105,19 @@ export default function NewProject() {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-white rounded-[2.5rem] shadow-xl overflow-hidden"
+                    className="bg-white rounded-2xl sm:rounded-[2.5rem] shadow-xl overflow-hidden"
                 >
-                    <div className="p-8 border-b border-slate-50 bg-red-50/50 flex items-center justify-between">
+                    <div className="p-4 sm:p-8 border-b border-slate-50 bg-red-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div className="flex items-center gap-4">
-                            <div className="bg-red-600 p-3 rounded-2xl text-white shadow-lg shadow-red-600/20">
-                                <Layout className="w-6 h-6" />
+                            <div className="bg-red-600 p-2.5 sm:p-3 rounded-2xl text-white shadow-lg shadow-red-600/20">
+                                <Layout className="w-5 h-5 sm:w-6 sm:h-6" />
                             </div>
                             <div>
-                                <h2 className="text-xl font-bold text-slate-800">Detalhes do Projeto</h2>
-                                <p className="text-slate-500 text-sm font-medium">Preencha as informações técnicas e de segurança</p>
+                                <h2 className="text-lg sm:text-xl font-bold text-slate-800">Detalhes do Projeto</h2>
+                                <p className="text-slate-500 text-xs sm:text-sm font-medium">Preencha as informações técnicas</p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4">
                             <AnimatePresence mode="wait">
                                 {riskLevel && (
                                     <motion.div
@@ -138,28 +138,28 @@ export default function NewProject() {
 
                             <button
                                 onClick={() => navigate('/')}
-                                className="flex items-center gap-2 text-slate-400 hover:text-red-600 font-bold transition-colors ml-2"
+                                className="flex items-center gap-2 text-slate-400 hover:text-red-600 font-bold transition-colors text-sm sm:text-base"
                             >
-                                <ArrowLeft className="w-5 h-5" />
+                                <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                                 <span>Voltar</span>
                             </button>
                         </div>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="p-8 space-y-12">
+                    <form onSubmit={handleSubmit} className="p-4 sm:p-8 space-y-8 sm:space-y-12">
                         {error && (
-                            <div className="p-4 bg-red-50 text-red-600 rounded-2xl text-sm font-bold flex gap-3 border border-red-100 italic">
-                                <ShieldAlert className="w-5 h-5 shrink-0" />
+                            <div className="p-4 bg-red-50 text-red-600 rounded-2xl text-xs sm:text-sm font-bold flex gap-3 border border-red-100 italic">
+                                <ShieldAlert className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
                                 {error}
                             </div>
                         )}
 
-                        <div className="grid lg:grid-cols-2 gap-12">
+                        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
                             {/* Information Group 1 - Technical */}
-                            <div className="space-y-8">
-                                <h3 className="text-lg font-black text-slate-900 border-l-4 border-red-600 pl-4 py-1 flex items-center gap-3">
-                                    <ShieldAlert className="w-5 h-5 text-red-600" />
-                                    Informações Básicas e Técnicas
+                            <div className="space-y-6 sm:space-y-8">
+                                <h3 className="text-base sm:text-lg font-black text-slate-900 border-l-4 border-red-600 pl-4 py-1 flex items-center gap-3">
+                                    <ShieldAlert className="w-4 h-4 sm:w-5 sm:h-5 text-red-600" />
+                                    Informações Técnicas
                                 </h3>
 
                                 <div className="space-y-6">
@@ -192,9 +192,9 @@ export default function NewProject() {
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Área Total</label>
+                                            <label className="block text-sm font-bold text-slate-700 mb-2 sm:mb-3 ml-1">Área Total</label>
                                             <div className="relative group">
                                                 <Maximize className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
                                                 <input
@@ -203,14 +203,14 @@ export default function NewProject() {
                                                     value={area}
                                                     onChange={(e) => setArea(e.target.value)}
                                                     placeholder="0,00"
-                                                    className="w-full pl-12 pr-12 py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 focus:ring-4 focus:ring-red-50 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
+                                                    className="w-full pl-12 pr-12 py-3.5 sm:py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
                                                 />
                                                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">m²</span>
                                             </div>
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Altura</label>
+                                            <label className="block text-sm font-bold text-slate-700 mb-2 sm:mb-3 ml-1">Altura</label>
                                             <div className="relative group">
                                                 <Ruler className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
                                                 <input
@@ -219,16 +219,16 @@ export default function NewProject() {
                                                     value={height}
                                                     onChange={(e) => setHeight(e.target.value)}
                                                     placeholder="0,00"
-                                                    className="w-full pl-12 pr-12 py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 focus:ring-4 focus:ring-red-50 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
+                                                    className="w-full pl-12 pr-12 py-3.5 sm:py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
                                                 />
                                                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">m</span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Lotação (Pessoas)</label>
+                                            <label className="block text-sm font-bold text-slate-700 mb-2 sm:mb-3 ml-1">Lotação (Pessoas)</label>
                                             <div className="relative group">
                                                 <Users className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
                                                 <input
@@ -236,13 +236,13 @@ export default function NewProject() {
                                                     value={occupancyLoad}
                                                     onChange={(e) => setOccupancyLoad(e.target.value)}
                                                     placeholder="0"
-                                                    className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 focus:ring-4 focus:ring-red-50 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
+                                                    className="w-full pl-12 pr-4 py-3.5 sm:py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
                                                 />
                                             </div>
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Prazo Estimado</label>
+                                            <label className="block text-sm font-bold text-slate-700 mb-2 sm:mb-3 ml-1">Prazo Estimado</label>
                                             <div className="relative group">
                                                 <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
                                                 <input
@@ -250,7 +250,7 @@ export default function NewProject() {
                                                     value={deadline}
                                                     onChange={(e) => setDeadline(e.target.value)}
                                                     placeholder="Ex: 24 Out, 2024"
-                                                    className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 focus:ring-4 focus:ring-red-50 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
+                                                    className="w-full pl-12 pr-4 py-3.5 sm:py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
                                                 />
                                             </div>
                                         </div>
