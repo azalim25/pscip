@@ -7,6 +7,7 @@ export interface Profile {
     numero_bm: string;
     email: string;
     full_name: string | null;
+    war_name: string | null;
     rank: string | null;
     unit: string | null;
 }

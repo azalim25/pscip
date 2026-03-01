@@ -88,7 +88,7 @@ export function Header({
                                     {profile?.rank || 'Militar'}
                                 </p>
                                 <p className="text-sm font-bold truncate max-w-[120px]">
-                                    {profile?.full_name || 'Completar Perfil'}
+                                    {profile?.war_name || (profile?.full_name?.split(' ')[0]) || 'Perfil'}
                                 </p>
                             </div>
                             <ChevronDown className={`hidden sm:block w-4 h-4 opacity-40 group-hover:opacity-100 transition-opacity ${isHome ? 'text-slate-400' : 'text-white'}`} />
