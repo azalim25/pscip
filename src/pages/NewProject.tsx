@@ -44,13 +44,15 @@ export default function NewProject() {
             hasLiquidFuel ||
             hasLpg ||
             (cnae !== '' && cnae !== 'N/A') ||
-            a > 930;
+            a > 930 ||
+            occupancy.includes('H-2') ||
+            occupancy.includes('H-5');
 
         if (isRiscoIII) return 'III';
         if (a > 200) return 'II';
         if (a > 0) return 'I';
         return null;
-    }, [area, height, occupancyLoad, isHeritage, hasLiquidFuel, hasLpg, cnae]);
+    }, [area, height, occupancyLoad, isHeritage, hasLiquidFuel, hasLpg, cnae, occupancy]);
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);

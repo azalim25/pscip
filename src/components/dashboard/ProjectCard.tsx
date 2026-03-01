@@ -37,7 +37,7 @@ export function ProjectCard({ project, idx, onDelete }: ProjectCardProps) {
                         </h4>
                         <div className="flex items-center gap-2">
                             <span className={`text-[10px] font-black px-3 py-1 rounded-full tracking-wider uppercase ${project.statusColor}`}>
-                                {project.status}
+                                {(risk === 'I' && project.status === 'EM ANÁLISE') ? 'DISPENSADO DO LICENCIAMENTO' : project.status}
                             </span>
                             {risk && risk !== 'null' && (
                                 <span className={`flex items-center gap-1.5 text-[10px] font-black px-3 py-1 rounded-full tracking-wider uppercase border-2 ${risk === 'III' ? 'bg-red-50 text-red-600 border-red-100' :

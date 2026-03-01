@@ -4,7 +4,8 @@ import { motion } from 'motion/react';
 import {
     Layout, MapPin, Calendar, ShieldAlert, ArrowLeft,
     Maximize, Ruler, Users, Landmark, Layers, Droplets, Flame,
-    Check, AlertTriangle, Building2, Tag, Edit3
+    Check, AlertTriangle, Building2, Tag, Edit3, ShieldCheck,
+    FlameKindling, Lightbulb, Navigation, LogOut, Users2, Paintbrush
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Header } from '../components/layout/Header';
@@ -34,6 +35,7 @@ export default function ProjectDetails() {
     const [project, setProject] = useState<ProjectDetails | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [activeTab, setActiveTab] = useState<'info' | 'safety'>('info');
 
     useEffect(() => {
         async function fetchProject() {
@@ -122,7 +124,7 @@ export default function ProjectDetails() {
                         <div className="flex items-center gap-3">
                             <div className={`px-4 py-2 rounded-2xl font-black text-xs uppercase tracking-wider ${project.status === 'APROVADO' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
                                 }`}>
-                                {project.status}
+                                {(risk === 'I' && project.status === 'EM ANÁLISE') ? 'DISPENSADO DO LICENCIAMENTO' : project.status}
                             </div>
                             {risk && risk !== 'null' && (
                                 <div className={`flex items-center gap-2 px-4 py-2 rounded-2xl border-2 font-black text-xs uppercase tracking-wider shadow-sm ${risk === 'III' ? 'bg-red-600 border-red-700 text-white' :
@@ -136,122 +138,228 @@ export default function ProjectDetails() {
                         </div>
                     </div>
 
-                    <div className="grid lg:grid-cols-3 gap-8">
-                        {/* Summary Column */}
-                        <div className="lg:col-span-1 space-y-8">
-                            <div className="bg-white p-8 rounded-[2.5rem] shadow-xl border border-slate-50">
-                                <h3 className="text-xl font-black text-slate-800 mb-6 flex items-center gap-3">
-                                    <Tag className="w-6 h-6 text-red-600" />
-                                    Identificação
-                                </h3>
+                    {/* Tabs */}
+                    <div className="flex p-1 bg-slate-100 rounded-2xl w-full sm:w-auto self-start">
+                        <button
+                            onClick={() => setActiveTab('info')}
+                            className={`flex-1 sm:flex-none px-8 py-3 rounded-xl font-bold text-sm transition-all ${activeTab === 'info'
+                                ? 'bg-white text-slate-900 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-700'
+                                }`}
+                        >
+                            Características
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('safety')}
+                            className={`flex-1 sm:flex-none px-8 py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 ${activeTab === 'safety'
+                                ? 'bg-white text-slate-900 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-700'
+                                }`}
+                        >
+                            <ShieldCheck className="w-4 h-4" />
+                            Medidas de Segurança
+                        </button>
+                    </div>
 
-                                <div className="space-y-6">
-                                    <DetailItem
-                                        icon={<MapPin />}
-                                        label="Localização"
-                                        value={project.location || "Não informada"}
-                                    />
-                                    <DetailItem
-                                        icon={<Calendar />}
-                                        label="Prazo"
-                                        value={project.deadline || "Sem prazo definido"}
-                                        highlight={project.is_urgent}
-                                    />
-                                    <DetailItem
-                                        icon={<ShieldAlert />}
-                                        label="Prioridade"
-                                        value={project.is_urgent ? "URGENTE" : "NORMAL"}
-                                        highlight={project.is_urgent}
-                                    />
-                                </div>
-                            </div>
+                    {activeTab === 'info' ? (
+                        <div className="grid lg:grid-cols-3 gap-8">
+                            {/* Summary Column */}
+                            <div className="lg:col-span-1 space-y-8">
+                                <div className="bg-white p-8 rounded-[2.5rem] shadow-xl border border-slate-50">
+                                    <h3 className="text-xl font-black text-slate-800 mb-6 flex items-center gap-3">
+                                        <Tag className="w-6 h-6 text-red-600" />
+                                        Identificação
+                                    </h3>
 
-                            <div className="bg-slate-900 text-white p-8 rounded-[2.5rem] shadow-xl relative overflow-hidden">
-                                <Building2 className="absolute -bottom-4 -right-4 w-32 h-32 text-white/5" />
-                                <h3 className="text-lg font-black mb-6 flex items-center gap-3">
-                                    Ocupação
-                                </h3>
-                                <div className="space-y-6 relative z-10">
-                                    <div>
-                                        <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">Uso / Grupo</p>
-                                        <p className="text-base font-bold leading-tight">{project.occupancy || "Não informada"}</p>
+                                    <div className="space-y-6">
+                                        <DetailItem
+                                            icon={<MapPin />}
+                                            label="Localização"
+                                            value={project.location || "Não informada"}
+                                        />
+                                        <DetailItem
+                                            icon={<Calendar />}
+                                            label="Prazo"
+                                            value={project.deadline || "Sem prazo definido"}
+                                            highlight={project.is_urgent}
+                                        />
+                                        <DetailItem
+                                            icon={<ShieldAlert />}
+                                            label="Prioridade"
+                                            value={project.is_urgent ? "URGENTE" : "NORMAL"}
+                                            highlight={project.is_urgent}
+                                        />
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        {/* Details Column */}
-                        <div className="lg:col-span-2 space-y-8">
-                            <div className="bg-white p-8 rounded-[2.5rem] shadow-xl border border-slate-50">
-                                <h3 className="text-xl font-black text-slate-800 mb-8 border-l-4 border-red-600 pl-4">Dados Técnicos</h3>
-
-                                <div className="grid sm:grid-cols-3 gap-6">
-                                    <TechnicalBox
-                                        icon={<Maximize className="w-6 h-6" />}
-                                        label="Área"
-                                        value={project.area ? `${project.area} m²` : "N/A"}
-                                    />
-                                    <TechnicalBox
-                                        icon={<Ruler className="w-6 h-6" />}
-                                        label="Altura"
-                                        value={project.height ? `${project.height} m` : "N/A"}
-                                    />
-                                    <TechnicalBox
-                                        icon={<Users className="w-6 h-6" />}
-                                        label="Lotação"
-                                        value={project.occupancy_load ? `${project.occupancy_load} pessoas` : "N/A"}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="bg-white p-8 rounded-[2.5rem] shadow-xl border border-slate-50">
-                                <h3 className="text-xl font-black text-slate-800 mb-8 border-l-4 border-slate-800 pl-4">Conformidade e Segurança</h3>
-
-                                <div className="grid sm:grid-cols-2 gap-4">
-                                    <div className="sm:col-span-2 mb-2">
-                                        <div className="p-5 rounded-[1.5rem] bg-slate-50 border-2 border-slate-100 flex items-center justify-between group hover:border-red-100 transition-all">
-                                            <div className="flex items-center gap-4">
-                                                <div className="p-3 bg-red-50 text-red-600 rounded-2xl group-hover:bg-red-600 group-hover:text-white transition-all">
-                                                    <Tag className="w-5 h-5" />
-                                                </div>
-                                                <div>
-                                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">CNAE</p>
-                                                    <p className="text-sm font-black text-slate-700">{project.cnae || "Não se aplica"}</p>
-                                                </div>
-                                            </div>
-                                            <div className="px-4 py-1.5 bg-white rounded-xl border border-slate-100 shadow-sm">
-                                                <span className="text-[10px] font-black text-red-600 uppercase tracking-tighter">Classificação Econômica</span>
-                                            </div>
+                                <div className="bg-slate-900 text-white p-8 rounded-[2.5rem] shadow-xl relative overflow-hidden">
+                                    <Building2 className="absolute -bottom-4 -right-4 w-32 h-32 text-white/5" />
+                                    <h3 className="text-lg font-black mb-6 flex items-center gap-3">
+                                        Ocupação
+                                    </h3>
+                                    <div className="space-y-6 relative z-10">
+                                        <div>
+                                            <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">Uso / Grupo</p>
+                                            <p className="text-base font-bold leading-tight">{project.occupancy || "Não informada"}</p>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <CheckItem
-                                        icon={<Landmark />}
-                                        label="Patrimônio Histórico Cultural"
-                                        status={project.is_heritage}
-                                    />
-                                    <CheckItem
-                                        icon={<Layers />}
-                                        label="Subsolo com uso distinto de estacionamento"
-                                        status={project.has_distinct_basement_use}
-                                    />
-                                    <CheckItem
-                                        icon={<Droplets />}
-                                        label="Líquido Combustível (> 1000L)"
-                                        status={project.has_liquid_fuel}
-                                        description="Inclui armazenamento fracionado"
-                                    />
-                                    <CheckItem
-                                        icon={<Flame />}
-                                        label="Armazenamento de GLP (> 190Kg)"
-                                        status={project.has_lpg}
-                                    />
+                            {/* Details Column */}
+                            <div className="lg:col-span-2 space-y-8">
+                                <div className="bg-white p-8 rounded-[2.5rem] shadow-xl border border-slate-50">
+                                    <h3 className="text-xl font-black text-slate-800 mb-8 border-l-4 border-red-600 pl-4">Dados Técnicos</h3>
+
+                                    <div className="grid sm:grid-cols-3 gap-6">
+                                        <TechnicalBox
+                                            icon={<Maximize className="w-6 h-6" />}
+                                            label="Área"
+                                            value={project.area ? `${project.area} m²` : "N/A"}
+                                        />
+                                        <TechnicalBox
+                                            icon={<Ruler className="w-6 h-6" />}
+                                            label="Altura"
+                                            value={project.height ? `${project.height} m` : "N/A"}
+                                        />
+                                        <TechnicalBox
+                                            icon={<Users className="w-6 h-6" />}
+                                            label="Lotação"
+                                            value={project.occupancy_load ? `${project.occupancy_load} pessoas` : "N/A"}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="bg-white p-8 rounded-[2.5rem] shadow-xl border border-slate-50">
+                                    <h3 className="text-xl font-black text-slate-800 mb-8 border-l-4 border-slate-800 pl-4">Conformidade e Segurança</h3>
+
+                                    <div className="grid sm:grid-cols-2 gap-4">
+                                        <div className="sm:col-span-2 mb-2">
+                                            <div className="p-5 rounded-[1.5rem] bg-slate-50 border-2 border-slate-100 flex items-center justify-between group hover:border-red-100 transition-all">
+                                                <div className="flex items-center gap-4">
+                                                    <div className="p-3 bg-red-50 text-red-600 rounded-2xl group-hover:bg-red-600 group-hover:text-white transition-all">
+                                                        <Tag className="w-5 h-5" />
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">CNAE</p>
+                                                        <p className="text-sm font-black text-slate-700">{project.cnae || "Não se aplica"}</p>
+                                                    </div>
+                                                </div>
+                                                <div className="px-4 py-1.5 bg-white rounded-xl border border-slate-100 shadow-sm">
+                                                    <span className="text-[10px] font-black text-red-600 uppercase tracking-tighter">Classificação Econômica</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <CheckItem
+                                            icon={<Landmark />}
+                                            label="Patrimônio Histórico Cultural"
+                                            status={project.is_heritage}
+                                        />
+                                        <CheckItem
+                                            icon={<Layers />}
+                                            label="Subsolo com uso distinto de estacionamento"
+                                            status={project.has_distinct_basement_use}
+                                        />
+                                        <CheckItem
+                                            icon={<Droplets />}
+                                            label="Líquido Combustível (> 1000L)"
+                                            status={project.has_liquid_fuel}
+                                            description="Inclui armazenamento fracionado"
+                                        />
+                                        <CheckItem
+                                            icon={<Flame />}
+                                            label="Armazenamento de GLP (> 190Kg)"
+                                            status={project.has_lpg}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="grid lg:grid-cols-1 gap-8">
+                            <SafetyMeasuresView project={project} />
+                        </div>
+                    )}
                 </motion.div>
             </main>
+        </div>
+    );
+}
+
+function SafetyMeasuresView({ project }: { project: ProjectDetails }) {
+    const risk = project.risk_level?.split(' ').pop();
+    const isE6 = project.occupancy?.includes('E-6');
+    const isH2H5 = project.occupancy?.includes('H-2') || project.occupancy?.includes('H-5');
+
+    const measures = [];
+
+    // Basic Measures for Risco I and II
+    if (risk === 'I' || risk === 'II' || risk === 'III') {
+        measures.push(
+            { icon: <FlameKindling />, title: "Extintores", description: "Proteção por extintores de incêndio portáteis ou sobre rodas." },
+            { icon: <Lightbulb />, title: "Iluminação de Emergência", description: "Sistema de iluminação para facilitar a saída em emergências." },
+            { icon: <Navigation />, title: "Sinalização de Emergência", description: "Placas e sinais indicativos de rotas de fuga e equipamentos." },
+            { icon: <LogOut />, title: "Saídas de Emergência", description: "Vias de saída dimensionadas e desobstruídas." }
+        );
+    }
+
+    // Occupancy E-6 Rule
+    if (isE6) {
+        measures.push({ icon: <Users2 />, title: "Brigada de Incêndio", description: "Grupo organizado de pessoas treinadas para atuar na prevenção e combate." });
+    }
+
+    // Risk III or H-2, H-5 Rules
+    if (risk === 'III' || isH2H5) {
+        // Add Brigada if not already added by E-6
+        if (!isE6) {
+            measures.push({ icon: <Users2 />, title: "Brigada de Incêndio", description: "Grupo organizado de pessoas treinadas para atuar na prevenção e combate." });
+        }
+        measures.push({ icon: <Paintbrush />, title: "CMAR", description: "Controle de Materiais de Acabamento e Revestimento." });
+    }
+
+    return (
+        <div className="bg-white p-6 sm:p-10 rounded-[2.5rem] shadow-xl border border-slate-50">
+            <div className="flex items-center gap-4 mb-10 border-l-4 border-red-600 pl-4">
+                <div>
+                    <h3 className="text-2xl font-black text-slate-800">Medidas de Segurança Requeridas</h3>
+                    <p className="text-slate-500 font-medium italic">Baseado no nível de risco e ocupação do projeto</p>
+                </div>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {measures.map((measure, idx) => (
+                    <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.1 }}
+                        className="p-6 rounded-[2rem] bg-slate-50 border-2 border-slate-100 hover:border-red-100 hover:bg-white hover:shadow-lg transition-all"
+                    >
+                        <div className="flex items-center gap-4 mb-4">
+                            <div className="p-3 bg-red-600 text-white rounded-2xl shadow-lg shadow-red-600/20">
+                                {React.cloneElement(measure.icon as React.ReactElement<any>, { className: "w-5 h-5" })}
+                            </div>
+                            <h4 className="font-black text-slate-800 leading-tight">{measure.title}</h4>
+                        </div>
+                        <p className="text-xs font-bold text-slate-500 leading-relaxed">
+                            {measure.description}
+                        </p>
+                    </motion.div>
+                ))}
+            </div>
+
+            {risk === 'I' && (
+                <div className="mt-12 p-6 rounded-[2rem] bg-green-50 border-2 border-green-100 flex flex-col sm:flex-row items-center gap-6">
+                    <div className="w-16 h-16 bg-green-600 text-white rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-green-600/20">
+                        <ShieldCheck className="w-8 h-8" />
+                    </div>
+                    <div>
+                        <h4 className="text-xl font-black text-green-700 mb-1 leading-tight">Dispensado do Licenciamento</h4>
+                        <p className="text-sm font-bold text-green-600/70 italic">Este projeto possui Nível de Risco I e está isento de processos de licenciamento formais.</p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

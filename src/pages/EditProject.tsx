@@ -89,13 +89,15 @@ export default function EditProject() {
             hasLiquidFuel ||
             hasLpg ||
             (cnae !== '' && cnae !== 'N/A') ||
-            a > 930;
+            a > 930 ||
+            occupancy.includes('H-2') ||
+            occupancy.includes('H-5');
 
         if (isRiscoIII) return 'III';
         if (a > 200) return 'II';
         if (a > 0) return 'I';
         return null;
-    }, [area, height, occupancyLoad, isHeritage, hasLiquidFuel, hasLpg, cnae]);
+    }, [area, height, occupancyLoad, isHeritage, hasLiquidFuel, hasLpg, cnae, occupancy]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
