@@ -157,8 +157,8 @@ export default function ProjectDetails() {
                             </div>
                             {risk && risk !== 'null' && (
                                 <div className={`flex items-center gap-2 px-4 py-2 rounded-2xl border-2 font-black text-xs uppercase tracking-wider shadow-sm ${risk === 'III' ? 'bg-red-600 border-red-700 text-white' :
-                                        risk === 'II' ? 'bg-orange-500 border-orange-600 text-white' :
-                                            'bg-green-600 border-green-700 text-white'
+                                    risk === 'II' ? 'bg-orange-500 border-orange-600 text-white' :
+                                        'bg-green-600 border-green-700 text-white'
                                     }`}>
                                     <span>Risco {risk}</span>
                                 </div>
@@ -177,8 +177,8 @@ export default function ProjectDetails() {
                         <button
                             onClick={() => setActiveTab('info')}
                             className={`flex-1 sm:flex-none px-8 py-3 rounded-xl font-bold text-sm transition-all ${activeTab === 'info'
-                                    ? 'bg-white text-slate-900 shadow-sm'
-                                    : 'text-slate-500 hover:text-slate-700'
+                                ? 'bg-white text-slate-900 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-700'
                                 }`}
                         >
                             Características
@@ -186,8 +186,8 @@ export default function ProjectDetails() {
                         <button
                             onClick={() => setActiveTab('safety')}
                             className={`flex-1 sm:flex-none px-8 py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 ${activeTab === 'safety'
-                                    ? 'bg-white text-slate-900 shadow-sm'
-                                    : 'text-slate-500 hover:text-slate-700'
+                                ? 'bg-white text-slate-900 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-700'
                                 }`}
                         >
                             <ShieldCheck className="w-4 h-4" />
@@ -285,6 +285,12 @@ export default function ProjectDetails() {
                                             </div>
                                         </div>
 
+                                        <CheckItem
+                                            icon={<Droplets />}
+                                            label="Projeção de Sistema Hidráulico"
+                                            status={project.has_hydraulic_system}
+                                            description="Hidrantes, chuveiros automáticos, nebulizadores, CO2, etc."
+                                        />
                                         <CheckItem
                                             icon={<Landmark />}
                                             label="Patrimônio Histórico Cultural"
