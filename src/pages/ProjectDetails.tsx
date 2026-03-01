@@ -5,7 +5,7 @@ import {
     Layout, MapPin, Calendar, ShieldAlert, ArrowLeft,
     Maximize, Ruler, Users, Landmark, Layers, Droplets, Flame,
     Check, AlertTriangle, Building2, Tag, Edit3, ShieldCheck,
-    Lightbulb, Navigation, LogOut, Paintbrush
+    Lightbulb, Navigation, LogOut, Paintbrush, Bell
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Header } from '../components/layout/Header';
@@ -69,10 +69,11 @@ export default function ProjectDetails() {
     };
 
     const projectClassification = useMemo(() => {
-        if (!project) return { pt: false, pts: false, ptd: false };
+        if (!project) return { pt: false, pts: false, ptd: false, requiresStructural: false, requiresAlarm: false, requiresHydrants: false };
 
         if (!project.mixed_occupancies || project.mixed_occupancies.length === 0) {
-            return getClassification(project.occupancy, project.area, project.height, project.occupancy_load, project.has_hydraulic_system);
+            const c = getClassification(project.occupancy, project.area, project.height, project.occupancy_load, project.has_hydraulic_system);
+            return { ...c, requiresStructural: c.pt, requiresAlarm: c.pt, requiresHydrants: c.pt };
         }
 
         if (project.has_compartmentation) {
@@ -84,7 +85,10 @@ export default function ProjectDetails() {
             return {
                 pt: main.pt || secondary.some(s => s.pt),
                 pts: main.pts || secondary.some(s => s.pts),
-                ptd: main.ptd || secondary.some(s => s.ptd)
+                ptd: main.ptd || secondary.some(s => s.ptd),
+                requiresStructural: main.pt || secondary.some(s => s.pt),
+                requiresAlarm: main.pt || secondary.some(s => s.pt),
+                requiresHydrants: main.pt || secondary.some(s => s.pt)
             };
         } else {
             // "Se a ocupação não tem compartimentação... A área de cada ocupação deve ser somada e a altura de cada ocupação também deve ser somada."
@@ -99,7 +103,10 @@ export default function ProjectDetails() {
             return {
                 pt: main.pt || secondary.some(s => s.pt) || combined.pt,
                 pts: (main.pts || secondary.some(s => s.pts) || combined.pts) && !combined.pt,
-                ptd: (main.ptd || secondary.some(s => s.ptd) || combined.ptd) && !combined.pt && !combined.pts
+                ptd: (main.ptd || secondary.some(s => s.ptd) || combined.ptd) && !combined.pt && !combined.pts,
+                requiresStructural: main.pt || secondary.some(s => s.pt) || combined.pt,
+                requiresAlarm: main.pt || secondary.some(s => s.pt) || combined.pt,
+                requiresHydrants: main.pt || secondary.some(s => s.pt) || combined.pt
             };
         }
     }, [project]);
@@ -107,6 +114,7 @@ export default function ProjectDetails() {
     const isPT = projectClassification.pt;
     const isPTS = projectClassification.pts;
     const isPTD = projectClassification.ptd;
+    const { requiresStructural, requiresAlarm, requiresHydrants } = projectClassification;
 
     useEffect(() => {
         async function fetchProject() {
@@ -420,6 +428,12 @@ export default function ProjectDetails() {
                                         height={project.height}
                                         load={project.occupancy_load}
                                         project={project}
+                                        globalPT={isPT}
+                                        globalPTS={isPTS}
+                                        globalPTD={isPTD}
+                                        globalStructural={requiresStructural}
+                                        globalAlarm={requiresAlarm}
+                                        globalHydrants={requiresHydrants}
                                     />
 
                                     {project.mixed_occupancies?.map((occ, idx) => (
@@ -431,6 +445,12 @@ export default function ProjectDetails() {
                                             height={occ.height}
                                             load={0}
                                             project={project}
+                                            globalPT={isPT}
+                                            globalPTS={isPTS}
+                                            globalPTD={isPTD}
+                                            globalStructural={requiresStructural}
+                                            globalAlarm={requiresAlarm}
+                                            globalHydrants={requiresHydrants}
                                         />
                                     ))}
                                 </>
@@ -443,6 +463,12 @@ export default function ProjectDetails() {
                                     load={project.occupancy_load}
                                     project={project}
                                     isIntegrated={true}
+                                    globalPT={isPT}
+                                    globalPTS={isPTS}
+                                    globalPTD={isPTD}
+                                    globalStructural={requiresStructural}
+                                    globalAlarm={requiresAlarm}
+                                    globalHydrants={requiresHydrants}
                                 />
                             )}
                         </div>
@@ -460,7 +486,13 @@ function OccupancySafetyMeasures({
     height,
     load,
     project,
-    isIntegrated = false
+    isIntegrated = false,
+    globalPT,
+    globalPTS,
+    globalPTD,
+    globalStructural,
+    globalAlarm,
+    globalHydrants
 }: {
     title: string,
     occupancy: string,
@@ -468,7 +500,13 @@ function OccupancySafetyMeasures({
     height: number,
     load: number,
     project: ProjectDetails,
-    isIntegrated?: boolean
+    isIntegrated?: boolean,
+    globalPT: boolean,
+    globalPTS: boolean,
+    globalPTD: boolean,
+    globalStructural: boolean,
+    globalAlarm: boolean,
+    globalHydrants: boolean
 }) {
     // Component classification for this specific occupancy
     const getIndividualClassification = (occ: string, a: number, h: number, l: number) => {
@@ -485,15 +523,9 @@ function OccupancySafetyMeasures({
         return { pt, pts: !pt && risk === 'III', ptd: !pt && risk === 'II' };
     };
 
-    const classification = getIndividualClassification(occupancy, area, height, load);
-
-    // If integrated, we also need to check if ANY occupancy triggered PT
-    const isPT = classification.pt || (isIntegrated && project.mixed_occupancies?.some(m => {
-        const c = getIndividualClassification(m.occupancy, m.area, m.height, 0);
-        return c.pt;
-    }));
-    const isPTS = classification.pts && !isPT;
-    const isPTD = classification.ptd && !isPT && !isPTS;
+    const isPT = globalPT;
+    const isPTS = globalPTS;
+    const isPTD = globalPTD;
 
     const risk = project.risk_level?.split(' ').pop();
     const isE6 = occupancy?.includes('E-6') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.includes('E-6')));
@@ -520,16 +552,26 @@ function OccupancySafetyMeasures({
         measures.push({ icon: <Paintbrush />, title: "CMAR", description: "Controle de Materiais de Acabamento e Revestimento." });
     }
 
-    // Advanced Measures for PT
+    // Advanced Measures
     if (isPT && !isExistente) {
         measures.push(
             { icon: <ShieldAlert />, title: "Acesso de Viaturas", description: "Vias de acesso para viaturas do Corpo de Bombeiros." },
             { icon: <Building2 />, title: "Segurança Estrutural", description: "Segurança estrutural contra incêndio (TRRF)." },
             { icon: <Layers />, title: "Compartimentação Horizontal", description: "Exigências de compartimentação para evitar propagação de calor e fumaça." },
             { icon: <Layers />, title: "Compartimentação Vertical", description: "Exigências de compartimentação para evitar propagação entre pavimentos." },
+            { icon: <Bell />, title: "Alarme de Incêndio", description: "Sistema de detecção e alarme de incêndio." },
+            { icon: <Droplets />, title: "Sistema de Hidrantes", description: "Rede de hidrantes e mangotinhos." },
             { icon: <Droplets />, title: "Chuveiros Automáticos", description: "Sistemas de chuveiros automáticos (Sprinklers)." },
             { icon: <Flame />, title: "Controle de Fumaça", description: "Sistemas para controle de movimentação de fumaça." }
         );
+    } else if (!isExistente && project.mixed_occupancies && project.mixed_occupancies.length > 0) {
+        // Global Measures Override for mixed projects that are NOT PT overall (though very unlikely as the rule says if any is PT, all are PT)
+        // But the rule says: "quando exigidas em quaisquer das ocupações, deverão ser projetadas em toda a edificação"
+        // This implies even if the building is NOT PT, if an individual occupancy triggered these, everyone gets them.
+
+        if (globalStructural) measures.push({ icon: <Building2 />, title: "Segurança Estrutural", description: "Segurança estrutural contra incêndio (TRRF) - Exigência Global." });
+        if (globalAlarm) measures.push({ icon: <Bell />, title: "Alarme de Incêndio", description: "Sistema de detecção e alarme de incêndio - Exigência Global." });
+        if (globalHydrants) measures.push({ icon: <Droplets />, title: "Sistema de Hidrantes", description: "Rede de hidrantes e mangotinhos - Exigência Global." });
     }
 
     // Handle Integrated Rules: "Se a ocupação não tem compartimentação todas as medidas de segurança deverão ser projetadas em todo o projeto"
