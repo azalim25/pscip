@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, Bell, User, LogOut, Search } from 'lucide-react';
+import { Menu, User, LogOut, Search } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Sidebar } from './Sidebar';
 
@@ -70,11 +70,6 @@ export function Header({
                     )}
 
                     <div className="flex items-center gap-3">
-                        <button className={`p-2 rounded-full transition-colors relative ${isHome ? 'hover:bg-red-50 text-slate-700' : 'hover:bg-red-500 text-white'
-                            }`}>
-                            <Bell className="w-6 h-6" />
-                            <span className="absolute top-2 right-2 w-2 h-2 bg-red-600 rounded-full border-2 border-white"></span>
-                        </button>
                         <div className={`h-10 w-10 rounded-full flex items-center justify-center shadow-sm ${isHome ? 'bg-red-600 text-white' : 'bg-white text-red-600'
                             }`}>
                             <User className="w-6 h-6" />
