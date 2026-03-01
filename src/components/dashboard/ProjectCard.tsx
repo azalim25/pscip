@@ -1,4 +1,4 @@
-import { MapPin, AlertCircle, Calendar, ArrowRight, Trash2, AlertTriangle } from 'lucide-react';
+import { MapPin, AlertCircle, Calendar, ArrowRight, Trash2, Edit3, AlertTriangle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 
@@ -41,8 +41,8 @@ export function ProjectCard({ project, idx, onDelete }: ProjectCardProps) {
                             </span>
                             {risk && risk !== 'null' && (
                                 <span className={`flex items-center gap-1.5 text-[10px] font-black px-3 py-1 rounded-full tracking-wider uppercase border-2 ${risk === 'III' ? 'bg-red-50 text-red-600 border-red-100' :
-                                        risk === 'II' ? 'bg-orange-50 text-orange-600 border-orange-100' :
-                                            'bg-green-50 text-green-600 border-green-100'
+                                    risk === 'II' ? 'bg-orange-50 text-orange-600 border-orange-100' :
+                                        'bg-green-50 text-green-600 border-green-100'
                                     }`}>
                                     <AlertTriangle className="w-3 h-3" />
                                     Risco {risk}
@@ -75,6 +75,14 @@ export function ProjectCard({ project, idx, onDelete }: ProjectCardProps) {
                     >
                         <Trash2 className="w-6 h-6" />
                     </button>
+
+                    <Link
+                        to={`/edit-project/${project.id}`}
+                        className="p-4 bg-slate-50 hover:bg-slate-100 text-slate-400 hover:text-slate-900 rounded-[1.25rem] transition-all border-2 border-transparent hover:border-slate-200 shadow-sm"
+                        title="Editar Projeto"
+                    >
+                        <Edit3 className="w-6 h-6" />
+                    </Link>
 
                     <Link
                         to={`/project/${project.id}`}

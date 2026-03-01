@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import Classification from './pages/Classification';
 import NewProject from './pages/NewProject';
 import ProjectDetails from './pages/ProjectDetails';
+import EditProject from './pages/EditProject';
 
 import { ReactNode } from 'react';
 
@@ -61,6 +62,14 @@ export default function App() {
                         element={
                             <ProtectedRoute>
                                 <ProjectDetails />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/edit-project/:id"
+                        element={
+                            <ProtectedRoute>
+                                <EditProject />
                             </ProtectedRoute>
                         }
                     />

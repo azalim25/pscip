@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 import {
     Layout, MapPin, Calendar, ShieldAlert, ArrowLeft,
     Maximize, Ruler, Users, Landmark, Layers, Droplets, Flame,
-    Check, AlertTriangle, Building2, Tag
+    Check, AlertTriangle, Building2, Tag, Edit3
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Header } from '../components/layout/Header';
@@ -101,13 +101,23 @@ export default function ProjectDetails() {
                 >
                     {/* Hero Actions */}
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                        <button
-                            onClick={() => navigate('/')}
-                            className="inline-flex items-center gap-2 text-slate-500 hover:text-red-600 font-bold transition-colors"
-                        >
-                            <ArrowLeft className="w-5 h-5" />
-                            <span>Voltar para o Painel</span>
-                        </button>
+                        <div className="flex items-center gap-4">
+                            <button
+                                onClick={() => navigate('/')}
+                                className="inline-flex items-center gap-2 text-slate-500 hover:text-red-600 font-bold transition-colors"
+                            >
+                                <ArrowLeft className="w-5 h-5" />
+                                <span>Voltar</span>
+                            </button>
+
+                            <button
+                                onClick={() => navigate(`/edit-project/${project.id}`)}
+                                className="inline-flex items-center gap-2 bg-white text-slate-700 hover:text-red-600 px-4 py-2 rounded-xl font-bold transition-all shadow-sm border border-slate-100 hover:border-red-100"
+                            >
+                                <Edit3 className="w-4 h-4" />
+                                <span>Editar</span>
+                            </button>
+                        </div>
 
                         <div className="flex items-center gap-3">
                             <div className={`px-4 py-2 rounded-2xl font-black text-xs uppercase tracking-wider ${project.status === 'APROVADO' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
