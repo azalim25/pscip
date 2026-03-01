@@ -4,6 +4,7 @@ import { Auth } from './pages/Auth';
 import Dashboard from './pages/Dashboard';
 import Classification from './pages/Classification';
 import NewProject from './pages/NewProject';
+import ProjectDetails from './pages/ProjectDetails';
 
 import { ReactNode } from 'react';
 
@@ -52,6 +53,14 @@ export default function App() {
                         element={
                             <ProtectedRoute>
                                 <Classification />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/project/:id"
+                        element={
+                            <ProtectedRoute>
+                                <ProjectDetails />
                             </ProtectedRoute>
                         }
                     />

@@ -42,10 +42,9 @@ export default function Dashboard() {
           status: p.status,
           location: p.location || "Local não informado",
           deadline: p.deadline || "Sem prazo",
-          image: p.image || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop",
           statusColor: p.status === 'APROVADO' ? 'text-green-600 bg-green-50' : 'text-red-600 bg-red-50',
+          riskLevel: p.risk_level,
           isUrgent: p.is_urgent,
-          link: "#"
         }));
 
         setProjects(mappedProjects);
@@ -63,6 +62,30 @@ export default function Dashboard() {
       setLoading(false);
     }
   }, [session]);
+
+  const handleDelete = async (id: string) => {
+    if (!window.confirm('Tem certeza que deseja excluir este projeto? Esta ação não pode ser desfeita.')) {
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('projects')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      // Update local state
+      setProjects(prev => prev.filter(p => p.id !== id));
+
+      // Refresh stats
+      fetchProjects();
+    } catch (err) {
+      console.error('Error deleting project:', err);
+      alert('Erro ao excluir projeto. Tente novamente.');
+    }
+  };
 
   useEffect(() => {
     fetchProjects();
@@ -121,7 +144,12 @@ export default function Dashboard() {
               </div>
             ) : projects.length > 0 ? (
               projects.map((project, idx) => (
-                <ProjectCard key={project.id} project={project} idx={idx} />
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  idx={idx}
+                  onDelete={handleDelete}
+                />
               ))
             ) : (
               <motion.div
