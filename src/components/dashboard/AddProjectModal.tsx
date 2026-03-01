@@ -4,6 +4,7 @@ import { X, Layout, MapPin, Calendar, Image as ImageIcon, ShieldAlert } from 'lu
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import { OccupancySelector } from './OccupancySelector';
+import { CnaeSelector } from './CnaeSelector';
 
 interface AddProjectModalProps {
     isOpen: boolean;
@@ -17,6 +18,7 @@ export function AddProjectModal({ isOpen, onClose, onProjectAdded }: AddProjectM
     const [location, setLocation] = useState('');
     const [occupancy, setOccupancy] = useState('');
     const [deadline, setDeadline] = useState('');
+    const [cnae, setCnae] = useState('');
     const [isUrgent, setIsUrgent] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -35,6 +37,7 @@ export function AddProjectModal({ isOpen, onClose, onProjectAdded }: AddProjectM
                     title,
                     location,
                     occupancy,
+                    cnae,
                     deadline,
                     is_urgent: isUrgent,
                     user_id: session.user.id,
@@ -49,6 +52,7 @@ export function AddProjectModal({ isOpen, onClose, onProjectAdded }: AddProjectM
             setTitle('');
             setLocation('');
             setOccupancy('');
+            setCnae('');
             setDeadline('');
             setIsUrgent(false);
         } catch (err: any) {
@@ -141,20 +145,25 @@ export function AddProjectModal({ isOpen, onClose, onProjectAdded }: AddProjectM
                                         />
                                     </div>
                                 </div>
-                                <div className="flex flex-col">
-                                    <label className="block text-sm font-bold text-slate-700 mb-2">Urgente?</label>
-                                    <button
-                                        type="button"
-                                        onClick={() => setIsUrgent(!isUrgent)}
-                                        className={`flex-1 flex items-center justify-center gap-2 rounded-2xl border-2 transition-all font-bold ${isUrgent
-                                            ? 'border-orange-500 bg-orange-50 text-orange-600'
-                                            : 'border-slate-100 bg-slate-50 text-slate-400'
-                                            }`}
-                                    >
-                                        <ShieldAlert className="w-5 h-5" />
-                                        {isUrgent ? 'Sim' : 'Não'}
-                                    </button>
-                                </div>
+                            </div>
+
+                            <CnaeSelector
+                                onSelect={(val) => setCnae(val)}
+                                selectedCnae={cnae}
+                            />
+                            <div className="flex flex-col">
+                                <label className="block text-sm font-bold text-slate-700 mb-2">Urgente?</label>
+                                <button
+                                    type="button"
+                                    onClick={() => setIsUrgent(!isUrgent)}
+                                    className={`flex-1 flex items-center justify-center gap-2 rounded-2xl border-2 transition-all font-bold ${isUrgent
+                                        ? 'border-orange-500 bg-orange-50 text-orange-600'
+                                        : 'border-slate-100 bg-slate-50 text-slate-400'
+                                        }`}
+                                >
+                                    <ShieldAlert className="w-5 h-5" />
+                                    {isUrgent ? 'Sim' : 'Não'}
+                                </button>
                             </div>
 
                             <button
