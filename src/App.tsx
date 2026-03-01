@@ -6,6 +6,7 @@ import Classification from './pages/Classification';
 import NewProject from './pages/NewProject';
 import ProjectDetails from './pages/ProjectDetails';
 import EditProject from './pages/EditProject';
+import ViewProjects from './pages/ViewProjects';
 
 import { ReactNode } from 'react';
 
@@ -70,6 +71,14 @@ export default function App() {
                         element={
                             <ProtectedRoute>
                                 <EditProject />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/view-projects"
+                        element={
+                            <ProtectedRoute>
+                                <ViewProjects />
                             </ProtectedRoute>
                         }
                     />

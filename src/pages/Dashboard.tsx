@@ -133,7 +133,7 @@ export default function Dashboard() {
               <BarChart3 className="w-6 h-6 text-red-600" />
               Projetos Ativos
             </h3>
-            <button className="text-red-600 font-bold text-sm hover:underline">Ver Todos</button>
+            <Link to="/view-projects" className="text-red-600 font-bold text-sm hover:underline">Ver Todos</Link>
           </div>
 
           <div className="grid gap-6">
