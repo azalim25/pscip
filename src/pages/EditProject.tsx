@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
     Layout, MapPin, Calendar, ShieldAlert, Save, ArrowLeft,
-    Maximize, Ruler, Users, Landmark, Layers, Droplets, Flame, Check, AlertTriangle, Droplet
+    Maximize, Ruler, Users, Landmark, Layers, Droplets, Flame, Check, AlertTriangle, Droplet, Plus, Trash2
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
@@ -33,6 +33,8 @@ export default function EditProject() {
     const [hasLpg, setHasLpg] = useState(false);
     const [hasHydraulicSystem, setHasHydraulicSystem] = useState(false);
     const [buildingType, setBuildingType] = useState<'EXISTENTE' | 'CONSTRUIDA'>('CONSTRUIDA');
+    const [isMixedOccupancy, setIsMixedOccupancy] = useState(false);
+    const [additionalOccupancies, setAdditionalOccupancies] = useState<{ occupancy: string, area: string }[]>([]);
 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -67,6 +69,9 @@ export default function EditProject() {
                     setHasLpg(data.has_lpg || false);
                     setHasHydraulicSystem(data.has_hydraulic_system || false);
                     setBuildingType(data.building_type || 'CONSTRUIDA');
+                    const mixed = data.mixed_occupancies || [];
+                    setAdditionalOccupancies(mixed.map((m: any) => ({ occupancy: m.occupancy, area: m.area.toString() })));
+                    setIsMixedOccupancy(mixed.length > 0);
                 }
             } catch (err: any) {
                 console.error('Error fetching project:', err);
@@ -103,6 +108,28 @@ export default function EditProject() {
         return null;
     }, [area, height, occupancyLoad, isHeritage, hasLiquidFuel, hasLpg, cnae, occupancy]);
 
+    const addOccupancy = () => {
+        setAdditionalOccupancies([...additionalOccupancies, { occupancy: '', area: '' }]);
+    };
+
+    const removeOccupancy = (index: number) => {
+        setAdditionalOccupancies(additionalOccupancies.filter((_, i) => i !== index));
+    };
+
+    const updateOccupancy = (index: number, field: 'occupancy' | 'area', value: string) => {
+        const newOccupancies = [...additionalOccupancies];
+        newOccupancies[index] = { ...newOccupancies[index], [field]: value };
+        setAdditionalOccupancies(newOccupancies);
+
+        if (field === 'area' && value !== '') {
+            const areaVal = parseFloat(value);
+            if (areaVal > 0 && areaVal < 930) {
+                alert(`A ocupação secundária deve ter área superior a 930m² para ser considerada ocupação mista. Esta entrada será removida.`);
+                removeOccupancy(index);
+            }
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!session?.user?.id || !id) return;
@@ -130,6 +157,9 @@ export default function EditProject() {
                     has_hydraulic_system: hasHydraulicSystem,
                     risk_level: riskLevel ? `Nível de Risco ${riskLevel}` : null,
                     building_type: buildingType,
+                    mixed_occupancies: additionalOccupancies
+                        .filter(o => o.occupancy !== '' && parseFloat(o.area) >= 930)
+                        .map(o => ({ occupancy: o.occupancy, area: parseFloat(o.area) }))
                 })
                 .eq('id', id)
                 .eq('user_id', session.user.id);
@@ -403,6 +433,69 @@ export default function EditProject() {
                                         onChange={setHasHydraulicSystem}
                                         description="Hidrantes, chuveiros automáticos, nebulizadores, CO2, etc."
                                     />
+
+                                    <div className="pt-4 space-y-4">
+                                        <QuestionToggle
+                                            label="Edificação de Ocupação Mista?"
+                                            icon={<Plus className={`w-6 h-6 ${isMixedOccupancy ? 'text-red-600' : 'text-slate-300'}`} />}
+                                            value={isMixedOccupancy}
+                                            onChange={(val) => {
+                                                setIsMixedOccupancy(val);
+                                                if (!val) setAdditionalOccupancies([]);
+                                            }}
+                                            description="Possui mais de um tipo de ocupação"
+                                        />
+
+                                        <AnimatePresence>
+                                            {isMixedOccupancy && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, height: 0 }}
+                                                    animate={{ opacity: 1, height: 'auto' }}
+                                                    exit={{ opacity: 0, height: 0 }}
+                                                    className="space-y-4 overflow-hidden"
+                                                >
+                                                    {additionalOccupancies.map((occ, idx) => (
+                                                        <div key={idx} className="p-4 bg-slate-50 rounded-2xl border-2 border-slate-100 space-y-4">
+                                                            <div className="flex items-center justify-between">
+                                                                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Ocupação Secundária #{idx + 1}</span>
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => removeOccupancy(idx)}
+                                                                    className="text-red-400 hover:text-red-600 transition-colors"
+                                                                >
+                                                                    <Trash2 className="w-4 h-4" />
+                                                                </button>
+                                                            </div>
+                                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                                <OccupancySelector
+                                                                    onSelect={(val) => updateOccupancy(idx, 'occupancy', val)}
+                                                                    selectedId={occ.occupancy}
+                                                                />
+                                                                <div className="relative group">
+                                                                    <Maximize className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
+                                                                    <input
+                                                                        type="number"
+                                                                        value={occ.area}
+                                                                        onChange={(e) => updateOccupancy(idx, 'area', e.target.value)}
+                                                                        placeholder="Área (m²)"
+                                                                        className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-slate-200 bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                    <button
+                                                        type="button"
+                                                        onClick={addOccupancy}
+                                                        className="w-full py-4 border-2 border-dashed border-slate-200 rounded-2xl text-slate-400 hover:text-red-600 hover:border-red-200 hover:bg-red-50 transition-all font-bold flex items-center justify-center gap-2"
+                                                    >
+                                                        <Plus className="w-5 h-5" />
+                                                        <span>Adicionar Outra Ocupação</span>
+                                                    </button>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    </div>
 
                                     <div className="pt-4">
                                         <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Prioridade do Projeto</label>

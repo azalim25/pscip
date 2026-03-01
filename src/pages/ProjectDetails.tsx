@@ -28,6 +28,7 @@ interface ProjectDetails {
     risk_level: string;
     has_hydraulic_system: boolean;
     building_type: 'EXISTENTE' | 'CONSTRUIDA';
+    mixed_occupancies?: { occupancy: string, area: number }[];
     status: string;
 }
 
@@ -265,6 +266,20 @@ export default function ProjectDetails() {
                                             <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">Tipo de Edificação</p>
                                             <p className="text-base font-bold leading-tight">{project.building_type === 'EXISTENTE' ? 'Edificação Existente' : 'Edificação Construída / Nova'}</p>
                                         </div>
+
+                                        {project.mixed_occupancies && project.mixed_occupancies.length > 0 && (
+                                            <div className="pt-2 border-t border-slate-100 mt-2">
+                                                <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2">Ocupações Secundárias (Mista)</p>
+                                                <div className="space-y-2">
+                                                    {project.mixed_occupancies.map((occ, i) => (
+                                                        <div key={i} className="flex items-center justify-between bg-slate-50 px-3 py-2 rounded-lg border border-slate-100">
+                                                            <span className="text-sm font-bold text-slate-700">{occ.occupancy}</span>
+                                                            <span className="text-xs font-black text-red-600 bg-red-50 px-2 py-1 rounded-md">{occ.area} m²</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
