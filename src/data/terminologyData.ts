@@ -669,5 +669,340 @@ export const terminologyData: TerminologyItem[] = [
         id: "4.127",
         term: "Corpo técnico",
         definition: "Grupo de estudo formado por profissionais do CBMMG, no âmbito de segurança contra incêndio e pânico, tendo como objetivos propor normas de segurança contra incêndio e pânico, analisar, avaliar e emitir pareceres relativos aos casos que necessitarem de soluções técnicas complexas ou apresentarem dúvidas quanto às exigências previstas no Regulamento de Segurança Contra Incêndio do Estado de Minas Gerais."
+    },
+    {
+        id: "4.128",
+        term: "Corrimão ou mainel",
+        definition: "Barra, cano ou peça similar, com superfície lisa, arredondada e contínua, aplicada em áreas de escadas e rampas destinadas a servir de apoio para as pessoas durante o deslocamento."
+    },
+    {
+        id: "4.129",
+        term: "Dano",
+        definition: "Lesões a pessoas, destruição de recursos naturais (água, ar, solo, animais, plantas ou ecossistemas) ou de bens materiais."
+    },
+    {
+        id: "4.130",
+        term: "Declaração de Dispensa de Licenciamento",
+        definition: "É o documento eletronicamente emitido às empresas, edificações ou espaços destinados ao uso coletivo classificados como nível de risco I, que declara que o empreendimento não precisa de vistoria prévia do Corpo de Bombeiros de Minas Gerais para iniciar seu funcionamento. Possui validade por prazo indeterminado, enquanto perdurarem as características declaradas pelo responsável. A emissão desta declaração é facultada ao interessado, uma vez que atividades/imóveis classificados como nível de risco I são dispensadas de quaisquer atos públicos de licenciamento."
+    },
+    {
+        id: "4.131",
+        term: "Degrau",
+        definition: "Conjunto de elementos de uma escada composta pela face horizontal conhecida como \"piso\", destinado ao pisoteio e o espelho que é a parte vertical do degrau, que lhe define a altura."
+    },
+    {
+        id: "4.132",
+        term: "Densidade populacional (d)",
+        definition: "Número de pessoas em uma área determinada (pessoas/m²)."
+    },
+    {
+        id: "4.133",
+        term: "Descarga",
+        definition: "Parte da saída de emergência de uma edificação que fica entre a escada e o logradouro público ou área externa com acesso a este."
+    },
+    {
+        id: "4.134",
+        term: "Deslizador de espuma",
+        definition: "Dispositivo destinado a facilitar a aplicação suave da espuma sobre líquidos combustíveis armazenados em tanques."
+    },
+    {
+        id: "4.135",
+        term: "Destravadores eletromagnéticos",
+        definition: "Dispositivo de controle de abertura com travamento determinado pelo acionamento magnético, decorrente da passagem de corrente elétrica."
+    },
+    {
+        id: "4.136",
+        term: "Detector automático de incêndio",
+        definition: "Dispositivo que, quando sensibilizado por fenômenos físicos e/ou químicos, detecta princípios de incêndio podendo ser ativado, basicamente, por calor, chama ou fumaça."
+    },
+    {
+        id: "4.137",
+        term: "Diretrizes de Preservação",
+        definition: "São as diretrizes relativas às intervenções de restauração, requalificação e conservação a serem consideradas pelos órgãos de preservação, de forma a subsidiar a análise pelos seus técnicos, em relação a projetos que se enquadram nesta Instrução Técnica. São expressas através das portarias e outros instrumentos internos, exarados pelas autoridades competentes, além das legislações norteadoras das atividades de cada órgão."
+    },
+    {
+        id: "4.138",
+        term: "Dispositivo de recalque",
+        definition: "Registro para uso do Corpo de Bombeiros, que permite o recalque de água para o sistema, podendo ser dentro da propriedade quando o acesso do Corpo de Bombeiros estiver garantido."
+    },
+    {
+        id: "4.139",
+        term: "Dispositivos de descarga",
+        definition: "Equipamentos que aplicam a espuma sob forma de neblina e que aplicam o agente numa corrente compacta de baixa velocidade. Podem ser: Dispositivos que descarregam a espuma sob a forma de aspersão e terminam em um defletor ou uma calha que distribui a espuma; dispositivos que descarregam a espuma sob a forma de uma corrente compacta de baixa velocidade; podem ter ou não defletores ou calhas incluídos como partes integrantes do sistema. Estes dispositivos podem ter formas como as de tubos abertos, esguichos de fluxo direcional, ou pequenas câmaras de geração com bocas de saídas abertas."
+    },
+    {
+        id: "4.140",
+        term: "Distância de segurança",
+        definition: "Afastamento entre uma face exposta da edificação ou de um local compartimentado à divisão do lote, ao eixo da rua ou a uma linha imaginária entre duas edificações ou áreas compartimentadas do mesmo lote, medida perpendicularmente à face exposta da edificação."
+    },
+    {
+        id: "4.141",
+        term: "Distância máxima a ser percorrida",
+        definition: "Distância máxima real, em metros, a ser percorrida pelo operador, do ponto de fixação do extintor a qualquer ponto da área protegida por ele."
+    },
+    {
+        id: "4.142",
+        term: "Distância máxima horizontal de caminhamento",
+        definition: "Afastamento máximo a ser percorrido pelo usuário para alcançar um acesso."
+    },
+    {
+        id: "4.143",
+        term: "Distância mínima de segurança",
+        definition: "Afastamento mínimo entre a área de armazenamento de recipientes transportáveis de gás liquefeito de petróleo (GLP) e outra instalação necessária para a segurança do usuário, do manipulador, de edificação e do público em geral, estabelecida a partir do limite de área de armazenamento."
+    },
+    {
+        id: "4.144",
+        term: "Distribuição de GNL a granel",
+        definition: "Compreende as atividades de aquisição ou recepção, armazenamento, transvasamento, controle de qualidade e comercialização do gás natural liquefeito (GNL), por meio de transporte próprio ou contratado, podendo também exercer a atividade de liquefação de gás natural, que serão realizadas por pessoas jurídicas constituídas sob as leis brasileiras, com sede e administração no País."
+    },
+    {
+        id: "4.145",
+        term: "Dispositivo de recalque",
+        definition: "Dispositivo para uso do corpo de Bombeiros, que permite recalque de água para o sistema, podendo ser dentro da propriedade quando o acesso do Corpo de Bombeiros estiver garantido."
+    },
+    {
+        id: "4.146",
+        term: "Divisória ou tabique",
+        definition: "Parede interna, baixa ou atingindo o teto, sem efeito estrutural e que, portanto, pode ser suprimida facilmente em caso de reforma."
+    },
+    {
+        id: "4.147",
+        term: "Documento digitalizado",
+        definition: "Reprodução digital de documento originalmente impresso."
+    },
+    {
+        id: "4.148",
+        term: "Dosador",
+        definition: "Equipamento destinado a misturar quantidades determinadas de \"extrato formador\" de espuma e água."
+    },
+    {
+        id: "4.149",
+        term: "Download",
+        definition: "Ato de transferir (descarregar, baixar) cópia de um arquivo de dados de um computador remoto para um dispositivo eletrônico local."
+    },
+    {
+        id: "4.150",
+        term: "Duplex",
+        definition: "Ao apartamento ou casa que apresenta dois pavimentos, ligados por uma escada construída no seu interior."
+    },
+    {
+        id: "4.151",
+        term: "Duto de entrada de ar (DE) / Duto de saída de ar (DS)",
+        definition: "Duto de entrada de ar (DE): Espaço no interior da edificação, que conduza ar puro, coletado ao nível inferior desta, às escadas, antecâmaras ou acessos, exclusivamente, mantendo-os, com isso, devidamente ventilados e livres de fumaça em caso de incêndio. Duto de saída de ar (DS): Espaço vertical no interior da edificação, que permite a saída, em qualquer pavimento, de gases e fumaça para o ar livre, acima da cobertura da edificação."
+    },
+    {
+        id: "4.152",
+        term: "Duto (\"plenum\")",
+        definition: "Condição de dimensionamento do sistema de pressurização no qual se admite apenas um ponto de pressurização, dispensando-se o duto interno e/ou externo para pressurização."
+    },
+    {
+        id: "4.153",
+        term: "DWG",
+        definition: "Drawing (desenho) - Extensão de arquivo de desenho para utilização em softwares assistentes de desenho ou similares."
+    },
+    {
+        id: "4.154",
+        term: "Edificação",
+        definition: "Área construída destinada a abrigar atividade humana, instalações, equipamentos ou materiais, podendo ser térrea, ainda que contenha mezanino, sobreloja e jirau, ou possuir mais de um pavimento."
+    },
+    {
+        id: "4.155",
+        term: "Edificação aberta lateralmente",
+        definition: "Edificação ou parte de edificação que, em cada pavimento: a) tenha ventilação permanente em duas ou mais fachadas externas, providas por aberturas que possam ser consideradas uniformemente distribuídas e que tenham comprimentos em planta que somados atinjam pelo menos 40% do perímetro do edifício e áreas que somadas correspondam a pelo menos 20% da superfície total das fachadas externas; ou b) tenha ventilação permanente em duas ou mais fachadas externas, provida por aberturas cujas áreas somadas correspondam a pelo menos 1/3 da superfície total das fachadas externas, e pelo menos 50% destas áreas abertas situadas em duas fachadas opostas."
+    },
+    {
+        id: "4.156",
+        term: "Edificação destinada ao comércio de fogos de artifício no varejo",
+        definition: "Local destinado ao armazenamento e venda de fogos de artifício e estampido industrializados."
+    },
+    {
+        id: "4.157",
+        term: "Edificações de Valor Cultural Protegidas",
+        definition: "Construções que pelo seu valor arquitetônico, histórico, artístico ou simbólico se revestem de significado para uma municipalidade, estado, país ou mesmo para a humanidade, sendo elemento importante para o entendimento da trajetória de determinada parcela da população em sua interação com o meio ambiente."
+    },
+    {
+        id: "4.158",
+        term: "Edificação em exposição",
+        definition: "Construção que recebe a radiação de calor, convecção de gases quentes ou a transmissão direta de chama."
+    },
+    {
+        id: "4.159",
+        term: "Edificação expositora",
+        definition: "Construção na qual o incêndio está ocorrendo, responsável pela radiação de calor, convecção de gases quentes e ou transmissão direta de chamas."
+    },
+    {
+        id: "4.160",
+        term: "Edificação principal",
+        definition: "Construção que abriga a atividade principal sem a qual as demais edificações não teriam função."
+    },
+    {
+        id: "4.161",
+        term: "Edificação térrea",
+        definition: "Edificação de um pavimento podendo possuir mezaninos, sobrelojas e jiraus."
+    },
+    {
+        id: "4.162",
+        term: "Edificação com tombamento isolado",
+        definition: "Edificação de elevado valor cultural cujas características externas e internas devem ser rigorosamente mantidas. Necessariamente, intervenções nestas edificações deverão ser autorizadas pelos órgãos de preservação pertinentes."
+    },
+    {
+        id: "4.163",
+        term: "Edificação Histórica",
+        definition: "Edificação de interesse do patrimônio histórico cultural que, comprovadamente, possui certidão de preservação do imóvel ou documento equivalente, fornecido pelos órgãos oficiais competentes e legalmente habilitados para certificação."
+    },
+    {
+        id: "4.164",
+        term: "Edificações inseridas em conjuntos urbanos protegidos",
+        definition: "Edificações com valor cultural agregado com certa flexibilidade nas intervenções internas mediante autorização dos órgãos de preservação pertinentes."
+    },
+    {
+        id: "4.165",
+        term: "Edificação do tipo Q",
+        definition: "É a edificação dividida em unidades de ocupação que, por suas características construtivas, não permite, ou pelo menos, dificulta significativamente a propagação do incêndio nas direções horizontal e vertical."
+    },
+    {
+        id: "4.166",
+        term: "Edificação do tipo T",
+        definition: "É a edificação que, por suas características construtivas, não permite ou, pelo menos, dificulta significativamente a propagação do incêndio na direção vertical."
+    },
+    {
+        id: "4.167",
+        term: "Edificações do tipo V",
+        definition: "É a edificação que não se classifica nos tipos Q ou T."
+    },
+    {
+        id: "4.168",
+        term: "Edificação protegida",
+        definition: "Bem imóvel ou edificação que por suas características históricas, estéticas ou arquitetônicas integram-se ao patrimônio sociocultural de uma localidade, devidamente reconhecido por órgão de preservação."
+    },
+    {
+        id: "4.169",
+        term: "Efeito chaminé (\"Stack effect\")",
+        definition: "Fluxo de ar vertical dentro das edificações, causado pela diferença de temperatura interna e externa."
+    },
+    {
+        id: "4.170",
+        term: "Efeito do sistema",
+        definition: "Efeito causado pelo erro de projeto e/ou instalação com configurações inadequadas do sistema onde o ventilador está instalado, ocasionando redução do desempenho do ventilador em termos de vazão."
+    },
+    {
+        id: "4.171",
+        term: "Elemento de compartimentação",
+        definition: "Elemento de construção que compõe a compartimentação da edificação."
+    },
+    {
+        id: "4.172",
+        term: "Elemento artístico",
+        definition: "Objetos que são testemunhos da criação humana que possuem valor histórico, artístico, científico, religioso e etc., sendo divididos em: Elementos Artísticos Móveis e Elementos artísticos integrados."
+    },
+    {
+        id: "4.173",
+        term: "Elemento artístico integrado",
+        definition: "Objetos que são testemunhos da criação humana que possuem valor histórico, artístico, religioso, científico e etc. Incluem-se aqueles que integram um determinado local para o qual eles foram especificamente pensados e produzidos, não podendo, por essa razão, ser transferidos ou removidos sem acarretar em danos e descaracterização do local ocupado originariamente por eles. Ex.: retábulos, retábulos com elementos com douramento, balaustrada, cimalha, coro, entre outros."
+    },
+    {
+        id: "4.174",
+        term: "Elementos Artísticos Móveis",
+        definition: "Objetos que são testemunhos da criação humana que possuem valor histórico, artístico, científico, religiosos etc. São objetos que não necessariamente complementam uma edificação ou sítio, os quais podem ser transferidos sem prejuízo para a peça ou para o conjunto. Ex.: obras de arte, prataria, esculturas, peças sacras, peças litúrgicas, lustres, entre outros."
+    },
+    {
+        id: "4.175",
+        term: "Elemento estrutural",
+        definition: "Todo e qualquer elemento de construção do qual dependa a resistência e a estabilidade total ou parcial da edificação."
+    },
+    {
+        id: "4.176",
+        term: "Elemento existente",
+        definition: "Guarda corpo, corrimão, escada ou outros elementos arquitetônicos existentes na época de tombamento."
+    },
+    {
+        id: "4.177",
+        term: "Emergência",
+        definition: "Situação crítica e fortuita que representa perigo à vida, ao meio ambiente e ao patrimônio, decorrente de atividade humana ou fenômeno da natureza que obriga a uma rápida intervenção operacional."
+    },
+    {
+        id: "4.178",
+        term: "Empreendimento",
+        definition: "Pessoa física ou jurídica que exerce atividades econômicas com assunção de responsabilidades e direitos, reguladas por legislação específica; e que necessitam de licenciamento, alvará ou documento similar para o exercício dessas atividades, salvo os casos de dispensa desse licenciamento previstos em legislação específica. Para fins da legislação de Segurança Contra Incêndio e Pânico o termo \"Empreendimento\" é equivalente ao termo \"empresa\"."
+    },
+    {
+        id: "4.179",
+        term: "Empreendimentos de risco alto",
+        definition: "São aqueles classificados como nível de risco III, conforme os critérios da IT 01."
+    },
+    {
+        id: "4.180",
+        term: "Empreendimentos de risco baixo",
+        definition: "São aqueles classificados como nível de risco II, conforme os critérios da IT 01, situados em edificação ou espaço destinado ao uso coletivo com área construída superior a 200 m² e igual ou inferior a 930 m², que não se enquadrem como nível de risco III, tendo em vista os critérios da IT 01."
+    },
+    {
+        id: "4.181",
+        term: "Entrepiso",
+        definition: "Conjunto de elementos de construção, com ou sem espaços vazios, compreendidos entre a parte inferior do forro de um pavimento e a parte superior do piso do pavimento imediatamente superior."
+    },
+    {
+        id: "4.182",
+        term: "EPI",
+        definition: "Equipamentos de proteção individual."
+    },
+    {
+        id: "4.183",
+        term: "EPI de nível \"A\"",
+        definition: "É o nível máximo de proteção para todas as possíveis vias de intoxicação, sendo por inalação, ingestão ou absorção cutânea. Utiliza-se roupa encapsulada de proteção química, com proteção respiratória de pressão positiva."
+    },
+    {
+        id: "4.184",
+        term: "EPI de nível \"B\"",
+        definition: "É o nível de proteção intermediário, para exposições de produtos com possibilidade de respingos. Utiliza-se roupa de proteção química conforme especificação da tabela de compatibilidade da roupa."
+    },
+    {
+        id: "4.185",
+        term: "EPI de nível \"C\"",
+        definition: "É o nível mínimo necessário a qualquer tipo de acidente envolvendo produtos químicos."
+    },
+    {
+        id: "4.186",
+        term: "EPR",
+        definition: "Equipamentos de proteção respiratória."
+    },
+    {
+        id: "4.187",
+        term: "Escada aberta",
+        definition: "Escada não enclausurada por paredes e porta corta-fogo."
+    },
+    {
+        id: "4.188",
+        term: "Escada aberta externa (AE)",
+        definition: "Escada de emergência precedida de porta corta-fogo (PCF) no seu acesso, cuja projeção esteja fora do corpo principal da edificação, sendo dotada de guarda-corpo ou gradil (Barreiras) e corrimãos em toda sua extensão (degraus e patamares), permitindo desta forma eficaz ventilação, propiciando um seguro abandono."
+    },
+    {
+        id: "4.189",
+        term: "Escada à prova de fumaça pressurizada (PFP)",
+        definition: "Escada à prova de fumaça, cuja condição de estanqueidade à fumaça é obtida por intermédio de pressurização."
+    },
+    {
+        id: "4.190",
+        term: "Escada enclausurada",
+        definition: "Escada protegida com paredes resistentes ao fogo e portas corta-fogo."
+    },
+    {
+        id: "4.191",
+        term: "Escada enclausurada à prova de fumaça (EPF)",
+        definition: "Escada cuja caixa é envolvida por paredes corta-fogo e dotada de portas corta-fogo, cujo acesso é por antecâmara igualmente enclausurada ou local aberto, de modo a evitar fogo e fumaça em caso de incêndio."
+    },
+    {
+        id: "4.192",
+        term: "Escada enclausurada protegida (EP)",
+        definition: "Escada devidamente ventilada situada em ambiente envolvido por paredes resistentes ao fogo e dotada de portas corta-fogo."
+    },
+    {
+        id: "4.193",
+        term: "Escada não enclausurada ou escada comum (NE)",
+        definition: "Escada que embora possa fazer parte de uma rota de saída, comunica-se diretamente com os demais ambientes como corredores, \"halls\" e outros, em cada pavimento, não possuindo portas corta-fogo."
+    },
+    {
+        id: "4.194",
+        term: "Escoamento (E)",
+        definition: "Número máximo de pessoas possíveis de abandonar um recinto dentro do tempo máximo de abandono."
     }
 ];
