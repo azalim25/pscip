@@ -95,10 +95,10 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                         initial={{ opacity: 0, scale: 0.9, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        className="relative w-full max-w-lg bg-white rounded-[2.5rem] shadow-2xl overflow-hidden"
+                        className="relative w-full max-w-lg bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
                     >
-                        {/* Header */}
-                        <div className="p-8 bg-red-600 text-white flex items-center justify-between">
+                        {/* Header - Fixed at top */}
+                        <div className="p-8 bg-red-600 text-white flex items-center justify-between shrink-0">
                             <div className="flex items-center gap-4">
                                 <div className="p-3 bg-white/10 rounded-2xl">
                                     <User className="w-6 h-6" />
@@ -116,132 +116,135 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                             </button>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="p-8 space-y-6">
-                            {error && (
-                                <div className="p-4 bg-red-50 text-red-600 rounded-2xl text-sm font-bold flex gap-3 border border-red-100">
-                                    <AlertCircle className="w-5 h-5 shrink-0" />
-                                    {error}
-                                </div>
-                            )}
-
-                            {success && (
-                                <div className="p-4 bg-green-50 text-green-600 rounded-2xl text-sm font-bold flex gap-3 border border-green-100">
-                                    <CheckCircle2 className="w-5 h-5 shrink-0" />
-                                    Perfil atualizado com sucesso!
-                                </div>
-                            )}
-
-                            <div className="space-y-4">
-                                <div>
-                                    <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">Nome Completo</label>
-                                    <div className="relative group">
-                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
-                                        <input
-                                            type="text"
-                                            value={fullName}
-                                            onChange={(e) => setFullName(e.target.value)}
-                                            placeholder="Seu nome completo"
-                                            required
-                                            className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900"
-                                        />
+                        {/* Scrollable Content Area */}
+                        <div className="flex-1 overflow-y-auto custom-scrollbar">
+                            <form onSubmit={handleSubmit} className="p-8 space-y-6">
+                                {error && (
+                                    <div className="p-4 bg-red-50 text-red-600 rounded-2xl text-sm font-bold flex gap-3 border border-red-100">
+                                        <AlertCircle className="w-5 h-5 shrink-0" />
+                                        {error}
                                     </div>
-                                </div>
+                                )}
 
-                                <div>
-                                    <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">Nome de Guerra</label>
-                                    <div className="relative group">
-                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
-                                        <input
-                                            type="text"
-                                            value={warName}
-                                            onChange={(e) => setWarName(e.target.value)}
-                                            placeholder="Seu nome de guerra"
-                                            required
-                                            className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900"
-                                        />
+                                {success && (
+                                    <div className="p-4 bg-green-50 text-green-600 rounded-2xl text-sm font-bold flex gap-3 border border-green-100">
+                                        <CheckCircle2 className="w-5 h-5 shrink-0" />
+                                        Perfil atualizado com sucesso!
                                     </div>
-                                </div>
+                                )}
 
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-4">
                                     <div>
-                                        <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">Posto/Graduação</label>
+                                        <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">Nome Completo</label>
                                         <div className="relative group">
-                                            <Shield className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
-                                            <select
-                                                value={rank}
-                                                onChange={(e) => setRank(e.target.value)}
+                                            <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
+                                            <input
+                                                type="text"
+                                                value={fullName}
+                                                onChange={(e) => setFullName(e.target.value)}
+                                                placeholder="Seu nome completo"
                                                 required
-                                                className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900 appearance-none pointer-events-auto"
-                                            >
-                                                <option value="" disabled>Selecione...</option>
-                                                {RANKS.map(r => (
-                                                    <option key={r} value={r}>{r}</option>
-                                                ))}
-                                            </select>
+                                                className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900"
+                                            />
                                         </div>
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">Número BM</label>
-                                        <div className="relative group grayscale">
-                                            <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                                        <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">Nome de Guerra</label>
+                                        <div className="relative group">
+                                            <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
                                             <input
                                                 type="text"
-                                                value={profile?.numero_bm || ''}
-                                                readOnly
-                                                className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-slate-100 bg-slate-100 outline-none font-bold text-slate-500 cursor-not-allowed"
-                                                title="O Número BM não pode ser alterado"
+                                                value={warName}
+                                                onChange={(e) => setWarName(e.target.value)}
+                                                placeholder="Seu nome de guerra"
+                                                required
+                                                className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">Posto/Graduação</label>
+                                            <div className="relative group">
+                                                <Shield className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
+                                                <select
+                                                    value={rank}
+                                                    onChange={(e) => setRank(e.target.value)}
+                                                    required
+                                                    className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900 appearance-none pointer-events-auto"
+                                                >
+                                                    <option value="" disabled>Selecione...</option>
+                                                    {RANKS.map(r => (
+                                                        <option key={r} value={r}>{r}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">Número BM</label>
+                                            <div className="relative group grayscale">
+                                                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                                                <input
+                                                    type="text"
+                                                    value={profile?.numero_bm || ''}
+                                                    readOnly
+                                                    className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-slate-100 bg-slate-100 outline-none font-bold text-slate-500 cursor-not-allowed"
+                                                    title="O Número BM não pode ser alterado"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">E-mail</label>
+                                        <div className="relative group">
+                                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
+                                            <input
+                                                type="email"
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                                placeholder="seu@email.com"
+                                                required
+                                                className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">Unidade</label>
+                                        <div className="relative group">
+                                            <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
+                                            <input
+                                                type="text"
+                                                value={unit}
+                                                onChange={(e) => setUnit(e.target.value)}
+                                                placeholder="Ex: 1º BBM"
+                                                required
+                                                className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900"
                                             />
                                         </div>
                                     </div>
                                 </div>
 
-                                <div>
-                                    <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">E-mail</label>
-                                    <div className="relative group">
-                                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
-                                        <input
-                                            type="email"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            placeholder="seu@email.com"
-                                            required
-                                            className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">Unidade</label>
-                                    <div className="relative group">
-                                        <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
-                                        <input
-                                            type="text"
-                                            value={unit}
-                                            onChange={(e) => setUnit(e.target.value)}
-                                            placeholder="Ex: 1º BBM"
-                                            required
-                                            className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-2xl transition-all shadow-xl shadow-red-600/20 active:scale-[0.98] disabled:opacity-70 flex items-center justify-center gap-2"
-                            >
-                                {loading ? (
-                                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                                ) : (
-                                    <>
-                                        <Save className="w-5 h-5" />
-                                        <span>Salvar Alterações</span>
-                                    </>
-                                )}
-                            </button>
-                        </form>
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-2xl transition-all shadow-xl shadow-red-600/20 active:scale-[0.98] disabled:opacity-70 flex items-center justify-center gap-2"
+                                >
+                                    {loading ? (
+                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                    ) : (
+                                        <>
+                                            <Save className="w-5 h-5" />
+                                            <span>Salvar Alterações</span>
+                                        </>
+                                    )}
+                                </button>
+                            </form>
+                        </div>
                     </motion.div>
                 </div>
             )}
