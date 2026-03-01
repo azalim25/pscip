@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import {
     Layout, MapPin, Calendar, ShieldAlert, Save, ArrowLeft,
-    Maximize, Ruler, Users, Landmark, Layers, Droplets, Flame, Check
+    Maximize, Ruler, Users, Landmark, Layers, Droplets, Flame, Check, AlertTriangle
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
@@ -29,6 +29,28 @@ export default function NewProject() {
     const [hasBasementUse, setHasBasementUse] = useState(false);
     const [hasLiquidFuel, setHasLiquidFuel] = useState(false);
     const [hasLpg, setHasLpg] = useState(false);
+
+    // Risk Level Calculation
+    const riskLevel = useMemo(() => {
+        const a = parseFloat(area) || 0;
+        const h = parseFloat(height) || 0;
+        const l = parseInt(occupancyLoad) || 0;
+
+        // Condition for Risco III
+        const isRiscoIII =
+            isHeritage ||
+            h > 12 ||
+            l > 100 ||
+            hasLiquidFuel ||
+            hasLpg ||
+            (cnae !== '' && cnae !== 'N/A') ||
+            a > 930;
+
+        if (isRiscoIII) return 'III';
+        if (a > 200) return 'II';
+        if (a > 0) return 'I';
+        return null;
+    }, [area, height, occupancyLoad, isHeritage, hasLiquidFuel, hasLpg, cnae]);
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -57,6 +79,7 @@ export default function NewProject() {
                     has_distinct_basement_use: hasBasementUse,
                     has_liquid_fuel: hasLiquidFuel,
                     has_lpg: hasLpg,
+                    risk_level: riskLevel ? `Nível de Risco ${riskLevel}` : null,
                     user_id: session.user.id,
                     status: 'EM ANÁLISE'
                 });
@@ -94,13 +117,33 @@ export default function NewProject() {
                                 <p className="text-slate-500 text-sm font-medium">Preencha as informações técnicas e de segurança</p>
                             </div>
                         </div>
-                        <button
-                            onClick={() => navigate('/')}
-                            className="flex items-center gap-2 text-slate-400 hover:text-red-600 font-bold transition-colors"
-                        >
-                            <ArrowLeft className="w-5 h-5" />
-                            <span>Voltar</span>
-                        </button>
+                        <div className="flex items-center gap-4">
+                            <AnimatePresence mode="wait">
+                                {riskLevel && (
+                                    <motion.div
+                                        key={riskLevel}
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.8 }}
+                                        className={`flex items-center gap-2 px-4 py-2 rounded-2xl border-2 font-black text-sm uppercase tracking-wider ${riskLevel === 'III' ? 'bg-red-600 border-red-700 text-white shadow-lg shadow-red-600/20' :
+                                            riskLevel === 'II' ? 'bg-orange-500 border-orange-600 text-white shadow-lg shadow-orange-500/20' :
+                                                'bg-green-600 border-green-700 text-white shadow-lg shadow-green-600/20'
+                                            }`}
+                                    >
+                                        <AlertTriangle className="w-4 h-4" />
+                                        <span>Risco {riskLevel}</span>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
+                            <button
+                                onClick={() => navigate('/')}
+                                className="flex items-center gap-2 text-slate-400 hover:text-red-600 font-bold transition-colors ml-2"
+                            >
+                                <ArrowLeft className="w-5 h-5" />
+                                <span>Voltar</span>
+                            </button>
+                        </div>
                     </div>
 
                     <form onSubmit={handleSubmit} className="p-8 space-y-12">
