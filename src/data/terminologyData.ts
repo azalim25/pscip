@@ -2469,5 +2469,330 @@ export const terminologyData: TerminologyItem[] = [
         id: "4.487",
         term: "Sistema de Informações do Serviço de Segurança Contra Incêndio e Pânico (Infoscip)",
         definition: "Sistema de regularização de edificações, controle e gestão de processos por meio digital."
+    },
+    {
+        id: "4.488",
+        term: "Sistema de prevenção contra incêndio e pânico",
+        definition: "Sistema constituído de equipamentos, materiais e conjuntos que atuam na proteção da vida e das edificações."
+    },
+    {
+        id: "4.489",
+        term: "Sistema preventivo eficaz automático",
+        definition: "Entendesse por todo equipamento que não dependa da ação humana para entrar em funcionamento e que debele o incêndio ainda no início, permitindo o menor dano possível ao patrimônio e preservando a vida humana."
+    },
+    {
+        id: "4.490",
+        term: "Sistema preventivo eficiente",
+        definition: "Entende-se pelo conjunto de equipamentos, cujo funcionamento dependa da ação humana para funcionar e possua carga extintora de comprovada eficiência."
+    },
+    {
+        id: "4.491",
+        term: "Sobreloja",
+        definition: "Entende-se por sobreloja o piso compreendido entre dois pavimentos contíguos, os quais tenham entre si altura suficiente para a interposição de um terceiro nível, o qual não configure um pavimento, possuindo altura do pé direito diferenciado do pé direito do pavimento tipo. A principal característica da sobreloja em relação ao jirau ou ao mezanino reside na característica de poder ser contido lateralmente por quatro paredes e com a possibilidade de ter ou não guarda-corpo em uma ou mais laterais. Sua função principal é de acondicionamento de materiais, servindo como área de depósito. Não se exclui destes níveis cujo aproveitamento seja constituído por escritórios, ou fechamentos de área para provadores, área de apoio aos funcionários e afins. A sobreloja pode ocupar toda a área de projeção em planta do pavimento imediatamente abaixo, mas com acesso exclusivo por este. Só existe sobreloja em edificações comercial ou mista, neste caso onde existir lojas (sala, escritório ou loja)."
+    },
+    {
+        id: "4.492",
+        term: "Solicitação de vistoria por autoridade pública",
+        definition: "Instrumento administrativo, utilizado para atender solicitação de autoridade pública, no setor de prevenção de incêndio do Corpo de Bombeiros Militar de Minas Gerais para realização de vistoria na edificação."
+    },
+    {
+        id: "4.493",
+        term: "Sprinkler",
+        definition: "Ver chuveiro automático."
+    },
+    {
+        id: "4.494",
+        term: "Subestação atendida",
+        definition: "Instalação operada localmente e que dispõe de pessoas permanentes ou estacionadas."
+    },
+    {
+        id: "4.495",
+        term: "Subestação compacta",
+        definition: "Instalação atendida ou não, localizada em região urbana, com os tipos descritos abaixo: a) Subestação abrigada: Instalação total ou parcialmente abrigada, devido a fatores diversos, com limitação de área do empreendimento, aspectos econômicos e sociais; b) Subestação subterrânea: instalações que se encontram situadas abaixo do nível do solo; c) Subestação de uso múltiplo: Instalação localizada em uma única área compartilhada pelo proprietário e por terceiros."
+    },
+    {
+        id: "4.496",
+        term: "Subestação de uso múltiplo",
+        definition: "Instalação convencional, acrescida de outras edificações separadas e distanciadas entre si, de único proprietário."
+    },
+    {
+        id: "4.497",
+        term: "Subestação elétrica convencional",
+        definition: "Instalação de pátio que se encontra ao ar livre, podendo os transformadores permanecer ou não enclausurados."
+    },
+    {
+        id: "4.498",
+        term: "Subestação não-atendida",
+        definition: "Instalação tele controlada ou operada localmente por pessoas não permanentes ou não estacionadas."
+    },
+    {
+        id: "4.499",
+        term: "Subsolo",
+        definition: "Pavimento situado abaixo do perfil do terreno. Não será considerado subsolo o pavimento que possuir ventilação natural e tiver sua laje de cobertura acima de 1,20m do perfil do terreno."
+    },
+    {
+        id: "4.500",
+        term: "Supervisão (\"supervision\")",
+        definition: "Auto teste do sistema de controle de fumaça, na qual o circuito de condutores ou dispositivos de função são monitorados para acompanhar a falha ou integridade dos condutores e dos equipamentos que controlam o sistema."
+    },
+    {
+        id: "4.501",
+        term: "Tanque",
+        definition: "Reservatório cilíndrico para armazenar líquidos combustíveis ou inflamáveis."
+    },
+    {
+        id: "4.502",
+        term: "Tanque atmosférico não refrigerado",
+        definition: "Reservatório não equipado com sistema de refrigeração."
+    },
+    {
+        id: "4.503",
+        term: "Tanque atmosférico refrigerado",
+        definition: "Reservatório equipado com sistema de refrigeração, que visa a controlar a temperatura entre – 35°C a – 40°C de forma a manter o gás liquefeito de petróleo (GLP) em estado líquido sem a necessidade de pressurização."
+    },
+    {
+        id: "4.504",
+        term: "Tanques de maior risco",
+        definition: "Reservatório contendo líquidos combustíveis ou inflamáveis e que possui maior demanda de vazão de espuma mecânica."
+    },
+    {
+        id: "4.505",
+        term: "Tanque de teto cônico",
+        definition: "Reservatório com teto soldado na parte superior do costado."
+    },
+    {
+        id: "4.506",
+        term: "Tanque de teto flutuante",
+        definition: "Reservatório cujo teto será diretamente apoiado na superfície do líquido no qual flutua."
+    },
+    {
+        id: "4.507",
+        term: "Tanque vertical",
+        definition: "Reservatório de base apoiada sobre o solo."
+    },
+    {
+        id: "4.508",
+        term: "Taxa de aplicação",
+        definition: "Vazão de solução de espuma a ser lançada sobre a área da superfície líquida em chamas."
+    },
+    {
+        id: "4.509",
+        term: "Temperatura crítica",
+        definition: "Temperatura que causa o colapso no elemento estrutural."
+    },
+    {
+        id: "4.510",
+        term: "Tempo de comutação",
+        definition: "Intervalo de tempo entre a interrupção da alimentação da rede elétrica da concessionária e a entrada em funcionamento do sistema de iluminação de emergência."
+    },
+    {
+        id: "4.511",
+        term: "Tempo máximo de abandono (t)",
+        definition: "Duração considerada para que todos os ocupantes do recinto consigam atingir o espaço livre exterior."
+    },
+    {
+        id: "4.512",
+        term: "Tempo requerido de resistência ao fogo (TRRF)",
+        definition: "Duração de resistência ao fogo dos elementos construtivos de uma edificação, estabelecida pelas normas."
+    },
+    {
+        id: "4.513",
+        term: "Terceiros",
+        definition: "Prestadores de serviço."
+    },
+    {
+        id: "4.514",
+        term: "Terraço",
+        definition: "Local descoberto sobre uma edificação ou ao nível de um de seus pavimentos acima do pavimento térreo."
+    },
+    {
+        id: "4.515",
+        term: "Teste",
+        definition: "Verificação ou prova (fazer funcionar experimentalmente), para determinar a qualidade ou comportamento de um sistema de acordo com as condições estabelecidas na Instrução Técnica."
+    },
+    {
+        id: "4.516",
+        term: "Tombamento",
+        definition: "Ato administrativo oriundo dos órgãos de preservação atuantes no Estado de Minas Gerais, nas esferas Federal, Estadual e Municipais, que tem por finalidade proteger, por intermédio da aplicação de leis específicas, bens de valor cultural, impedindo que venham a ser destruídos ou descaracterizados. Compreende o documento legal hábil para situar a edificação no campo de abrangência desta Instrução Técnica."
+    },
+    {
+        id: "4.517",
+        term: "Tombamento de Fachada",
+        definition: "O acabamento e/ou detalhes do acabamento da fachada, casos em que a estrutura e volumes já foram mexidos, mas a fachada e/ou seus detalhes são importantes para serem preservados."
+    },
+    {
+        id: "4.518",
+        term: "Tombamento de Gabarito",
+        definition: "Altura da edificação, ou seja, as alturas do telhado e cumeeira não podem ser alteradas, para não destoar em relação a um conjunto de imóveis."
+    },
+    {
+        id: "4.519",
+        term: "Tombamento Volumétrico",
+        definition: "Toda a envoltória da edificação, fachada telhado e paredes externas (casca da edificação), suas dimensões, podem também ser de um conjunto de edificações, neste caso as paredes internas podem ser mexidas."
+    },
+    {
+        id: "4.520",
+        term: "Torre de espuma",
+        definition: "Equipamento portátil destinado a facilitar a aplicação da espuma em tanques."
+    },
+    {
+        id: "4.521",
+        term: "Trajetórias de escape",
+        definition: "Vazão de ar que sai dos ambientes pressurizados, definida no projeto do sistema, e é através deste fluxo de ar que são estabelecidas a trajetória que serão percorridas pelo ar que gera a pressurização."
+    },
+    {
+        id: "4.522",
+        term: "Tubo-luva de proteção",
+        definition: "Dispositivo no interior do qual a tubulação de gás (GLP, nafta, natural ou outro similar) é montada, e cuja finalidade é diminuir o risco de um princípio de incêndio, próximo às juntas, soldas e conexões; atingir a proteção contra incêndio existente nos dutos de sucção e/ou pressurização, visando ainda ao não confinamento de gás em locais não ventilados."
+    },
+    {
+        id: "4.523",
+        term: "Tubulação",
+        definition: "Conjunto de tubos, conexões e outros acessórios destinados a conduzir água, desde a reserva de incêndio até os hidrantes ou mangotinhos."
+    },
+    {
+        id: "4.524",
+        term: "Tubulação seca",
+        definition: "Parte do sistema de hidrantes, que por condições específicas, fica permanentemente sem água no seu interior, sendo pressurizada por viatura de combate a incêndios."
+    },
+    {
+        id: "4.525",
+        term: "Túnel rodoviário",
+        definition: "Passagem horizontal construída embaixo da terra ou da água usado para o tráfego de automóveis."
+    },
+    {
+        id: "4.526",
+        term: "Unidade autônoma",
+        definition: "Parte da edificação, constituída de dependências e instalações de uso privativo, podendo possuir mais de um pavimento, desde que ligados por uma escada construída no interior da unidade, assinalada por designação especial numérica, para efeitos de identificação, nos termos da Lei Federal nº 4.591, de 16 de dezembro de 1964."
+    },
+    {
+        id: "4.527",
+        term: "Unidade de passagem",
+        definition: "Largura mínima para a passagem de uma fila de pessoas, fixada em 0,55 m. Nota: Capacidade de uma unidade de passagem é o número de pessoas que passa por esta unidade em 1,0 minuto."
+    },
+    {
+        id: "4.528",
+        term: "Unidade de processamento",
+        definition: "Estabelecimento ou parte de estabelecimento cujo objetivo principal é misturar, aquecer, separar ou processar, de outra forma, líquidos inflamáveis. Nesta definição não estão incluídas as refinarias, destilarias ou unidades químicas."
+    },
+    {
+        id: "4.529",
+        term: "Unidade extintora",
+        definition: "Extintor que atende a capacidade extintora mínima prevista em norma em função do risco e natureza do fogo."
+    },
+    {
+        id: "4.530",
+        term: "Usuário externo",
+        definition: "Indivíduo que acessa os serviços fornecidos pelo Portal da Prevenção (Serviços, Consultas e Downloads)."
+    },
+    {
+        id: "4.531",
+        term: "Usuário interno",
+        definition: "Bombeiro militar que acessa os ambientes e recursos do sistema de acordo com suas funções, por meio de identificação própria (login) e senha pessoal intrasferível."
+    },
+    {
+        id: "4.532",
+        term: "Usuário RT",
+        definition: "É o usuário Responsável Técnico, habilitado pelo respectivo conselho profissional, para a elaboração e execução de PSCIP, cadastrado para utilização do assistente de produção de processos digitais e demais procedimentos disponíveis no Infoscip, por meio de identificação própria (login) e senha pessoal e intrasferível."
+    },
+    {
+        id: "4.533",
+        term: "Válvula de retenção",
+        definition: "Dispositivo hidráulico destinado a evitar o retorno da água para o reservatório."
+    },
+    {
+        id: "4.534",
+        term: "Válvulas",
+        definition: "Acessórios de tubulação destinado a controlar ou bloquear o fluxo de água no interior das tubulações."
+    },
+    {
+        id: "4.535",
+        term: "Varanda",
+        definition: "Parte da edificação, não em balanço, limitada pela parede perimetral do edifício, tendo pelo menos uma das faces aberta para o logradouro ou área de ventilação."
+    },
+    {
+        id: "4.536",
+        term: "Vazamento",
+        definition: "Vazão de ar que sai do ambiente e/ou da rede de dutos de modo não desejável causando perda de uma parcela do ar que é insuflado."
+    },
+    {
+        id: "4.537",
+        term: "Vedadores corta-fogo",
+        definition: "Dispositivos construtivos com tempo mínimo de resistência ao fogo, instalados nas aberturas das paredes de compartimentação ou dos entrepisos, destinadas à passagem de instalações elétricas, hidráulicas, etc."
+    },
+    {
+        id: "4.538",
+        term: "Veículo abastecedor",
+        definition: "Veículo especificamente homologado para transporte e transferência de gás liquefeito de petróleo (GLP) a granel."
+    },
+    {
+        id: "4.539",
+        term: "Veículo transportador",
+        definition: "Veículo que dispõe de tanque criogênico, especialmente projetado e utilizado para o transporte e transvasamento de gás natural liquefeito (GNL) e devidamente certificado pelo INMETRO."
+    },
+    {
+        id: "4.540",
+        term: "Velos",
+        definition: "Dispositivos instalados no interior de curvas, bifurcações ou outros acessórios com a finalidade de direcionar o fluxo de ar, visando, também, à diminuição da perda de carga localizada."
+    },
+    {
+        id: "4.541",
+        term: "Velocidade (v)",
+        definition: "Distância percorrida por uma pessoa em uma unidade de tempo (m/min)."
+    },
+    {
+        id: "4.542",
+        term: "Veneziana de tomada de ar",
+        definition: "Dispositivo localizado em local fora do risco de contaminação por fumaça proveniente do incêndio e por partículas que proporcionam o suprimento de ar adequado para o sistema de pressurização."
+    },
+    {
+        id: "4.543",
+        term: "Ventilação constante",
+        definition: "Movimentação constante de ar em um ambiente."
+    },
+    {
+        id: "4.544",
+        term: "Ventilação cruzada",
+        definition: "Movimentação de ar, que se caracteriza por aberturas situadas em lados opostos das paredes de uma edificação, sendo uma localizada junto ao piso e a outra situada junto ao teto."
+    },
+    {
+        id: "4.545",
+        term: "Via de acesso",
+        definition: "Espaço destinado para as viaturas do CBMMG acessarem o entorno da edificação, espaço destinado ao uso coletivo ou faixa de estacionamento."
+    },
+    {
+        id: "4.546",
+        term: "Via urbana",
+        definition: "Espaços abertos destinados à circulação pública (tais como ruas, avenidas, vielas, ou caminhos e similares), situados na área urbana e caracterizados principalmente por possuírem imóveis edificados ao longo de sua extensão."
+    },
+    {
+        id: "4.547",
+        term: "Viaduto",
+        definition: "Obra de construção civil destinada a transpor uma depressão de terreno ou servir de passagem superior."
+    },
+    {
+        id: "4.548",
+        term: "Vias de acesso para atendimento a emergências",
+        definition: "Áreas ou locais definidos para passagem de pessoas, em casos de abandono de emergência, e/ou para transporte de equipamentos ou materiais para extinção de incêndios."
+    },
+    {
+        id: "4.549",
+        term: "Vigas principais",
+        definition: "Elementos estruturais ligados diretamente aos pilares ou a outros elementos estruturais que sejam essenciais à estabilidade do edifício como um todo."
+    },
+    {
+        id: "4.550",
+        term: "Vistoria",
+        definition: "Ato de certificar o cumprimento das exigências das medidas de proteção contra incêndio e pânico nas edificações e espaços destinados ao uso coletivo por meio de exame no local."
+    },
+    {
+        id: "4.551",
+        term: "Vistoriador",
+        definition: "Servidor público militar, credenciado para o serviço de vistoria do Corpo de Bombeiros Militar de Minas Gerais."
+    },
+    {
+        id: "4.552",
+        term: "Vítima",
+        definition: "Pessoa ou animal que sofreu qualquer tipo de lesão ou danos."
     }
 ];
