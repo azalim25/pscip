@@ -7,6 +7,7 @@ import NewProject from './pages/NewProject';
 import ProjectDetails from './pages/ProjectDetails';
 import EditProject from './pages/EditProject';
 import ViewProjects from './pages/ViewProjects';
+import Terminology from './pages/Terminology';
 
 import { ReactNode } from 'react';
 
@@ -55,6 +56,14 @@ export default function App() {
                         element={
                             <ProtectedRoute>
                                 <Classification />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/terminology"
+                        element={
+                            <ProtectedRoute>
+                                <Terminology />
                             </ProtectedRoute>
                         }
                     />

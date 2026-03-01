@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Layout, ScrollText, ChevronRight, LogOut, Plus, Search } from 'lucide-react';
+import { X, Layout, ScrollText, ChevronRight, LogOut, Plus, Search, Book } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -18,6 +18,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         { label: 'Novo Projeto', path: '/new-project', icon: Plus },
         { label: 'Visualizar Projetos', path: '/view-projects', icon: Search },
         { label: 'Classificações', path: '/classification', icon: ScrollText },
+        { label: 'Terminologia', path: '/terminology', icon: Book },
     ];
 
     return (
