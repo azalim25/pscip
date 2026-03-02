@@ -31,6 +31,7 @@ interface ProjectDetails {
     has_internal_roadway: boolean;
     construction_date: string | null;
     is_motel_without_corridors: boolean;
+    is_wholesale_high_storage: boolean;
     building_type: 'EXISTENTE' | 'CONSTRUIDA';
     has_compartmentation: boolean;
     mixed_occupancies?: { occupancy: string, area: number, height: number }[];
@@ -77,9 +78,17 @@ export default function ProjectDetails() {
 
         const risk = project.risk_level?.split(' ').pop();
         const isExistente = project.building_type === 'EXISTENTE';
+        const isWholesaleHigh = project.is_wholesale_high_storage;
+        const mainOcc = project.occupancy;
+        const isGroupC = mainOcc?.startsWith('C-');
+
+        // Note 9 treatment: if wholesale high storage, add J-4 to considerations
+        const effectiveOccupancy = (isGroupC && isWholesaleHigh && !mainOcc.includes('J'))
+            ? `${mainOcc} / J-4`
+            : mainOcc;
 
         if (!project.mixed_occupancies || project.mixed_occupancies.length === 0) {
-            const c = getClassification(project.occupancy, project.area, project.height, project.occupancy_load, project.has_hydraulic_system);
+            const c = getClassification(effectiveOccupancy, project.area, project.height, project.occupancy_load, project.has_hydraulic_system);
             return { ...c, requiresStructural: c.pt && !isExistente, requiresAlarm: c.pt, requiresHydrants: c.pt };
         }
 
@@ -87,41 +96,29 @@ export default function ProjectDetails() {
         let pts = false;
         let ptd = false;
 
-        if (project.has_compartmentation) {
-            // "Se a ocupação tem compartimentação as medidas de segurança serão exigidas para cada ocupação e projetadas individualmente"
-            const main = getClassification(project.occupancy, project.area, project.height, project.occupancy_load, project.has_hydraulic_system);
-            const secondary = project.mixed_occupancies.map(m => getClassification(m.occupancy, m.area, m.height, 0, false));
+        const main = getClassification(effectiveOccupancy, project.area, project.height, project.occupancy_load, project.has_hydraulic_system);
+        const secondary = project.mixed_occupancies.map(m => getClassification(m.occupancy, m.area, m.height, 0, false));
 
+        if (project.has_compartmentation) {
             pt = main.pt || secondary.some(s => s.pt);
             pts = !pt && (main.pts || secondary.some(s => s.pts));
             ptd = !pt && !pts && (main.ptd || secondary.some(s => s.ptd));
-
-            return {
-                pt, pts, ptd,
-                requiresStructural: pt && !isExistente,
-                requiresAlarm: pt,
-                requiresHydrants: pt
-            };
         } else {
-            // "Se a ocupação não tem compartimentação... A área de cada ocupação deve ser somada e a altura de cada ocupação também deve ser somada."
             const totalArea = project.area + project.mixed_occupancies.reduce((sum, m) => sum + m.area, 0);
-            const totalHeight = project.height + project.mixed_occupancies.reduce((sum, m) => sum + m.height, 0);
-
-            const main = getClassification(project.occupancy, project.area, project.height, project.occupancy_load, project.has_hydraulic_system);
-            const secondary = project.mixed_occupancies.map(m => getClassification(m.occupancy, m.area, m.height, 0, false));
-            const combined = getClassification(project.occupancy, totalArea, totalHeight, project.occupancy_load, project.has_hydraulic_system);
+            const totalHeight = project.height + project.mixed_occupancies.reduce((sum, h) => sum + h.height, 0);
+            const combined = getClassification(effectiveOccupancy, totalArea, totalHeight, project.occupancy_load, project.has_hydraulic_system);
 
             pt = main.pt || secondary.some(s => s.pt) || combined.pt;
             pts = !pt && (main.pts || secondary.some(s => s.pts) || combined.pts);
             ptd = !pt && !pts && (main.ptd || secondary.some(s => s.ptd) || combined.ptd);
-
-            return {
-                pt, pts, ptd,
-                requiresStructural: pt && !isExistente,
-                requiresAlarm: pt,
-                requiresHydrants: pt
-            };
         }
+
+        return {
+            pt, pts, ptd,
+            requiresStructural: pt && !isExistente,
+            requiresAlarm: pt,
+            requiresHydrants: pt
+        };
     }, [project]);
 
     const isPT = projectClassification.pt;
@@ -546,11 +543,20 @@ function OccupancySafetyMeasures({
     const isExistente = project.building_type === 'EXISTENTE';
     const isGroupA2A3 = occupancy?.includes('A-2') || occupancy?.includes('A-3');
     const isGroupB = occupancy?.startsWith('B-') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.startsWith('B-')));
+    const isGroupC = occupancy?.startsWith('C-') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.startsWith('C-')));
+    const isGroupC3 = occupancy?.includes('C-3') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.includes('C-3')));
     const isPartyHall = occupancy?.toLowerCase().includes('festas') || occupancy?.toLowerCase().includes('auditório');
+
+    // Rule for C-3 with F-5, F-6, F-11 and pop > 500
+    const needsSpecialGroupF = isGroupC3 && load > 500 && (
+        occupancy?.includes('F-5') || occupancy?.includes('F-6') || occupancy?.includes('F-11') ||
+        (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.includes('F-5') || m.occupancy.includes('F-6') || m.occupancy.includes('F-11')))
+    );
 
     const constructionDate = project.construction_date ? new Date(project.construction_date) : null;
     const isBefore2005 = constructionDate && constructionDate <= new Date('2005-07-01');
     const triggeringAreaB = isBefore2005 ? 1200 : 930;
+    const triggeringAreaC = isBefore2005 ? 1200 : 930;
 
     const measures = [];
 
@@ -564,11 +570,11 @@ function OccupancySafetyMeasures({
         );
     }
 
-    if (risk === 'III' || isH2H5 || (isGroupA2A3 && height > 30) || (isGroupB && height > 12)) {
+    if (risk === 'III' || isH2H5 || (isGroupA2A3 && height > 30) || (isGroupB && height > 12) || (isGroupC && height > 12) || (isGroupC && area > 2000)) {
         measures.push({ icon: <Users />, title: "Brigada de Incêndio", description: "Grupo organizado de pessoas treinadas para atuar na prevenção e combate." });
     }
 
-    if (risk === 'III' || isH2H5 || (isGroupA2A3 && height > 30) || (isGroupB && area > triggeringAreaB)) {
+    if (risk === 'III' || isH2H5 || (isGroupA2A3 && height > 30) || (isGroupB && area > triggeringAreaB) || (isGroupC && area > triggeringAreaC) || (isGroupC && height > 12) || (isGroupC && area > 2000)) {
         measures.push({
             icon: <Bell />,
             title: "Alarme de Incêndio",
@@ -578,15 +584,17 @@ function OccupancySafetyMeasures({
         });
     }
 
-    if (isGroupB && height > 30 && height <= 54) {
+    if ((isGroupB && height > 30 && height <= 54) || (isGroupC && needsSpecialGroupF) || (isGroupC && height > 30)) {
         measures.push({
             icon: <Search />,
             title: "Detecção de Incêndio",
-            description: "Sistema de detecção automática, inclusive dentro dos quartos."
+            description: needsSpecialGroupF
+                ? "Sistema de detecção automática para áreas do Grupo F com população > 500."
+                : (isGroupB ? "Sistema de detecção automática, inclusive dentro dos quartos." : "Sistema de detecção automática de incêndio.")
         });
     }
 
-    if (isGroupB && height > 30 && height <= 54) {
+    if ((isGroupB && height > 30 && height <= 54) || (isGroupC && area > 2000) || (isGroupC && height > 12)) {
         measures.push({
             icon: <FileText />,
             title: "Plano de Intervenção",
@@ -594,7 +602,7 @@ function OccupancySafetyMeasures({
         });
     }
 
-    if (risk === 'III' || isH2H5 || (isGroupA2A3 && isPartyHall && load > 200) || (isGroupB && isPartyHall && load > 200)) {
+    if (risk === 'III' || isH2H5 || (isGroupA2A3 && isPartyHall && load > 200) || (isGroupB && isPartyHall && load > 200) || (isGroupC && area > 2000)) {
         measures.push({ icon: <Paintbrush />, title: "CMAR", description: "Controle de Materiais de Acabamento e Revestimento." });
     }
 
@@ -619,50 +627,63 @@ function OccupancySafetyMeasures({
                 description: "Vias de acesso para viaturas do Corpo de Bombeiros.",
                 isExempt: isExistente ||
                     (isGroupA2A3 && height <= 30 && area <= 1200 && !project.has_internal_roadway) ||
-                    (isGroupB && height <= 12 && area <= 930 && !project.has_internal_roadway)
+                    (isGroupB && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
+                    (isGroupC && height <= 12 && area <= 930 && !project.has_internal_roadway)
             },
             {
                 icon: <Building2 />,
                 title: "Segurança Estrutural",
                 description: "Segurança estrutural contra incêndio (TRRF).",
-                isExempt: isExistente || (isGroupA2A3 && height <= 12) || (isGroupB && height <= 12)
+                isExempt: isExistente ||
+                    (isGroupA2A3 && height <= 12) ||
+                    (isGroupB && height <= 12) ||
+                    (isGroupC && height <= 12 && area <= 930)
             },
             {
                 icon: <Layers />,
                 title: "Compartimentação Horizontal",
-                description: isGroupB && height > 12 && height <= 30
+                description: (isGroupB && height > 12 && height <= 30) || (isGroupC && height <= 12 && area > 930)
                     ? "Exigências de compartimentação (pode ser substituída por Sprinklers, exceto em shafts)."
                     : "Exigências de compartimentação para evitar propagação de calor e fumaça.",
-                isExempt: isExistente
+                isExempt: isExistente || (isGroupC && height <= 12 && area <= 930)
             },
             {
                 icon: <Layers />,
                 title: "Compartimentação Vertical",
                 description: "Exigências de compartimentação para evitar propagação entre pavimentos.",
-                isExempt: isExistente || (isGroupA2A3 && height <= 30) || (isGroupB && height <= 12)
+                isExempt: isExistente ||
+                    (isGroupA2A3 && height <= 30) ||
+                    (isGroupB && height <= 12) ||
+                    (isGroupC && height <= 12)
             },
             {
                 icon: <Droplets />,
                 title: "Sistema de Hidrantes",
                 description: "Rede de hidrantes e mangotinhos.",
                 isExempt: (isGroupA2A3 && height <= 12 && area <= 1200) ||
-                    (isGroupB && height <= 12 && area <= triggeringAreaB)
+                    (isGroupB && height <= 12 && area <= triggeringAreaB) ||
+                    (isGroupC && height <= 12 && area <= triggeringAreaC)
             },
             {
                 icon: <Droplets />,
                 title: "Chuveiros Automáticos",
                 description: "Sistemas de chuveiros automáticos (Sprinklers).",
-                isExempt: isExistente && !(isGroupB && height > 30)
+                isExempt: isExistente &&
+                    !(isGroupB && height > 30) &&
+                    !(isGroupC && height > 30) &&
+                    !(isGroupC && occupancy?.includes('C-3') && (occupancy?.includes('F-5') || occupancy?.includes('F-6') || occupancy?.includes('F-11')))
             },
             {
                 icon: <Flame />,
                 title: "Controle de Fumaça",
                 description: "Sistemas para controle de movimentação de fumaça.",
-                isExempt: isExistente || (isGroupB && height <= 54)
+                isExempt: isExistente ||
+                    (isGroupB && height <= 54) ||
+                    (isGroupC && height <= 30 && !needsSpecialGroupF)
             }
         ];
 
-        // Filter measures based on being PT or Group A/B
+        // Filter measures based on being PT or Group A/B/C
         const filteredAdv = advMeasures.filter(m => {
             if (isPT) return true;
             if (isGroupA2A3) {
@@ -681,6 +702,15 @@ function OccupancySafetyMeasures({
                 if (m.title === "Controle de Fumaça" && height > 54) return true;
                 if (m.title === "Iluminação de Emergência" && project.is_motel_without_corridors) return true;
                 if (m.title === "Sinalização de Emergência" && project.is_motel_without_corridors) return true;
+            }
+            if (isGroupC) {
+                if (m.title === "Acesso de Viaturas") return true;
+                if (m.title === "Segurança Estrutural" && (height > 12 || area > 930)) return true;
+                if (m.title === "Compartimentação Horizontal" && (height > 12 || area > 930)) return true;
+                if (m.title === "Compartimentação Vertical" && height > 12) return true;
+                if (m.title === "Sistema de Hidrantes") return true;
+                if (m.title === "Chuveiros Automáticos" && (height > 30 || (height > 12 && needsSpecialGroupF))) return true;
+                if (m.title === "Controle de Fumaça" && (height > 30 || needsSpecialGroupF)) return true;
             }
             return false;
         });

@@ -33,6 +33,7 @@ export default function EditProject() {
     const [hasLpg, setHasLpg] = useState(false);
     const [hasHydraulicSystem, setHasHydraulicSystem] = useState(false);
     const [hasInternalRoadway, setHasInternalRoadway] = useState(false);
+    const [isWholesaleHighStorage, setIsWholesaleHighStorage] = useState(false);
     const [constructionDate, setConstructionDate] = useState('');
     const [isMotelWithoutCorridors, setIsMotelWithoutCorridors] = useState(false);
     const [buildingType, setBuildingType] = useState<'EXISTENTE' | 'CONSTRUIDA'>('CONSTRUIDA');
@@ -73,6 +74,7 @@ export default function EditProject() {
                     setHasLpg(data.has_lpg || false);
                     setHasHydraulicSystem(data.has_hydraulic_system || false);
                     setHasInternalRoadway(data.has_internal_roadway || false);
+                    setIsWholesaleHighStorage(data.is_wholesale_high_storage || false);
                     setConstructionDate(data.construction_date || '');
                     setIsMotelWithoutCorridors(data.is_motel_without_corridors || false);
                     setBuildingType(data.building_type || 'CONSTRUIDA');
@@ -184,6 +186,7 @@ export default function EditProject() {
                     has_lpg: hasLpg,
                     has_hydraulic_system: hasHydraulicSystem,
                     has_internal_roadway: hasInternalRoadway,
+                    is_wholesale_high_storage: isWholesaleHighStorage,
                     construction_date: constructionDate || null,
                     is_motel_without_corridors: isMotelWithoutCorridors,
                     risk_level: riskLevel ? `Nível de Risco ${riskLevel}` : null,
@@ -512,6 +515,14 @@ export default function EditProject() {
                                         value={isMotelWithoutCorridors}
                                         onChange={setIsMotelWithoutCorridors}
                                         description="Para ocupações do Grupo B que não possuam circulação interna comum."
+                                    />
+
+                                    <QuestionToggle
+                                        label="Atacado/Atacarejo com estocagem > 3,70m?"
+                                        icon={<Layers className={`w-6 h-6 ${isWholesaleHighStorage ? 'text-red-600' : 'text-slate-300'}`} />}
+                                        value={isWholesaleHighStorage}
+                                        onChange={setIsWholesaleHighStorage}
+                                        description="Nota 9: Altura de armazenamento superior a 3,70m no salão de vendas."
                                     />
 
                                     <div className="pt-4 space-y-4">
