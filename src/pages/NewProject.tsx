@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
     Layout, MapPin, Calendar, ShieldAlert, Save, ArrowLeft,
-    Maximize, Ruler, Users, Landmark, Layers, Droplets, Flame, Check, AlertTriangle, Droplet, Plus, Trash2
+    Maximize, Ruler, Users, Landmark, Layers, Droplets, Flame, Check, AlertTriangle, Droplet, Plus, Trash2, LogOut
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
@@ -32,6 +32,8 @@ export default function NewProject() {
     const [hasLpg, setHasLpg] = useState(false);
     const [hasHydraulicSystem, setHasHydraulicSystem] = useState(false);
     const [hasInternalRoadway, setHasInternalRoadway] = useState(false);
+    const [constructionDate, setConstructionDate] = useState('');
+    const [isMotelWithoutCorridors, setIsMotelWithoutCorridors] = useState(false);
     const [isMixedOccupancy, setIsMixedOccupancy] = useState(false);
     const [hasCompartmentation, setHasCompartmentation] = useState(false);
     const [additionalOccupancies, setAdditionalOccupancies] = useState<{ occupancy: string, area: string, height: string }[]>([]);
@@ -132,6 +134,8 @@ export default function NewProject() {
                     building_type: buildingType,
                     has_compartmentation: hasCompartmentation,
                     has_internal_roadway: hasInternalRoadway,
+                    construction_date: constructionDate || null,
+                    is_motel_without_corridors: isMotelWithoutCorridors,
                     mixed_occupancies: additionalOccupancies
                         .filter(o => o.occupancy !== '' && parseFloat(o.area) >= 930)
                         .map(o => ({
@@ -318,6 +322,34 @@ export default function NewProject() {
                                         selectedId={occupancy}
                                     />
 
+                                    <div>
+                                        <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Data de Construção / Início de Obra</label>
+                                        <div className="relative group">
+                                            <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors" />
+                                            <input
+                                                type="date"
+                                                value={constructionDate}
+                                                onChange={(e) => {
+                                                    const dateVal = e.target.value;
+                                                    setConstructionDate(dateVal);
+                                                    if (dateVal) {
+                                                        const cutoff = new Date('2025-07-01');
+                                                        const chosen = new Date(dateVal);
+                                                        if (chosen < cutoff) {
+                                                            setBuildingType('EXISTENTE');
+                                                        } else {
+                                                            setBuildingType('CONSTRUIDA');
+                                                        }
+                                                    }
+                                                }}
+                                                className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-900"
+                                            />
+                                        </div>
+                                        <p className="text-[10px] font-medium text-slate-400 mt-2 ml-1 italic text-center">
+                                            Edificações anteriores a 01/07/2025 são consideradas **Existentes**.
+                                        </p>
+                                    </div>
+
                                     <div className="pt-4">
                                         <label className="block text-sm font-bold text-slate-700 mb-3 ml-1">Tipo de Edificação</label>
                                         <div className="flex p-1 bg-slate-100 rounded-2xl w-full">
@@ -409,6 +441,14 @@ export default function NewProject() {
                                         value={hasInternalRoadway}
                                         onChange={setHasInternalRoadway}
                                         description="Aplica-se a condomínios residenciais horizontais ou verticais com vias internas."
+                                    />
+
+                                    <QuestionToggle
+                                        label="Motel sem corredores internos cobertos?"
+                                        icon={<LogOut className={`w-6 h-6 ${isMotelWithoutCorridors ? 'text-red-600' : 'text-slate-300'}`} />}
+                                        value={isMotelWithoutCorridors}
+                                        onChange={setIsMotelWithoutCorridors}
+                                        description="Para ocupações do Grupo B que não possuam circulação interna comum."
                                     />
 
                                     <div className="pt-4 space-y-4">
