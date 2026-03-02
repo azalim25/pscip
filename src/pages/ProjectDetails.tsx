@@ -570,7 +570,7 @@ function OccupancySafetyMeasures({
         );
     }
 
-    if (risk === 'III' || isH2H5 || (isGroupA2A3 && height > 30) || (isGroupB && height > 12) || (isGroupC && height > 12) || (isGroupC && area > 2000)) {
+    if (risk === 'III' || isH2H5 || (isGroupA2A3 && height > 54) || (isGroupB && height > 12) || (isGroupC && height > 12) || (isGroupC && area > 2000)) {
         measures.push({ icon: <Users />, title: "Brigada de Incêndio", description: "Grupo organizado de pessoas treinadas para atuar na prevenção e combate." });
     }
 
@@ -602,7 +602,7 @@ function OccupancySafetyMeasures({
         });
     }
 
-    if (risk === 'III' || isH2H5 || (isGroupA2A3 && isPartyHall && load > 200) || (isGroupB && isPartyHall && load > 200) || (isGroupC && area > 2000)) {
+    if (risk === 'III' || isH2H5 || (isGroupA2A3 && height > 12) || (isGroupA2A3 && isPartyHall && load > 200) || (isGroupB && isPartyHall && load > 200) || (isGroupC && area > 2000)) {
         measures.push({ icon: <Paintbrush />, title: "CMAR", description: "Controle de Materiais de Acabamento e Revestimento." });
     }
 
@@ -626,7 +626,7 @@ function OccupancySafetyMeasures({
                 title: "Acesso de Viaturas",
                 description: "Vias de acesso para viaturas do Corpo de Bombeiros.",
                 isExempt: isExistente ||
-                    (isGroupA2A3 && height <= 30 && area <= 1200 && !project.has_internal_roadway) ||
+                    (isGroupA2A3 && height <= 12 && area <= 1200 && !project.has_internal_roadway) ||
                     (isGroupB && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
                     (isGroupC && height <= 12 && area <= 930 && !project.has_internal_roadway)
             },
