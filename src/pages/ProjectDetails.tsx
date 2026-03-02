@@ -27,6 +27,7 @@ interface ProjectDetails {
     has_lpg: boolean;
     risk_level: string;
     has_hydraulic_system: boolean;
+    has_internal_roadway: boolean;
     building_type: 'EXISTENTE' | 'CONSTRUIDA';
     has_compartmentation: boolean;
     mixed_occupancies?: { occupancy: string, area: number, height: number }[];
@@ -540,6 +541,8 @@ function OccupancySafetyMeasures({
     const isE6 = occupancy?.includes('E-6') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.includes('E-6')));
     const isH2H5 = occupancy?.includes('H-2') || occupancy?.includes('H-5') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.includes('H-2') || m.occupancy.includes('H-5')));
     const isExistente = project.building_type === 'EXISTENTE';
+    const isGroupA2A3 = occupancy?.includes('A-2') || occupancy?.includes('A-3');
+    const isPartyHall = occupancy?.toLowerCase().includes('festas') || occupancy?.toLowerCase().includes('auditório');
 
     const measures = [];
 
@@ -553,27 +556,80 @@ function OccupancySafetyMeasures({
         );
     }
 
-    if (isE6 || risk === 'III' || isH2H5) {
+    if (isE6 || risk === 'III' || isH2H5 || (isGroupA2A3 && height > 54)) {
         measures.push({ icon: <Users />, title: "Brigada de Incêndio", description: "Grupo organizado de pessoas treinadas para atuar na prevenção e combate." });
     }
 
-    if (risk === 'III' || isH2H5) {
+    if (risk === 'III' || isH2H5 || (isGroupA2A3 && height > 30)) {
+        measures.push({ icon: <Bell />, title: "Alarme de Incêndio", description: "Sistema de detecção e alarme de incêndio." });
+    }
+
+    if (risk === 'III' || isH2H5 || (isGroupA2A3 && isPartyHall && load > 200)) {
         measures.push({ icon: <Paintbrush />, title: "CMAR", description: "Controle de Materiais de Acabamento e Revestimento." });
     }
 
     // Advanced Measures
-    if (isPT) {
+    if (isPT || isGroupA2A3) {
         const advMeasures = [
-            { icon: <ShieldAlert />, title: "Acesso de Viaturas", description: "Vias de acesso para viaturas do Corpo de Bombeiros.", isExempt: isExistente },
-            { icon: <Building2 />, title: "Segurança Estrutural", description: "Segurança estrutural contra incêndio (TRRF).", isExempt: isExistente },
-            { icon: <Layers />, title: "Compartimentação Horizontal", description: "Exigências de compartimentação para evitar propagação de calor e fumaça.", isExempt: isExistente },
-            { icon: <Layers />, title: "Compartimentação Vertical", description: "Exigências de compartimentação para evitar propagação entre pavimentos.", isExempt: isExistente },
-            { icon: <Bell />, title: "Alarme de Incêndio", description: "Sistema de detecção e alarme de incêndio." },
-            { icon: <Droplets />, title: "Sistema de Hidrantes", description: "Rede de hidrantes e mangotinhos." },
-            { icon: <Droplets />, title: "Chuveiros Automáticos", description: "Sistemas de chuveiros automáticos (Sprinklers).", isExempt: isExistente },
-            { icon: <Flame />, title: "Controle de Fumaça", description: "Sistemas para controle de movimentação de fumaça.", isExempt: isExistente }
+            {
+                icon: <ShieldAlert />,
+                title: "Acesso de Viaturas",
+                description: "Vias de acesso para viaturas do Corpo de Bombeiros.",
+                isExempt: isExistente || (isGroupA2A3 && height <= 30 && area <= 1200 && !project.has_internal_roadway)
+            },
+            {
+                icon: <Building2 />,
+                title: "Segurança Estrutural",
+                description: "Segurança estrutural contra incêndio (TRRF).",
+                isExempt: isExistente || (isGroupA2A3 && height <= 12)
+            },
+            {
+                icon: <Layers />,
+                title: "Compartimentação Horizontal",
+                description: "Exigências de compartimentação para evitar propagação de calor e fumaça.",
+                isExempt: isExistente
+            },
+            {
+                icon: <Layers />,
+                title: "Compartimentação Vertical",
+                description: "Exigências de compartimentação para evitar propagação entre pavimentos.",
+                isExempt: isExistente || (isGroupA2A3 && height <= 30)
+            },
+            {
+                icon: <Droplets />,
+                title: "Sistema de Hidrantes",
+                description: "Rede de hidrantes e mangotinhos.",
+                isExempt: isGroupA2A3 && height <= 12 && area <= 1200
+            },
+            {
+                icon: <Droplets />,
+                title: "Chuveiros Automáticos",
+                description: "Sistemas de chuveiros automáticos (Sprinklers).",
+                isExempt: isExistente
+            },
+            {
+                icon: <Flame />,
+                title: "Controle de Fumaça",
+                description: "Sistemas para controle de movimentação de fumaça.",
+                isExempt: isExistente
+            }
         ];
-        measures.push(...advMeasures);
+
+        // Filter measures based on being PT or Group A
+        // If it's Group A but not PT, we only show specific ones mentioned in the rules
+        const filteredAdv = advMeasures.filter(m => {
+            if (isPT) return true;
+            if (isGroupA2A3) {
+                // For non-PT Group A, we show these if they are mandatory or mentioned
+                if (m.title === "Acesso de Viaturas") return true;
+                if (m.title === "Segurança Estrutural" && height > 12) return true;
+                if (m.title === "Compartimentação Vertical" && height > 30) return true;
+                if (m.title === "Sistema de Hidrantes") return true;
+            }
+            return false;
+        });
+
+        measures.push(...filteredAdv);
     } else if (!isExistente && project.mixed_occupancies && project.mixed_occupancies.length > 0) {
         if (globalStructural) measures.push({ icon: <Building2 />, title: "Segurança Estrutural", description: "Segurança estrutural contra incêndio (TRRF) - Exigência Global." });
         if (globalAlarm) measures.push({ icon: <Bell />, title: "Alarme de Incêndio", description: "Sistema de detecção e alarme de incêndio - Exigência Global." });

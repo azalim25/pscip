@@ -32,6 +32,7 @@ export default function EditProject() {
     const [hasLiquidFuel, setHasLiquidFuel] = useState(false);
     const [hasLpg, setHasLpg] = useState(false);
     const [hasHydraulicSystem, setHasHydraulicSystem] = useState(false);
+    const [hasInternalRoadway, setHasInternalRoadway] = useState(false);
     const [buildingType, setBuildingType] = useState<'EXISTENTE' | 'CONSTRUIDA'>('CONSTRUIDA');
     const [isMixedOccupancy, setIsMixedOccupancy] = useState(false);
     const [hasCompartmentation, setHasCompartmentation] = useState(false);
@@ -69,6 +70,7 @@ export default function EditProject() {
                     setHasLiquidFuel(data.has_liquid_fuel || false);
                     setHasLpg(data.has_lpg || false);
                     setHasHydraulicSystem(data.has_hydraulic_system || false);
+                    setHasInternalRoadway(data.has_internal_roadway || false);
                     setBuildingType(data.building_type || 'CONSTRUIDA');
                     setHasCompartmentation(data.has_compartmentation || false);
                     const mixed = data.mixed_occupancies || [];
@@ -177,6 +179,7 @@ export default function EditProject() {
                     has_liquid_fuel: hasLiquidFuel,
                     has_lpg: hasLpg,
                     has_hydraulic_system: hasHydraulicSystem,
+                    has_internal_roadway: hasInternalRoadway,
                     risk_level: riskLevel ? `Nível de Risco ${riskLevel}` : null,
                     building_type: buildingType,
                     has_compartmentation: hasCompartmentation,
@@ -459,6 +462,14 @@ export default function EditProject() {
                                         value={hasHydraulicSystem}
                                         onChange={setHasHydraulicSystem}
                                         description="Hidrantes, chuveiros automáticos, nebulizadores, CO2, etc."
+                                    />
+
+                                    <QuestionToggle
+                                        label="Condomínio com arruamento interno?"
+                                        icon={<MapPin className={`w-6 h-6 ${hasInternalRoadway ? 'text-red-600' : 'text-slate-300'}`} />}
+                                        value={hasInternalRoadway}
+                                        onChange={setHasInternalRoadway}
+                                        description="Aplica-se a condomínios residenciais horizontais ou verticais com vias internas."
                                     />
 
                                     <div className="pt-4 space-y-4">

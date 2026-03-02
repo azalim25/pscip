@@ -31,6 +31,7 @@ export default function NewProject() {
     const [hasLiquidFuel, setHasLiquidFuel] = useState(false);
     const [hasLpg, setHasLpg] = useState(false);
     const [hasHydraulicSystem, setHasHydraulicSystem] = useState(false);
+    const [hasInternalRoadway, setHasInternalRoadway] = useState(false);
     const [isMixedOccupancy, setIsMixedOccupancy] = useState(false);
     const [hasCompartmentation, setHasCompartmentation] = useState(false);
     const [additionalOccupancies, setAdditionalOccupancies] = useState<{ occupancy: string, area: string, height: string }[]>([]);
@@ -130,6 +131,7 @@ export default function NewProject() {
                     status: 'EM ANÁLISE',
                     building_type: buildingType,
                     has_compartmentation: hasCompartmentation,
+                    has_internal_roadway: hasInternalRoadway,
                     mixed_occupancies: additionalOccupancies
                         .filter(o => o.occupancy !== '' && parseFloat(o.area) >= 930)
                         .map(o => ({
@@ -399,6 +401,14 @@ export default function NewProject() {
                                         value={hasHydraulicSystem}
                                         onChange={setHasHydraulicSystem}
                                         description="Hidrantes, chuveiros automáticos, nebulizadores, CO2, etc."
+                                    />
+
+                                    <QuestionToggle
+                                        label="Condomínio com arruamento interno?"
+                                        icon={<MapPin className={`w-6 h-6 ${hasInternalRoadway ? 'text-red-600' : 'text-slate-300'}`} />}
+                                        value={hasInternalRoadway}
+                                        onChange={setHasInternalRoadway}
+                                        description="Aplica-se a condomínios residenciais horizontais ou verticais com vias internas."
                                     />
 
                                     <div className="pt-4 space-y-4">
