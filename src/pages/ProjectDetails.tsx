@@ -71,42 +71,50 @@ export default function ProjectDetails() {
     const projectClassification = useMemo(() => {
         if (!project) return { pt: false, pts: false, ptd: false, requiresStructural: false, requiresAlarm: false, requiresHydrants: false };
 
+        const risk = project.risk_level?.split(' ').pop();
+
         if (!project.mixed_occupancies || project.mixed_occupancies.length === 0) {
             const c = getClassification(project.occupancy, project.area, project.height, project.occupancy_load, project.has_hydraulic_system);
             return { ...c, requiresStructural: c.pt, requiresAlarm: c.pt, requiresHydrants: c.pt };
         }
 
+        let pt = false;
+        let pts = false;
+        let ptd = false;
+
         if (project.has_compartmentation) {
             // "Se a ocupação tem compartimentação as medidas de segurança serão exigidas para cada ocupação e projetadas individualmente"
-            // The main classification of the project itself could be seen as the most rigorous one for the summary
             const main = getClassification(project.occupancy, project.area, project.height, project.occupancy_load, project.has_hydraulic_system);
             const secondary = project.mixed_occupancies.map(m => getClassification(m.occupancy, m.area, m.height, 0, false));
 
+            pt = main.pt || secondary.some(s => s.pt);
+            pts = !pt && (main.pts || secondary.some(s => s.pts));
+            ptd = !pt && !pts && (main.ptd || secondary.some(s => s.ptd));
+
             return {
-                pt: main.pt || secondary.some(s => s.pt),
-                pts: main.pts || secondary.some(s => s.pts),
-                ptd: main.ptd || secondary.some(s => s.ptd),
-                requiresStructural: main.pt || secondary.some(s => s.pt),
-                requiresAlarm: main.pt || secondary.some(s => s.pt),
-                requiresHydrants: main.pt || secondary.some(s => s.pt)
+                pt, pts, ptd,
+                requiresStructural: pt,
+                requiresAlarm: pt,
+                requiresHydrants: pt
             };
         } else {
             // "Se a ocupação não tem compartimentação... A área de cada ocupação deve ser somada e a altura de cada ocupação também deve ser somada."
             const totalArea = project.area + project.mixed_occupancies.reduce((sum, m) => sum + m.area, 0);
             const totalHeight = project.height + project.mixed_occupancies.reduce((sum, m) => sum + m.height, 0);
 
-            // Check individual triggers AND combined trigger
             const main = getClassification(project.occupancy, project.area, project.height, project.occupancy_load, project.has_hydraulic_system);
             const secondary = project.mixed_occupancies.map(m => getClassification(m.occupancy, m.area, m.height, 0, false));
             const combined = getClassification(project.occupancy, totalArea, totalHeight, project.occupancy_load, project.has_hydraulic_system);
 
+            pt = main.pt || secondary.some(s => s.pt) || combined.pt;
+            pts = !pt && (main.pts || secondary.some(s => s.pts) || combined.pts);
+            ptd = !pt && !pts && (main.ptd || secondary.some(s => s.ptd) || combined.ptd);
+
             return {
-                pt: main.pt || secondary.some(s => s.pt) || combined.pt,
-                pts: (main.pts || secondary.some(s => s.pts) || combined.pts) && !combined.pt,
-                ptd: (main.ptd || secondary.some(s => s.ptd) || combined.ptd) && !combined.pt && !combined.pts,
-                requiresStructural: main.pt || secondary.some(s => s.pt) || combined.pt,
-                requiresAlarm: main.pt || secondary.some(s => s.pt) || combined.pt,
-                requiresHydrants: main.pt || secondary.some(s => s.pt) || combined.pt
+                pt, pts, ptd,
+                requiresStructural: pt,
+                requiresAlarm: pt,
+                requiresHydrants: pt
             };
         }
     }, [project]);

@@ -37,27 +37,40 @@ export default function NewProject() {
 
     // Risk Level Calculation
     const riskLevel = useMemo(() => {
-        const a = parseFloat(area) || 0;
-        const h = parseFloat(height) || 0;
-        const l = parseInt(occupancyLoad) || 0;
+        const calculateForOccupancy = (occ: string, a: string, h: string, l: string) => {
+            const areaVal = parseFloat(a) || 0;
+            const heightVal = parseFloat(h) || 0;
+            const loadVal = parseInt(l) || 0;
 
-        // Condition for Risco III
-        const isRiscoIII =
-            isHeritage ||
-            h > 12 ||
-            l > 100 ||
-            hasLiquidFuel ||
-            hasLpg ||
-            (cnae !== '' && cnae !== 'N/A') ||
-            a > 930 ||
-            occupancy.includes('H-2') ||
-            occupancy.includes('H-5');
+            const isRiscoIII =
+                isHeritage ||
+                heightVal > 12 ||
+                loadVal > 100 ||
+                hasLiquidFuel ||
+                hasLpg ||
+                (cnae !== '' && cnae !== 'N/A') ||
+                areaVal > 930 ||
+                occ.includes('H-2') ||
+                occ.includes('H-5');
 
-        if (isRiscoIII) return 'III';
-        if (a > 200) return 'II';
-        if (a > 0) return 'I';
+            if (isRiscoIII) return 3;
+            if (areaVal > 200) return 2;
+            if (areaVal > 0) return 1;
+            return 0;
+        };
+
+        const levels = [
+            calculateForOccupancy(occupancy, area, height, occupancyLoad),
+            ...additionalOccupancies.map(o => calculateForOccupancy(o.occupancy, o.area, o.height, '0'))
+        ];
+
+        const maxLevel = Math.max(...levels);
+
+        if (maxLevel === 3) return 'III';
+        if (maxLevel === 2) return 'II';
+        if (maxLevel === 1) return 'I';
         return null;
-    }, [area, height, occupancyLoad, isHeritage, hasLiquidFuel, hasLpg, cnae, occupancy]);
+    }, [area, height, occupancyLoad, isHeritage, hasLiquidFuel, hasLpg, cnae, occupancy, additionalOccupancies]);
 
     const addOccupancy = () => {
         setAdditionalOccupancies([...additionalOccupancies, { occupancy: '', area: '', height: '' }]);
