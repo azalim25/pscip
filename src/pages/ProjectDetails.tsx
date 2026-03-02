@@ -5,7 +5,7 @@ import {
     Layout, MapPin, Calendar, ShieldAlert, ArrowLeft,
     Maximize, Ruler, Users, Landmark, Layers, Droplets, Flame,
     Check, AlertTriangle, Building2, Tag, Edit3, ShieldCheck,
-    Lightbulb, Navigation, LogOut, Paintbrush, Bell
+    Lightbulb, Navigation, LogOut, Paintbrush, Bell, Info
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Header } from '../components/layout/Header';
@@ -72,10 +72,11 @@ export default function ProjectDetails() {
         if (!project) return { pt: false, pts: false, ptd: false, requiresStructural: false, requiresAlarm: false, requiresHydrants: false };
 
         const risk = project.risk_level?.split(' ').pop();
+        const isExistente = project.building_type === 'EXISTENTE';
 
         if (!project.mixed_occupancies || project.mixed_occupancies.length === 0) {
             const c = getClassification(project.occupancy, project.area, project.height, project.occupancy_load, project.has_hydraulic_system);
-            return { ...c, requiresStructural: c.pt, requiresAlarm: c.pt, requiresHydrants: c.pt };
+            return { ...c, requiresStructural: c.pt && !isExistente, requiresAlarm: c.pt, requiresHydrants: c.pt };
         }
 
         let pt = false;
@@ -93,7 +94,7 @@ export default function ProjectDetails() {
 
             return {
                 pt, pts, ptd,
-                requiresStructural: pt,
+                requiresStructural: pt && !isExistente,
                 requiresAlarm: pt,
                 requiresHydrants: pt
             };
@@ -112,7 +113,7 @@ export default function ProjectDetails() {
 
             return {
                 pt, pts, ptd,
-                requiresStructural: pt,
+                requiresStructural: pt && !isExistente,
                 requiresAlarm: pt,
                 requiresHydrants: pt
             };
@@ -561,33 +562,27 @@ function OccupancySafetyMeasures({
     }
 
     // Advanced Measures
-    if (isPT && !isExistente) {
-        measures.push(
-            { icon: <ShieldAlert />, title: "Acesso de Viaturas", description: "Vias de acesso para viaturas do Corpo de Bombeiros." },
-            { icon: <Building2 />, title: "Segurança Estrutural", description: "Segurança estrutural contra incêndio (TRRF)." },
-            { icon: <Layers />, title: "Compartimentação Horizontal", description: "Exigências de compartimentação para evitar propagação de calor e fumaça." },
-            { icon: <Layers />, title: "Compartimentação Vertical", description: "Exigências de compartimentação para evitar propagação entre pavimentos." },
+    if (isPT) {
+        const advMeasures = [
+            { icon: <ShieldAlert />, title: "Acesso de Viaturas", description: "Vias de acesso para viaturas do Corpo de Bombeiros.", isExempt: isExistente },
+            { icon: <Building2 />, title: "Segurança Estrutural", description: "Segurança estrutural contra incêndio (TRRF).", isExempt: isExistente },
+            { icon: <Layers />, title: "Compartimentação Horizontal", description: "Exigências de compartimentação para evitar propagação de calor e fumaça.", isExempt: isExistente },
+            { icon: <Layers />, title: "Compartimentação Vertical", description: "Exigências de compartimentação para evitar propagação entre pavimentos.", isExempt: isExistente },
             { icon: <Bell />, title: "Alarme de Incêndio", description: "Sistema de detecção e alarme de incêndio." },
             { icon: <Droplets />, title: "Sistema de Hidrantes", description: "Rede de hidrantes e mangotinhos." },
-            { icon: <Droplets />, title: "Chuveiros Automáticos", description: "Sistemas de chuveiros automáticos (Sprinklers)." },
-            { icon: <Flame />, title: "Controle de Fumaça", description: "Sistemas para controle de movimentação de fumaça." }
-        );
+            { icon: <Droplets />, title: "Chuveiros Automáticos", description: "Sistemas de chuveiros automáticos (Sprinklers).", isExempt: isExistente },
+            { icon: <Flame />, title: "Controle de Fumaça", description: "Sistemas para controle de movimentação de fumaça.", isExempt: isExistente }
+        ];
+        measures.push(...advMeasures);
     } else if (!isExistente && project.mixed_occupancies && project.mixed_occupancies.length > 0) {
-        // Global Measures Override for mixed projects that are NOT PT overall (though very unlikely as the rule says if any is PT, all are PT)
-        // But the rule says: "quando exigidas em quaisquer das ocupações, deverão ser projetadas em toda a edificação"
-        // This implies even if the building is NOT PT, if an individual occupancy triggered these, everyone gets them.
-
         if (globalStructural) measures.push({ icon: <Building2 />, title: "Segurança Estrutural", description: "Segurança estrutural contra incêndio (TRRF) - Exigência Global." });
         if (globalAlarm) measures.push({ icon: <Bell />, title: "Alarme de Incêndio", description: "Sistema de detecção e alarme de incêndio - Exigência Global." });
         if (globalHydrants) measures.push({ icon: <Droplets />, title: "Sistema de Hidrantes", description: "Rede de hidrantes e mangotinhos - Exigência Global." });
     }
 
-    // Handle Integrated Rules: "Se a ocupação não tem compartimentação todas as medidas de segurança deverão ser projetadas em todo o projeto"
-    // This is already handled by calculating across the integrated state.
-
     return (
         <div className="bg-white p-6 sm:p-10 rounded-[2.5rem] shadow-xl border border-slate-50">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 border-l-4 border-red-600 pl-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-l-4 border-red-600 pl-4">
                 <div>
                     <h3 className="text-2xl font-black text-slate-800">{title}</h3>
                     <p className="text-slate-500 font-medium italic">
@@ -601,6 +596,15 @@ function OccupancySafetyMeasures({
                 </div>
             </div>
 
+            {isExistente && (
+                <div className="mb-8 p-4 bg-blue-50 border border-blue-100 rounded-2xl flex items-center gap-3">
+                    <Info className="w-5 h-5 text-blue-600" />
+                    <p className="text-xs font-bold text-blue-700 italic">
+                        Edificação Existente: Algumas medidas de segurança possuem isenção automática conforme legislação vigente.
+                    </p>
+                </div>
+            )}
+
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {measures.map((measure, idx) => (
                     <motion.div
@@ -608,13 +612,24 @@ function OccupancySafetyMeasures({
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.05 }}
-                        className="p-6 rounded-[2rem] bg-slate-50 border-2 border-slate-100 hover:border-red-100 hover:bg-white hover:shadow-lg transition-all"
+                        className={`p-6 rounded-[2rem] border-2 transition-all hover:shadow-lg ${(measure as any).isExempt
+                            ? 'bg-slate-50/50 border-slate-100 opacity-75 grayscale-[0.5]'
+                            : 'bg-slate-50 border-slate-100 hover:border-red-100 hover:bg-white'
+                            }`}
                     >
                         <div className="flex items-center gap-4 mb-4">
-                            <div className="p-3 bg-red-600 text-white rounded-2xl shadow-lg shadow-red-600/20">
+                            <div className={`p-3 rounded-2xl shadow-lg ${(measure as any).isExempt
+                                ? 'bg-slate-400 text-white shadow-slate-400/20'
+                                : 'bg-red-600 text-white shadow-red-600/20'
+                                }`}>
                                 {React.cloneElement(measure.icon as React.ReactElement<any>, { className: "w-5 h-5" })}
                             </div>
-                            <h4 className="font-black text-slate-800 leading-tight">{measure.title}</h4>
+                            <div>
+                                <h4 className="font-black text-slate-800 leading-tight">{measure.title}</h4>
+                                {(measure as any).isExempt && (
+                                    <span className="text-[9px] font-black bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full uppercase tracking-tighter">Isento</span>
+                                )}
+                            </div>
                         </div>
                         <p className="text-xs font-bold text-slate-500 leading-relaxed">
                             {measure.description}
