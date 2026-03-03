@@ -570,11 +570,11 @@ function OccupancySafetyMeasures({
         );
     }
 
-    if (risk === 'III' || isH2H5 || (isGroupA2A3 && height > 54) || (isGroupB && height > 12) || (isGroupC && height > 12) || (isGroupC && area > 2000)) {
+    if (isH2H5 || (risk === 'III' && !isGroupA2A3) || (isGroupA2A3 && height > 54) || (isGroupB && height > 12) || (isGroupC && height > 12) || (isGroupC && area > 2000)) {
         measures.push({ icon: <Users />, title: "Brigada de Incêndio", description: "Grupo organizado de pessoas treinadas para atuar na prevenção e combate." });
     }
 
-    if (risk === 'III' || isH2H5 || (isGroupA2A3 && height > 30) || (isGroupB && area > triggeringAreaB) || (isGroupC && area > triggeringAreaC) || (isGroupC && height > 12) || (isGroupC && area > 2000)) {
+    if (isH2H5 || (risk === 'III' && !isGroupA2A3) || (isGroupA2A3 && height > 30) || (isGroupB && area > triggeringAreaB) || (isGroupC && area > triggeringAreaC) || (isGroupC && height > 12) || (isGroupC && area > 2000)) {
         measures.push({
             icon: <Bell />,
             title: "Alarme de Incêndio",
@@ -602,7 +602,7 @@ function OccupancySafetyMeasures({
         });
     }
 
-    if (risk === 'III' || isH2H5 || (isGroupA2A3 && height > 12) || (isGroupA2A3 && isPartyHall && load > 200) || (isGroupB && isPartyHall && load > 200) || (isGroupC && area > 2000)) {
+    if (isH2H5 || (risk === 'III' && !isGroupA2A3) || (isGroupA2A3 && height > 12) || (isGroupA2A3 && isPartyHall && load > 200) || (isGroupB && isPartyHall && load > 200) || (isGroupC && area > 2000)) {
         measures.push({ icon: <Paintbrush />, title: "CMAR", description: "Controle de Materiais de Acabamento e Revestimento." });
     }
 
@@ -685,7 +685,7 @@ function OccupancySafetyMeasures({
 
         // Filter measures based on being PT or Group A/B/C
         const filteredAdv = advMeasures.filter(m => {
-            if (isPT) return true;
+            if (isPT && !isGroupA2A3 && !isGroupB && !isGroupC) return true;
             if (isGroupA2A3) {
                 if (m.title === "Acesso de Viaturas") return true;
                 if (m.title === "Segurança Estrutural" && height > 12) return true;
