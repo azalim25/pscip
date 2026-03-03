@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
     Layout, MapPin, Calendar, ShieldAlert, Save, ArrowLeft,
-    Maximize, Ruler, Users, Landmark, Layers, Droplets, Flame, Check, AlertTriangle, Droplet, Plus, Trash2, LogOut
+    Maximize, Ruler, Users, Landmark, Layers, Droplets, Flame, Check, AlertTriangle, Droplet, Plus, Trash2, LogOut, Paintbrush
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
@@ -36,6 +36,7 @@ export default function EditProject() {
     const [isWholesaleHighStorage, setIsWholesaleHighStorage] = useState(false);
     const [constructionDate, setConstructionDate] = useState('');
     const [isMotelWithoutCorridors, setIsMotelWithoutCorridors] = useState(false);
+    const [hasPartyHall, setHasPartyHall] = useState(false);
     const [buildingType, setBuildingType] = useState<'EXISTENTE' | 'CONSTRUIDA'>('CONSTRUIDA');
     const [isMixedOccupancy, setIsMixedOccupancy] = useState(false);
     const [hasCompartmentation, setHasCompartmentation] = useState(false);
@@ -79,6 +80,7 @@ export default function EditProject() {
                     setIsMotelWithoutCorridors(data.is_motel_without_corridors || false);
                     setBuildingType(data.building_type || 'CONSTRUIDA');
                     setHasCompartmentation(data.has_compartmentation || false);
+                    setHasPartyHall(data.has_party_hall || false);
                     const mixed = data.mixed_occupancies || [];
                     setAdditionalOccupancies(mixed.map((m: any) => ({
                         occupancy: m.occupancy,
@@ -189,6 +191,7 @@ export default function EditProject() {
                     is_wholesale_high_storage: isWholesaleHighStorage,
                     construction_date: constructionDate || null,
                     is_motel_without_corridors: isMotelWithoutCorridors,
+                    has_party_hall: hasPartyHall,
                     risk_level: riskLevel ? `Nível de Risco ${riskLevel}` : null,
                     building_type: buildingType,
                     has_compartmentation: hasCompartmentation,
@@ -501,13 +504,13 @@ export default function EditProject() {
                                         description="Hidrantes, chuveiros automáticos, nebulizadores, CO2, etc."
                                     />
 
-                                    {(occupancy.startsWith('A-') || occupancy.startsWith('D-')) && (
+                                    {(occupancy.startsWith('A-') || occupancy.startsWith('B-') || occupancy.startsWith('D-')) && (
                                         <QuestionToggle
-                                            label="Condomínio com arruamento interno?"
-                                            icon={<MapPin className={`w-6 h-6 ${hasInternalRoadway ? 'text-red-600' : 'text-slate-300'}`} />}
-                                            value={hasInternalRoadway}
-                                            onChange={setHasInternalRoadway}
-                                            description="Aplica-se a condomínios residenciais horizontais ou verticais com vias internas."
+                                            label="Possui auditório ou salão de festas?"
+                                            icon={<Paintbrush className={`w-6 h-6 ${hasPartyHall ? 'text-red-600' : 'text-slate-300'}`} />}
+                                            value={hasPartyHall}
+                                            onChange={setHasPartyHall}
+                                            description="Nota 6: Exigida nos auditórios e salões de festas com previsão de população superior a 200 pessoas."
                                         />
                                     )}
 

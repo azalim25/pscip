@@ -6,7 +6,7 @@ import {
     Maximize, Ruler, Users, Landmark, Layers, Droplets, Flame,
     Check, AlertTriangle, Building2, Tag, Edit3, ShieldCheck,
     Lightbulb, Navigation, LogOut, Paintbrush, Bell, Info,
-    Search, FileText, Sun, ArrowRight
+    Search, FileText, Sun, ArrowRight, Trash2, Droplet, Plus, Save
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Header } from '../components/layout/Header';
@@ -26,6 +26,7 @@ interface ProjectDetails {
     has_distinct_basement_use: boolean;
     has_liquid_fuel: boolean;
     has_lpg: boolean;
+    has_party_hall: boolean;
     risk_level: string;
     has_hydraulic_system: boolean;
     has_internal_roadway: boolean;
@@ -546,7 +547,7 @@ function OccupancySafetyMeasures({
     const isGroupC = occupancy?.startsWith('C-') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.startsWith('C-')));
     const isGroupC3 = occupancy?.includes('C-3') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.includes('C-3')));
     const isGroupD = occupancy?.startsWith('D-') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.startsWith('D-')));
-    const isPartyHall = occupancy?.toLowerCase().includes('festas') || occupancy?.toLowerCase().includes('auditório');
+    const isPartyHall = occupancy?.toLowerCase().includes('festas') || occupancy?.toLowerCase().includes('auditório') || project.has_party_hall;
 
     // Rule for C-3 with F-5, F-6, F-11
     const isC3WithF = isGroupC3 && (
@@ -734,11 +735,10 @@ function OccupancySafetyMeasures({
         });
 
         measures.push(...filteredAdv);
-    } else if (!isExistente && project.mixed_occupancies && project.mixed_occupancies.length > 0) {
-        if (globalStructural) measures.push({ icon: <Building2 />, title: "Segurança Estrutural", description: "Segurança estrutural contra incêndio (TRRF) - Exigência Global." });
-        if (globalAlarm) measures.push({ icon: <Bell />, title: "Alarme de Incêndio", description: "Sistema de detecção e alarme de incêndio - Exigência Global." });
-        if (globalHydrants) measures.push({ icon: <Droplets />, title: "Sistema de Hidrantes", description: "Rede de hidrantes e mangotinhos - Exigência Global." });
     }
+
+    // Final deduplication by title (Safety first!)
+    const uniqueMeasures = Array.from(new Map(measures.map(m => [m.title, m])).values());
 
     return (
         <div className="bg-white p-6 sm:p-10 rounded-[2.5rem] shadow-xl border border-slate-50">
@@ -766,7 +766,7 @@ function OccupancySafetyMeasures({
             )}
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {measures.map((measure, idx) => (
+                {uniqueMeasures.map((measure, idx) => (
                     <motion.div
                         key={idx}
                         initial={{ opacity: 0, y: 20 }}
