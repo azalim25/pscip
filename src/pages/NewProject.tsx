@@ -437,29 +437,35 @@ export default function NewProject() {
                                         description="Hidrantes, chuveiros automáticos, nebulizadores, CO2, etc."
                                     />
 
-                                    <QuestionToggle
-                                        label="Condomínio com arruamento interno?"
-                                        icon={<MapPin className={`w-6 h-6 ${hasInternalRoadway ? 'text-red-600' : 'text-slate-300'}`} />}
-                                        value={hasInternalRoadway}
-                                        onChange={setHasInternalRoadway}
-                                        description="Aplica-se a condomínios residenciais horizontais ou verticais com vias internas."
-                                    />
+                                    {occupancy.startsWith('A-') && (
+                                        <QuestionToggle
+                                            label="Condomínio com arruamento interno?"
+                                            icon={<MapPin className={`w-6 h-6 ${hasInternalRoadway ? 'text-red-600' : 'text-slate-300'}`} />}
+                                            value={hasInternalRoadway}
+                                            onChange={setHasInternalRoadway}
+                                            description="Aplica-se a condomínios residenciais horizontais ou verticais com vias internas."
+                                        />
+                                    )}
 
-                                    <QuestionToggle
-                                        label="Motel sem corredores internos cobertos?"
-                                        icon={<LogOut className={`w-6 h-6 ${isMotelWithoutCorridors ? 'text-red-600' : 'text-slate-300'}`} />}
-                                        value={isMotelWithoutCorridors}
-                                        onChange={setIsMotelWithoutCorridors}
-                                        description="Para ocupações do Grupo B que não possuam circulação interna comum."
-                                    />
+                                    {occupancy.startsWith('B-') && (
+                                        <QuestionToggle
+                                            label="Motel sem corredores internos cobertos?"
+                                            icon={<LogOut className={`w-6 h-6 ${isMotelWithoutCorridors ? 'text-red-600' : 'text-slate-300'}`} />}
+                                            value={isMotelWithoutCorridors}
+                                            onChange={setIsMotelWithoutCorridors}
+                                            description="Para ocupações do Grupo B que não possuam circulação interna comum."
+                                        />
+                                    )}
 
-                                    <QuestionToggle
-                                        label="Atacado/Atacarejo com estocagem > 3,70m?"
-                                        icon={<Layers className={`w-6 h-6 ${isWholesaleHighStorage ? 'text-red-600' : 'text-slate-300'}`} />}
-                                        value={isWholesaleHighStorage}
-                                        onChange={setIsWholesaleHighStorage}
-                                        description="Nota 9: Altura de armazenamento superior a 3,70m no salão de vendas."
-                                    />
+                                    {occupancy.startsWith('C-') && (
+                                        <QuestionToggle
+                                            label="Atacado/Atacarejo com estocagem > 3,70m?"
+                                            icon={<Layers className={`w-6 h-6 ${isWholesaleHighStorage ? 'text-red-600' : 'text-slate-300'}`} />}
+                                            value={isWholesaleHighStorage}
+                                            onChange={setIsWholesaleHighStorage}
+                                            description="Nota 9: Altura de armazenamento superior a 3,70m no salão de vendas."
+                                        />
+                                    )}
 
                                     <div className="pt-4 space-y-4">
                                         <QuestionToggle
