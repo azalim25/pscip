@@ -571,7 +571,7 @@ function OccupancySafetyMeasures({
         );
     }
 
-    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC) || (isGroupA2A3 && height > 54) || (isGroupB && height > 12) || (isGroupC && height > 12) || (isGroupC && area > 2000)) {
+    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC) || (isGroupA2A3 && height > 54) || (isGroupB && height > 54) || (isGroupC && height > 12) || (isGroupC && area > 2000)) {
         measures.push({ icon: <Users />, title: "Brigada de Incêndio", description: "Grupo organizado de pessoas treinadas para atuar na prevenção e combate." });
     }
 
