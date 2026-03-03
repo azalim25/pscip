@@ -547,11 +547,12 @@ function OccupancySafetyMeasures({
     const isGroupC3 = occupancy?.includes('C-3') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.includes('C-3')));
     const isPartyHall = occupancy?.toLowerCase().includes('festas') || occupancy?.toLowerCase().includes('auditório');
 
-    // Rule for C-3 with F-5, F-6, F-11 and pop > 500
-    const needsSpecialGroupF = isGroupC3 && load > 500 && (
+    // Rule for C-3 with F-5, F-6, F-11
+    const isC3WithF = isGroupC3 && (
         occupancy?.includes('F-5') || occupancy?.includes('F-6') || occupancy?.includes('F-11') ||
         (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.includes('F-5') || m.occupancy.includes('F-6') || m.occupancy.includes('F-11')))
     );
+    const isC3WithFHighPop = isC3WithF && load > 500;
 
     const constructionDate = project.construction_date ? new Date(project.construction_date) : null;
     const isBefore2005 = constructionDate && constructionDate <= new Date('2005-07-01');
@@ -570,31 +571,31 @@ function OccupancySafetyMeasures({
         );
     }
 
-    if (isH2H5 || (risk === 'III' && !isGroupA2A3) || (isGroupA2A3 && height > 54) || (isGroupB && height > 12) || (isGroupC && height > 12) || (isGroupC && area > 2000)) {
+    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC) || (isGroupA2A3 && height > 54) || (isGroupB && height > 12) || (isGroupC && height > 12) || (isGroupC && area > 2000)) {
         measures.push({ icon: <Users />, title: "Brigada de Incêndio", description: "Grupo organizado de pessoas treinadas para atuar na prevenção e combate." });
     }
 
-    if (isH2H5 || (risk === 'III' && !isGroupA2A3) || (isGroupA2A3 && height > 30) || (isGroupB && area > triggeringAreaB) || (isGroupC && area > triggeringAreaC) || (isGroupC && height > 12) || (isGroupC && area > 2000)) {
+    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC) || (isGroupA2A3 && height > 30) || (isGroupB && (area > triggeringAreaB || height > 12)) || (isGroupC && (height > 12 || area > 2000))) {
         measures.push({
             icon: <Bell />,
             title: "Alarme de Incêndio",
-            description: isGroupB && height > 12 && height <= 30
+            description: isGroupB
                 ? "Sistema de detecção e alarme. Acionadores manuais obrigatórios nos corredores."
                 : "Sistema de detecção e alarme de incêndio."
         });
     }
 
-    if ((isGroupB && height > 30 && height <= 54) || (isGroupC && needsSpecialGroupF) || (isGroupC && height > 30)) {
+    if ((isGroupB && height > 30) || (isGroupC && isC3WithFHighPop) || (isGroupC && height > 12)) {
         measures.push({
             icon: <Search />,
             title: "Detecção de Incêndio",
-            description: needsSpecialGroupF
-                ? "Sistema de detecção automática para áreas do Grupo F com população > 500."
-                : (isGroupB ? "Sistema de detecção automática, inclusive dentro dos quartos." : "Sistema de detecção automática de incêndio.")
+            description: isGroupB && height > 30
+                ? "Sistema de detecção automática, inclusive dentro dos quartos."
+                : (isGroupC && isC3WithFHighPop && height <= 12 ? "Sistema de detecção automática para áreas do Grupo F com população > 500." : "Sistema de detecção automática de incêndio.")
         });
     }
 
-    if ((isGroupB && height > 30 && height <= 54) || (isGroupC && area > 2000) || (isGroupC && height > 12)) {
+    if ((isGroupB && height > 30) || (isGroupC && (height > 12 || area > 2000))) {
         measures.push({
             icon: <FileText />,
             title: "Plano de Intervenção",
@@ -602,7 +603,7 @@ function OccupancySafetyMeasures({
         });
     }
 
-    if (isH2H5 || (risk === 'III' && !isGroupA2A3) || (isGroupA2A3 && height > 12) || (isGroupA2A3 && isPartyHall && load > 200) || (isGroupB && isPartyHall && load > 200) || (isGroupC && area > 2000)) {
+    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC) || (isGroupA2A3 && height > 12) || (isGroupA2A3 && isPartyHall && load > 200) || (isGroupB && height > 12) || (isGroupB && isPartyHall && load > 200) || (isGroupC && (height > 12 || area > 2000))) {
         measures.push({ icon: <Paintbrush />, title: "CMAR", description: "Controle de Materiais de Acabamento e Revestimento." });
     }
 
@@ -613,13 +614,13 @@ function OccupancySafetyMeasures({
                 icon: <Sun />,
                 title: "Iluminação de Emergência",
                 description: "Sistema de iluminação para aclaramento e balizamento.",
-                isExempt: isGroupB && project.is_motel_without_corridors
+                isExempt: isGroupB && height <= 12 && project.is_motel_without_corridors
             },
             {
                 icon: <ArrowRight />,
                 title: "Sinalização de Emergência",
-                description: "Sinalização visual para orientação e salvamento.",
-                isExempt: isGroupB && project.is_motel_without_corridors
+                description: "Sinalização visual para orientation e salvamento.",
+                isExempt: isGroupB && height <= 12 && project.is_motel_without_corridors
             },
             {
                 icon: <ShieldAlert />,
@@ -671,7 +672,7 @@ function OccupancySafetyMeasures({
                 isExempt: isExistente &&
                     !(isGroupB && height > 30) &&
                     !(isGroupC && height > 30) &&
-                    !(isGroupC && occupancy?.includes('C-3') && (occupancy?.includes('F-5') || occupancy?.includes('F-6') || occupancy?.includes('F-11')))
+                    !(isGroupC && isC3WithF)
             },
             {
                 icon: <Flame />,
@@ -679,7 +680,7 @@ function OccupancySafetyMeasures({
                 description: "Sistemas para controle de movimentação de fumaça.",
                 isExempt: isExistente ||
                     (isGroupB && height <= 54) ||
-                    (isGroupC && height <= 30 && !needsSpecialGroupF)
+                    (isGroupC && height <= 30 && !isC3WithFHighPop && !(height > 12 && area > 2000))
             }
         ];
 
@@ -709,8 +710,8 @@ function OccupancySafetyMeasures({
                 if (m.title === "Compartimentação Horizontal" && (height > 12 || area > 930)) return true;
                 if (m.title === "Compartimentação Vertical" && height > 12) return true;
                 if (m.title === "Sistema de Hidrantes") return true;
-                if (m.title === "Chuveiros Automáticos" && (height > 30 || (height > 12 && needsSpecialGroupF))) return true;
-                if (m.title === "Controle de Fumaça" && (height > 30 || needsSpecialGroupF)) return true;
+                if (m.title === "Chuveiros Automáticos" && (height > 30 || (height > 12 && isC3WithF))) return true;
+                if (m.title === "Controle de Fumaça" && (height > 30 || (height > 12 && area > 2000) || isC3WithFHighPop)) return true;
             }
             return false;
         });
