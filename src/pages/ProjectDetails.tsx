@@ -567,8 +567,18 @@ function OccupancySafetyMeasures({
     if (risk === 'I' || risk === 'II' || risk === 'III') {
         measures.push(
             { icon: <Flame />, title: "Extintores", description: "Proteção por extintores de incêndio portáteis ou sobre rodas." },
-            { icon: <Lightbulb />, title: "Iluminação de Emergência", description: "Sistema de iluminação para facilitar a saída em emergências." },
-            { icon: <Navigation />, title: "Sinalização de Emergência", description: "Placas e sinais indicativos de rotas de fuga e equipamentos." },
+            {
+                icon: <Lightbulb />,
+                title: "Iluminação de Emergência",
+                description: "Sistema de iluminação para facilitar a saída em emergências.",
+                isExempt: isGroupB && height <= 12 && project.is_motel_without_corridors
+            },
+            {
+                icon: <Navigation />,
+                title: "Sinalização de Emergência",
+                description: "Placas e sinais indicativos de rotas de fuga e equipamentos.",
+                isExempt: isGroupB && height <= 12 && project.is_motel_without_corridors
+            },
             { icon: <LogOut />, title: "Saídas de Emergência", description: "Vias de saída dimensionadas e desobstruídas." }
         );
     }
@@ -612,18 +622,6 @@ function OccupancySafetyMeasures({
     // Advanced Measures
     if (isPT || isGroupA2A3) {
         const advMeasures = [
-            {
-                icon: <Sun />,
-                title: "Iluminação de Emergência",
-                description: "Sistema de iluminação para aclaramento e balizamento.",
-                isExempt: isGroupB && height <= 12 && project.is_motel_without_corridors
-            },
-            {
-                icon: <ArrowRight />,
-                title: "Sinalização de Emergência",
-                description: "Sinalização visual para orientation e salvamento.",
-                isExempt: isGroupB && height <= 12 && project.is_motel_without_corridors
-            },
             {
                 icon: <ShieldAlert />,
                 title: "Acesso de Viaturas",
@@ -696,7 +694,7 @@ function OccupancySafetyMeasures({
 
         // Filter measures based on being PT or Group A/B/C
         const filteredAdv = advMeasures.filter(m => {
-            if (isPT && !isGroupA2A3 && !isGroupB && !isGroupC) return true;
+            if (isPT && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD) return true;
             if (isGroupA2A3) {
                 if (m.title === "Acesso de Viaturas") return true;
                 if (m.title === "Segurança Estrutural" && height > 12) return true;
@@ -725,9 +723,9 @@ function OccupancySafetyMeasures({
             }
             if (isGroupD) {
                 if (m.title === "Acesso de Viaturas") return true;
-                if (m.title === "Segurança Estrutural" && height > 12) return true;
-                if (m.title === "Compartimentação Horizontal" && height > 12) return true;
-                if (m.title === "Compartimentação Vertical" && height > 12) return true;
+                if (m.title === "Segurança Estrutural") return true;
+                if (m.title === "Compartimentação Horizontal") return true;
+                if (m.title === "Compartimentação Vertical") return true;
                 if (m.title === "Sistema de Hidrantes") return true;
                 if (m.title === "Chuveiros Automáticos" && height > 30) return true;
                 if (m.title === "Controle de Fumaça" && height > 54) return true;
