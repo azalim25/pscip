@@ -437,7 +437,7 @@ export default function NewProject() {
                                         description="Hidrantes, chuveiros automáticos, nebulizadores, CO2, etc."
                                     />
 
-                                    {occupancy.startsWith('A-') && (
+                                    {(occupancy.startsWith('A-') || occupancy.startsWith('D-')) && (
                                         <QuestionToggle
                                             label="Condomínio com arruamento interno?"
                                             icon={<MapPin className={`w-6 h-6 ${hasInternalRoadway ? 'text-red-600' : 'text-slate-300'}`} />}
