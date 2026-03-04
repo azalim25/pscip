@@ -610,7 +610,7 @@ function OccupancySafetyMeasures({
             icon: <Users />,
             title: "Brigada de Incêndio",
             description: isGroupF && height <= 12
-                ? "Grupo treinado. Exigida quando a população for superior a 200 pessoas (Nota 2)."
+                ? "Grupo treinado. Somente quando o local comportar população superior a 200 pessoas (Nota 2)."
                 : isGroupE && height <= 12
                     ? (isE5toE6 ? "Exigida para as divisões E-5 e E-6 independentemente da área." : "Exigida para as divisões E-1 a E-4 com área total superior a 930 m².")
                     : "Grupo organizado de pessoas treinadas para atuar na prevenção e combate."
@@ -621,11 +621,13 @@ function OccupancySafetyMeasures({
         measures.push({
             icon: <Bell />,
             title: "Alarme de Incêndio",
-            description: (isGroupE || isGroupF) && height <= 12
-                ? `Sistema de detecção e alarme. Exigido para área > ${isGroupE ? triggeringAreaE : triggeringAreaF}m² (Nota 1).`
-                : isGroupB
-                    ? "Sistema de detecção e alarme. Acionadores manuais obrigatórios nos corredores."
-                    : "Sistema de detecção e alarme de incêndio."
+            description: isGroupF && height <= 12
+                ? `Sistema de detecção e alarme. Exigido quando a área total for superior a ${triggeringAreaF}m² (Nota 1).`
+                : isGroupE && height <= 12
+                    ? `Sistema de detecção e alarme. Exigido para área > ${triggeringAreaE}m² (Nota 1).`
+                    : isGroupB
+                        ? "Sistema de detecção e alarme. Acionadores manuais obrigatórios nos corredores."
+                        : "Sistema de detecção e alarme de incêndio."
         });
     }
 
@@ -634,10 +636,10 @@ function OccupancySafetyMeasures({
             icon: <Search />,
             title: "Detecção de Incêndio",
             description: isGroupF && height <= 30
-                ? "Somente exigida para a divisão F-1 (Nota 7)."
+                ? (height <= 12 ? `Exigido para área > ${triggeringAreaF}m² e somente para divisão F-1 (Nota 1 e 7).` : "Somente para divisão F-1 (Nota 7).")
                 : isGroupB && height > 30
                     ? "Sistema de detecção automática, inclusive dentro dos quartos."
-                    : (isGroupC && isC3WithFHighPop && height <= 12 ? "Sistema de detecção automática para áreas do Grupo F com população > 500." : "Sistema de detecção automática de incêndio.")
+                    : (isGroupC && isC3WithFHighPop && height <= 12 ? "Sistema de detecção automática para áreas do Group F com população > 500." : "Sistema de detecção automática de incêndio.")
         });
     }
 
@@ -646,7 +648,7 @@ function OccupancySafetyMeasures({
             icon: <FileText />,
             title: "Plano de Intervenção",
             description: isGroupF && height <= 12
-                ? "Plano de intervenção. Somente exigido para a divisão F-3 (Nota 6)."
+                ? `Exigido quando a área total for superior a ${triggeringAreaF}m² e somente para divisão F-3 (Nota 1 e 6).`
                 : "Plano de intervenção de incêndio para a edificação."
         });
     }
@@ -655,9 +657,11 @@ function OccupancySafetyMeasures({
         measures.push({
             icon: <Paintbrush />,
             title: "CMAR",
-            description: (isGroupE || isGroupF) && height <= 12
-                ? `Exigida quando a população for superior a 200 pessoas (Nota ${isGroupE ? '3' : '2'}).`
-                : "Controle de Materiais de Acabamento e Revestimento."
+            description: isGroupF && height <= 12
+                ? "Exigida somente quando o local comportar população superior a 200 pessoas (Nota 2)."
+                : isGroupE && height <= 12
+                    ? "Exigida nos auditórios com previsão de população superior a 200 pessoas (Nota 3)."
+                    : "Controle de Materiais de Acabamento e Revestimento."
         });
     }
 
@@ -714,8 +718,10 @@ function OccupancySafetyMeasures({
             },
             {
                 icon: <Droplets />,
-                title: "Sistema de Hidrantes",
-                description: "Rede de hidrantes e mangotinhos.",
+                title: "Hidrantes e Mangotinhos",
+                description: isGroupF && height <= 12
+                    ? `Rede de hidrantes. Exigido quando a área total for superior a ${triggeringAreaF}m² (Nota 1).`
+                    : "Rede de hidrantes e mangotinhos.",
                 isExempt: (isGroupA2A3 && height <= 12 && area <= 1200) ||
                     (isGroupB && height <= 12 && area <= triggeringAreaB) ||
                     (isGroupC && height <= 12 && area <= triggeringAreaC) ||
@@ -751,14 +757,14 @@ function OccupancySafetyMeasures({
                 if (m.title === "Acesso de Viaturas") return true;
                 if (m.title === "Segurança Estrutural" && height > 12) return true;
                 if (m.title === "Compartimentação Vertical" && height > 30) return true;
-                if (m.title === "Sistema de Hidrantes") return true;
+                if (m.title === "Hidrantes e Mangotinhos") return true;
             }
             if (isGroupB) {
                 if (m.title === "Acesso de Viaturas") return true;
                 if (m.title === "Segurança Estrutural" && height > 12) return true;
                 if (m.title === "Compartimentação Horizontal" && height > 12) return true;
                 if (m.title === "Compartimentação Vertical" && height > 12) return true;
-                if (m.title === "Sistema de Hidrantes") return true;
+                if (m.title === "Hidrantes e Mangotinhos") return true;
                 if (m.title === "Chuveiros Automáticos" && height > 30) return true;
                 if (m.title === "Controle de Fumaça" && height > 54) return true;
                 if (m.title === "Iluminação de Emergência" && project.is_motel_without_corridors) return true;
@@ -769,7 +775,7 @@ function OccupancySafetyMeasures({
                 if (m.title === "Segurança Estrutural" && (height > 12 || area > 930)) return true;
                 if (m.title === "Compartimentação Horizontal" && (height > 12 || area > 930)) return true;
                 if (m.title === "Compartimentação Vertical" && height > 12) return true;
-                if (m.title === "Sistema de Hidrantes") return true;
+                if (m.title === "Hidrantes e Mangotinhos") return true;
                 if (m.title === "Chuveiros Automáticos" && (height > 30 || (height > 12 && isC3WithF))) return true;
                 if (m.title === "Controle de Fumaça" && (height > 30 || (height > 12 && area > 2000) || isC3WithFHighPop)) return true;
             }
@@ -778,7 +784,7 @@ function OccupancySafetyMeasures({
                 if (m.title === "Segurança Estrutural") return true;
                 if (m.title === "Compartimentação Horizontal") return true;
                 if (m.title === "Compartimentação Vertical") return true;
-                if (m.title === "Sistema de Hidrantes") return true;
+                if (m.title === "Hidrantes e Mangotinhos") return true;
                 if (m.title === "Chuveiros Automáticos" && height > 30) return true;
                 if (m.title === "Controle de Fumaça" && height > 54) return true;
             }
@@ -786,7 +792,7 @@ function OccupancySafetyMeasures({
                 if (m.title === "Acesso de Viaturas" && (height > 12 || area > 930 || project.has_internal_roadway)) return true;
                 if (m.title === "Segurança Estrutural" && height > 12) return true;
                 if (m.title === "Compartimentação Vertical" && height > 12) return true;
-                if (m.title === "Sistema de Hidrantes" && (height > 12 || area > triggeringAreaE)) return true;
+                if (m.title === "Hidrantes e Mangotinhos" && (height > 12 || area > triggeringAreaE)) return true;
                 if (m.title === "Chuveiros Automáticos" && height > 30) return true;
                 if (m.title === "Controle de Fumaça" && height > 54) return true;
                 if (m.title === "Iluminação de Emergência") return true;
@@ -796,7 +802,7 @@ function OccupancySafetyMeasures({
                 if (m.title === "Acesso de Viaturas" && (height > 12 || area > 930 || project.has_internal_roadway)) return true;
                 if (m.title === "Segurança Estrutural" && (height > 12 || area > 930)) return true;
                 if (m.title === "Compartimentação Vertical" && height > 12) return true;
-                if (m.title === "Sistema de Hidrantes" && (height > 12 || area > triggeringAreaF)) return true;
+                if (m.title === "Hidrantes e Mangotinhos" && (height > 12 || area > triggeringAreaF)) return true;
                 if (m.title === "Chuveiros Automáticos" && height > 30) return true;
                 if (m.title === "Controle de Fumaça" && height > 54) return true;
             }
@@ -812,8 +818,24 @@ function OccupancySafetyMeasures({
                     return { ...m, description: "Pode ser substituída por chuveiros automáticos, exceto fachadas e shafts (Nota 2)." };
                 }
             }
-            if (isGroupF && isF3 && isStadium && m.title === "Sistema de Hidrantes") {
-                return { ...m, description: "Rede de hidrantes. Em estádios (F-3), instalados em locais de acesso privativo (Nota 9)." };
+            if (isGroupF) {
+                if (m.title === "Acesso de Viaturas" && height <= 12 && (area > 930 || project.has_internal_roadway)) {
+                    return { ...m, description: "Vias de acesso para viaturas. Exigido quando a área total for superior a 930 m² e para condomínios com arruamento interno (Nota 8)." };
+                }
+                if (m.title === "Segurança Estrutural" && height <= 12 && area > 930) {
+                    return { ...m, description: "Segurança estrutural contra incêndio (TRRF). Exigido quando a área total for superior a 930 m² (Nota 5)." };
+                }
+                if (m.title === "Compartimentação Vertical") {
+                    if (height > 12 && height <= 30) {
+                        return { ...m, description: `Pode ser substituída por chuveiros automáticos, exceto fachadas e shafts (Nota 3). ${isF3 ? 'Para a divisão F-3, considera fachadas e selagens (Nota 4).' : ''}` };
+                    }
+                    if (height > 30) {
+                        return { ...m, description: `Exigências de compartimentação. ${isF3 ? 'Para a divisão F-3, considera fachadas e selagens (Nota 4).' : ''}` };
+                    }
+                }
+                if (isF3 && isStadium && m.title === "Hidrantes e Mangotinhos") {
+                    return { ...m, description: "Rede de hidrantes. Em estádios (F-3), instalados em locais de acesso privativo (Nota 9)." };
+                }
             }
             return m;
         });
