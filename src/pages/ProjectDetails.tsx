@@ -561,6 +561,11 @@ function OccupancySafetyMeasures({
     const triggeringAreaB = isBefore2005 ? 1200 : 930;
     const triggeringAreaC = isBefore2005 ? 1200 : 930;
     const triggeringAreaD = isBefore2005 ? 1200 : 930;
+    const triggeringAreaE = isBefore2005 ? 1200 : 930;
+
+    const isGroupE = occupancy?.startsWith('E-') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.startsWith('E-')));
+    const isE1toE4 = ['E-1', 'E-2', 'E-3', 'E-4'].some(div => occupancy?.includes(div)) || (isIntegrated && project.mixed_occupancies?.some(m => ['E-1', 'E-2', 'E-3', 'E-4'].some(div => m.occupancy.includes(div))));
+    const isE5toE6 = ['E-5', 'E-6'].some(div => occupancy?.includes(div)) || (isIntegrated && project.mixed_occupancies?.some(m => ['E-5', 'E-6'].some(div => m.occupancy.includes(div))));
 
     const measures = [];
 
@@ -571,34 +576,46 @@ function OccupancySafetyMeasures({
             {
                 icon: <Lightbulb />,
                 title: "Iluminação de Emergência",
-                description: "Sistema de iluminação para facilitar a saída em emergências.",
+                description: isGroupE && height <= 12
+                    ? "Sistema de iluminação para saídas. Isenta no interior das salas de aula com capacidade até 50 pessoas (Nota 6)."
+                    : "Sistema de iluminação para facilitar a saída em emergências.",
                 isExempt: isGroupB && height <= 12 && project.is_motel_without_corridors
             },
             {
                 icon: <Navigation />,
                 title: "Sinalização de Emergência",
-                description: "Placas e sinais indicativos de rotas de fuga e equipamentos.",
+                description: isGroupE && height <= 12
+                    ? "Placas e sinais indicativos. Isenta no interior das salas de aula com capacidade até 50 pessoas (Nota 6)."
+                    : "Placas e sinais indicativos de rotas de fuga e equipamentos.",
                 isExempt: isGroupB && height <= 12 && project.is_motel_without_corridors
             },
             { icon: <LogOut />, title: "Saídas de Emergência", description: "Vias de saída dimensionadas e desobstruídas." }
         );
     }
 
-    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD) || (isGroupA2A3 && height > 54) || (isGroupB && height > 54) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && height > 12)) {
-        measures.push({ icon: <Users />, title: "Brigada de Incêndio", description: "Grupo organizado de pessoas treinadas para atuar na prevenção e combate." });
-    }
-
-    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD) || (isGroupA2A3 && height > 30) || (isGroupB && (area > triggeringAreaB || height > 12)) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && (height > 12 || area > 2000))) {
+    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD && !isGroupE) || (isGroupA2A3 && height > 54) || (isGroupB && height > 54) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && height > 12) || (isGroupE && (height > 12 || (isE1toE4 && area > 930) || (isE5toE6)))) {
         measures.push({
-            icon: <Bell />,
-            title: "Alarme de Incêndio",
-            description: isGroupB
-                ? "Sistema de detecção e alarme. Acionadores manuais obrigatórios nos corredores."
-                : "Sistema de detecção e alarme de incêndio."
+            icon: <Users />,
+            title: "Brigada de Incêndio",
+            description: isGroupE && height <= 12
+                ? (isE5toE6 ? "Exigida para as divisões E-5 e E-6 independentemente da área." : "Exigida para as divisões E-1 a E-4 com área total superior a 930 m².")
+                : "Grupo organizado de pessoas treinadas para atuar na prevenção e combate."
         });
     }
 
-    if ((isGroupB && height > 30) || (isGroupC && isC3WithFHighPop) || (isGroupC && height > 12) || (isGroupD && height > 30)) {
+    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD && !isGroupE) || (isGroupA2A3 && height > 30) || (isGroupB && (area > triggeringAreaB || height > 12)) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && (height > 12 || area > 2000)) || (isGroupE && (height > 12 || area > triggeringAreaE))) {
+        measures.push({
+            icon: <Bell />,
+            title: "Alarme de Incêndio",
+            description: isGroupE && height <= 12
+                ? `Sistema de detecção e alarme. Exigido para área > ${triggeringAreaE}m² (Nota 1).`
+                : isGroupB
+                    ? "Sistema de detecção e alarme. Acionadores manuais obrigatórios nos corredores."
+                    : "Sistema de detecção e alarme de incêndio."
+        });
+    }
+
+    if ((isGroupB && height > 30) || (isGroupC && isC3WithFHighPop) || (isGroupC && height > 12) || (isGroupD && height > 30) || (isGroupE && height > 30)) {
         measures.push({
             icon: <Search />,
             title: "Detecção de Incêndio",
@@ -608,7 +625,7 @@ function OccupancySafetyMeasures({
         });
     }
 
-    if ((isGroupB && height > 30) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && height > 30)) {
+    if ((isGroupB && height > 30) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && height > 30) || (isGroupE && height > 30)) {
         measures.push({
             icon: <FileText />,
             title: "Plano de Intervenção",
@@ -616,8 +633,14 @@ function OccupancySafetyMeasures({
         });
     }
 
-    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD) || (isGroupA2A3 && height > 12) || (isGroupA2A3 && isPartyHall && load > 200) || (isGroupB && height > 12) || (isGroupB && isPartyHall && load > 200) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && (height > 12 || (isPartyHall && load > 200)))) {
-        measures.push({ icon: <Paintbrush />, title: "CMAR", description: "Controle de Materiais de Acabamento e Revestimento." });
+    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD && !isGroupE) || (isGroupA2A3 && height > 12) || (isGroupA2A3 && isPartyHall && load > 200) || (isGroupB && height > 12) || (isGroupB && isPartyHall && load > 200) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && (height > 12 || (isPartyHall && load > 200))) || (isGroupE && (height > 12 || (isPartyHall && load > 200)))) {
+        measures.push({
+            icon: <Paintbrush />,
+            title: "CMAR",
+            description: isGroupE && height <= 12
+                ? "Exigida nos auditórios com previsão de população superior a 200 pessoas (Nota 3)."
+                : "Controle de Materiais de Acabamento e Revestimento."
+        });
     }
 
     // Advanced Measures
@@ -730,6 +753,16 @@ function OccupancySafetyMeasures({
                 if (m.title === "Sistema de Hidrantes") return true;
                 if (m.title === "Chuveiros Automáticos" && height > 30) return true;
                 if (m.title === "Controle de Fumaça" && height > 54) return true;
+            }
+            if (isGroupE) {
+                if (m.title === "Acesso de Viaturas" && (height > 12 || area > 930 || project.has_internal_roadway)) return true;
+                if (m.title === "Segurança Estrutural" && height > 12) return true;
+                if (m.title === "Compartimentação Vertical" && height > 12) return true;
+                if (m.title === "Sistema de Hidrantes" && (height > 12 || area > triggeringAreaE)) return true;
+                if (m.title === "Chuveiros Automáticos" && height > 30) return true;
+                if (m.title === "Controle de Fumaça" && height > 54) return true;
+                if (m.title === "Iluminação de Emergência") return true;
+                if (m.title === "Sinalização de Emergência") return true;
             }
             return false;
         });

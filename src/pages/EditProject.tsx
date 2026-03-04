@@ -504,7 +504,7 @@ export default function EditProject() {
                                         description="Hidrantes, chuveiros automáticos, nebulizadores, CO2, etc."
                                     />
 
-                                    {(occupancy.startsWith('A-') || occupancy.startsWith('B-') || occupancy.startsWith('D-')) && (
+                                    {(occupancy.startsWith('A-') || occupancy.startsWith('B-') || occupancy.startsWith('D-') || occupancy.startsWith('E-')) && (
                                         <QuestionToggle
                                             label="Possui auditório ou salão de festas?"
                                             icon={<Paintbrush className={`w-6 h-6 ${hasPartyHall ? 'text-red-600' : 'text-slate-300'}`} />}
