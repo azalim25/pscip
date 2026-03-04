@@ -137,6 +137,20 @@ export default function EditProject() {
         return null;
     }, [area, height, occupancyLoad, isHeritage, hasLiquidFuel, hasLpg, cnae, occupancy, additionalOccupancies]);
 
+    // Dynamic descriptions for occupancy-specific notes
+    const internalRoadwayDescription = useMemo(() => {
+        if (occupancy.startsWith('E-')) return "Nota 5: Exigido nos condomínio e Campus com arruamento interno, independentemente da área.";
+        if (occupancy.startsWith('A-')) return "Nota 8: Aplica-se a condomínios residenciais horizontais ou verticais com vias internas.";
+        return "Aplica-se a condomínios e áreas com vias internas.";
+    }, [occupancy]);
+
+    const partyHallDescription = useMemo(() => {
+        if (occupancy.startsWith('E-')) return "Nota 3: Exigida nos auditórios com previsão de população superior a 200 pessoas.";
+        if (occupancy.startsWith('F-')) return "Nota 2: Exigida quando a população for superior a 200 pessoas.";
+        if (occupancy.startsWith('D-')) return "Nota 6: Exigida nos auditórios e salões de festas com previsão de população superior a 200 pessoas.";
+        return "Exigida nos auditórios e salões de festas com previsão de população superior a 200 pessoas.";
+    }, [occupancy]);
+
     const addOccupancy = () => {
         setAdditionalOccupancies([...additionalOccupancies, { occupancy: '', area: '', height: '' }]);
     };
@@ -510,7 +524,7 @@ export default function EditProject() {
                                             icon={<MapPin className={`w-6 h-6 ${hasInternalRoadway ? 'text-red-600' : 'text-slate-300'}`} />}
                                             value={hasInternalRoadway}
                                             onChange={setHasInternalRoadway}
-                                            description="Aplica-se a condomínios residenciais horizontais ou verticais com vias internas."
+                                            description={internalRoadwayDescription}
                                         />
                                     )}
 
@@ -520,7 +534,7 @@ export default function EditProject() {
                                             icon={<Paintbrush className={`w-6 h-6 ${hasPartyHall ? 'text-red-600' : 'text-slate-300'}`} />}
                                             value={hasPartyHall}
                                             onChange={setHasPartyHall}
-                                            description="Nota 6: Exigida nos auditórios e salões de festas com previsão de população superior a 200 pessoas."
+                                            description={partyHallDescription}
                                         />
                                     )}
 
