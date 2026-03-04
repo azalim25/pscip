@@ -438,7 +438,7 @@ export default function NewProject() {
                                         onChange={setHasHydraulicSystem}
                                         description="Hidrantes, chuveiros automáticos, nebulizadores, CO2, etc."
                                     />
-                                    {(occupancy.startsWith('A-') || occupancy.startsWith('B-') || occupancy.startsWith('D-') || occupancy.startsWith('E-')) && (
+                                    {(occupancy.startsWith('A-') || occupancy.startsWith('B-') || occupancy.startsWith('D-') || occupancy.startsWith('E-') || occupancy.startsWith('F-')) && (
                                         <QuestionToggle
                                             label="Condomínio com arruamento interno?"
                                             icon={<MapPin className={`w-6 h-6 ${hasInternalRoadway ? 'text-red-600' : 'text-slate-300'}`} />}
@@ -448,7 +448,7 @@ export default function NewProject() {
                                         />
                                     )}
 
-                                    {(occupancy.startsWith('A-') || occupancy.startsWith('B-') || occupancy.startsWith('D-') || occupancy.startsWith('E-')) && (
+                                    {(occupancy.startsWith('A-') || occupancy.startsWith('B-') || occupancy.startsWith('D-') || occupancy.startsWith('E-') || occupancy.startsWith('F-')) && (
                                         <QuestionToggle
                                             label="Possui auditório ou salão de festas?"
                                             icon={<Paintbrush className={`w-6 h-6 ${hasPartyHall ? 'text-red-600' : 'text-slate-300'}`} />}
