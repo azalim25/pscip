@@ -672,7 +672,9 @@ function OccupancySafetyMeasures({
                     (isGroupA2A3 && height <= 12 && area <= 1200 && !project.has_internal_roadway) ||
                     (isGroupB && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
                     (isGroupC && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
-                    (isGroupD && height <= 12 && area <= 930 && !project.has_internal_roadway)
+                    (isGroupD && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
+                    (isGroupE && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
+                    (isGroupF && height <= 12 && area <= 930 && !project.has_internal_roadway)
             },
             {
                 icon: <Building2 />,
@@ -682,7 +684,9 @@ function OccupancySafetyMeasures({
                     (isGroupA2A3 && height <= 12) ||
                     (isGroupB && height <= 12) ||
                     (isGroupC && height <= 12 && area <= 930) ||
-                    (isGroupD && height <= 12)
+                    (isGroupD && height <= 12) ||
+                    (isGroupE && height <= 12) ||
+                    (isGroupF && height <= 12 && area <= 930)
             },
             {
                 icon: <Layers />,
@@ -692,7 +696,9 @@ function OccupancySafetyMeasures({
                     : "Exigências de compartimentação para evitar propagação de calor e fumaça.",
                 isExempt: isExistente ||
                     (isGroupC && height <= 12 && area <= 930) ||
-                    (isGroupD && height <= 12)
+                    (isGroupD && height <= 12) ||
+                    (isGroupE && height <= 12) ||
+                    (isGroupF && height <= 12)
             },
             {
                 icon: <Layers />,
@@ -702,7 +708,9 @@ function OccupancySafetyMeasures({
                     (isGroupA2A3 && height <= 30) ||
                     (isGroupB && height <= 12) ||
                     (isGroupC && height <= 12) ||
-                    (isGroupD && height <= 12)
+                    (isGroupD && height <= 12) ||
+                    (isGroupE && height <= 12) ||
+                    (isGroupF && height <= 12)
             },
             {
                 icon: <Droplets />,
@@ -711,7 +719,9 @@ function OccupancySafetyMeasures({
                 isExempt: (isGroupA2A3 && height <= 12 && area <= 1200) ||
                     (isGroupB && height <= 12 && area <= triggeringAreaB) ||
                     (isGroupC && height <= 12 && area <= triggeringAreaC) ||
-                    (isGroupD && height <= 12 && area <= triggeringAreaD)
+                    (isGroupD && height <= 12 && area <= triggeringAreaD) ||
+                    (isGroupE && height <= 12 && area <= triggeringAreaE) ||
+                    (isGroupF && height <= 12 && area <= triggeringAreaF)
             },
             {
                 icon: <Droplets />,
@@ -736,7 +746,7 @@ function OccupancySafetyMeasures({
 
         // Filter measures based on being PT or Group A/B/C
         const filteredAdv = advMeasures.filter(m => {
-            if (isPT && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD) return true;
+            if (isPT && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD && !isGroupE && !isGroupF) return true;
             if (isGroupA2A3) {
                 if (m.title === "Acesso de Viaturas") return true;
                 if (m.title === "Segurança Estrutural" && height > 12) return true;
@@ -794,6 +804,14 @@ function OccupancySafetyMeasures({
         });
 
         const finalAdv = filteredAdv.map(m => {
+            if (isGroupE) {
+                if (m.title === "Acesso de Viaturas" && height <= 12 && (area > 930 || project.has_internal_roadway)) {
+                    return { ...m, description: "Vias de acesso para viaturas. Exigida quando área > 930m² ou em condomínios/campus com arruamento interno (Nota 5)." };
+                }
+                if (m.title === "Compartimentação Vertical" && height > 12 && height <= 30) {
+                    return { ...m, description: "Pode ser substituída por chuveiros automáticos, exceto fachadas e shafts (Nota 2)." };
+                }
+            }
             if (isGroupF && isF3 && isStadium && m.title === "Sistema de Hidrantes") {
                 return { ...m, description: "Rede de hidrantes. Em estádios (F-3), instalados em locais de acesso privativo (Nota 9)." };
             }
