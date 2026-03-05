@@ -631,24 +631,24 @@ function OccupancySafetyMeasures({
         });
     }
 
-    if ((isGroupB && height > 30) || (isGroupC && isC3WithFHighPop) || (isGroupC && height > 12) || (isGroupD && height > 30) || (isGroupE && height > 30) || (isGroupF && (height > 30 || (isF1 && (height > 12 || area > triggeringAreaF))))) {
+    if ((isGroupB && height > 30) || (isGroupC && isC3WithFHighPop) || (isGroupC && height > 12) || (isGroupD && height > 30) || (isGroupE && height > 30) || (isGroupF && (height > 30 || (height > 12 && isF1) || (height <= 12 && (area > triggeringAreaF || isF1))))) {
         measures.push({
             icon: <Search />,
             title: "Detecção de Incêndio",
             description: isGroupF && height <= 30
-                ? (height <= 12 ? `Exigido para área > ${triggeringAreaF}m² e somente para divisão F-1 (Nota 1 e 7).` : "Somente para divisão F-1 (Nota 7).")
+                ? (height <= 12 ? (area > triggeringAreaF ? "Exigido por área total superior a 930 m² (Nota 1). Também exigida especificamente para a divisão F-1 (Nota 7)." : "Somente para divisão F-1 (Nota 7).") : "Somente para divisão F-1 (Nota 7).")
                 : isGroupB && height > 30
                     ? "Sistema de detecção automática, inclusive dentro dos quartos."
                     : (isGroupC && isC3WithFHighPop && height <= 12 ? "Sistema de detecção automática para áreas do Group F com população > 500." : "Sistema de detecção automática de incêndio.")
         });
     }
 
-    if ((isGroupB && height > 30) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && height > 30) || (isGroupE && height > 30) || (isGroupF && (height > 12 || (isF3 && area > triggeringAreaF)))) {
+    if ((isGroupB && height > 30) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && height > 30) || (isGroupE && height > 30) || (isGroupF && (height > 12 || (height <= 12 && (area > triggeringAreaF || isF3))))) {
         measures.push({
             icon: <FileText />,
             title: "Plano de Intervenção",
             description: isGroupF && height <= 12
-                ? `Exigido quando a área total for superior a ${triggeringAreaF}m² e somente para divisão F-3 (Nota 1 e 6).`
+                ? (area > triggeringAreaF ? "Exigido por área total superior a 930 m² (Nota 1). Também exigido especificamente para a divisão F-3 (Nota 6)." : "Somente para divisão F-3 (Nota 6).")
                 : "Plano de intervenção de incêndio para a edificação."
         });
     }
