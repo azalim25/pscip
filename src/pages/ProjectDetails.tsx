@@ -571,6 +571,10 @@ function OccupancySafetyMeasures({
     const isGroupF = occupancy?.startsWith('F-') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.startsWith('F-')));
     const isF1 = occupancy?.includes('F-1') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.includes('F-1')));
     const isF3 = occupancy?.includes('F-3') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.includes('F-3')));
+    const isF5 = occupancy?.includes('F-5') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.includes('F-5')));
+    const isF6 = occupancy?.includes('F-6') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.includes('F-6')));
+    const isF11 = occupancy?.includes('F-11') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.includes('F-11')));
+    const isF5F6F11 = isF5 || isF6 || isF11;
     const isStadium = occupancy?.toLowerCase().includes('estádio') || occupancy?.toLowerCase().includes('ginásio');
 
     const measures = [];
@@ -605,12 +609,12 @@ function OccupancySafetyMeasures({
         );
     }
 
-    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD && !isGroupE && !isGroupF) || (isGroupA2A3 && height > 54) || (isGroupB && height > 54) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && height > 12) || (isGroupE && (height > 12 || (isE1toE4 && area > 930) || (isE5toE6))) || (isGroupF && (height > 12 || load > 200))) {
+    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD && !isGroupE && !isGroupF) || (isGroupA2A3 && height > 54) || (isGroupB && height > 54) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && height > 12) || (isGroupE && (height > 12 || (isE1toE4 && area > 930) || (isE5toE6))) || (isGroupF && (height > 12 || (isF5F6F11 ? (isF6 ? load > 100 : load > 200) : load > 200)))) {
         measures.push({
             icon: <Users />,
             title: "Brigada de Incêndio",
             description: isGroupF && height <= 12
-                ? "Grupo treinado. Somente quando o local comportar população superior a 200 pessoas (Nota 2)."
+                ? (isF6 ? "Grupo treinado. Quando se tratar de F-6 e o local comportar população superior a 100 pessoas (Nota 6)." : "Grupo treinado. Somente quando o local comportar população superior a 200 pessoas (Nota 2).")
                 : isGroupE && height <= 12
                     ? (isE5toE6 ? "Exigida para as divisões E-5 e E-6 independentemente da área." : "Exigida para as divisões E-1 a E-4 com área total superior a 930 m².")
                     : "Grupo organizado de pessoas treinadas para atuar na prevenção e combate."
@@ -631,24 +635,28 @@ function OccupancySafetyMeasures({
         });
     }
 
-    if ((isGroupB && height > 30) || (isGroupC && isC3WithFHighPop) || (isGroupC && height > 12) || (isGroupD && height > 30) || (isGroupE && height > 30) || (isGroupF && (height > 30 || (height > 12 && isF1) || (height <= 12 && (area > triggeringAreaF || isF1))))) {
+    if ((isGroupB && height > 30) || (isGroupC && isC3WithFHighPop) || (isGroupC && height > 12) || (isGroupD && height > 30) || (isGroupE && height > 30) || (isGroupF && (height > 30 || (height > 12 && (isF1 || isF5F6F11)) || (height <= 12 && (area > triggeringAreaF || isF1 || (isF5F6F11 && load > 500)))))) {
         measures.push({
             icon: <Search />,
             title: "Detecção de Incêndio",
             description: isGroupF && height <= 30
-                ? (height <= 12 ? (area > triggeringAreaF ? "Exigido por área total superior a 930 m² (Nota 1). Também exigida especificamente para a divisão F-1 (Nota 7)." : "Somente para divisão F-1 (Nota 7).") : "Somente para divisão F-1 (Nota 7).")
+                ? (isF5F6F11
+                    ? (height <= 12 ? (area > triggeringAreaF || load > 500 ? `Exigido por área > 930m² (Nota 1) ou lotação > 500 (Nota 4).` : "Exigência por área ou lotação.") : "Sistema de detecção automática.")
+                    : (height <= 12 ? (area > triggeringAreaF ? "Exigido por área total superior a 930 m² (Nota 1). Também exigida especificamente para a divisão F-1 (Nota 7)." : "Somente para divisão F-1 (Nota 7).") : "Somente para divisão F-1 (Nota 7)."))
                 : isGroupB && height > 30
                     ? "Sistema de detecção automática, inclusive dentro dos quartos."
                     : (isGroupC && isC3WithFHighPop && height <= 12 ? "Sistema de detecção automática para áreas do Group F com população > 500." : "Sistema de detecção automática de incêndio.")
         });
     }
 
-    if ((isGroupB && height > 30) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && height > 30) || (isGroupE && height > 30) || (isGroupF && (height > 12 || (height <= 12 && (area > triggeringAreaF || isF3))))) {
+    if ((isGroupB && height > 30) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && height > 30) || (isGroupE && height > 30) || (isGroupF && (height > 12 || (height <= 12 && (area > triggeringAreaF || isF3 || (isF5F6F11 && load > 500)))))) {
         measures.push({
             icon: <FileText />,
             title: "Plano de Intervenção",
             description: isGroupF && height <= 12
-                ? (area > triggeringAreaF ? "Exigido por área total superior a 930 m² (Nota 1). Também exigido especificamente para a divisão F-3 (Nota 6)." : "Somente para divisão F-3 (Nota 6).")
+                ? (isF5F6F11
+                    ? (load > 500 ? "Somente quando houver lotação superior a 500 pessoas (Nota 4)." : "Exigência por lotação.")
+                    : (area > triggeringAreaF ? "Exigido por área total superior a 930 m² (Nota 1). Também exigido especificamente para a divisão F-3 (Nota 6)." : "Somente para divisão F-3 (Nota 6)."))
                 : "Plano de intervenção de incêndio para a edificação."
         });
     }
@@ -658,7 +666,7 @@ function OccupancySafetyMeasures({
             icon: <Paintbrush />,
             title: "CMAR",
             description: isGroupF && height <= 12
-                ? "Exigida somente quando o local comportar população superior a 200 pessoas (Nota 2)."
+                ? "Somente quando o local comportar população superior a 200 pessoas (Nota 2)."
                 : isGroupE && height <= 12
                     ? "Exigida nos auditórios com previsão de população superior a 200 pessoas (Nota 3)."
                     : "Controle de Materiais de Acabamento e Revestimento."
@@ -733,11 +741,12 @@ function OccupancySafetyMeasures({
                 icon: <Droplets />,
                 title: "Chuveiros Automáticos",
                 description: "Sistemas de chuveiros automáticos (Sprinklers).",
-                isExempt: isExistente &&
+                isExempt: (isExistente &&
                     !(isGroupB && height > 30) &&
                     !(isGroupC && height > 30) &&
                     !(isGroupC && isC3WithF) &&
-                    !(isGroupD && height > 30)
+                    !(isGroupD && height > 30)) ||
+                    (isF5F6F11 && height <= 12)
             },
             {
                 icon: <Flame />,
@@ -746,7 +755,9 @@ function OccupancySafetyMeasures({
                 isExempt: isExistente ||
                     (isGroupB && height <= 54) ||
                     (isGroupC && height <= 30 && !isC3WithFHighPop && !(height > 12 && area > 2000)) ||
-                    (isGroupD && height <= 54)
+                    (isGroupD && height <= 54) ||
+                    (isF5F6F11 && height <= 12 && area <= 930 && load <= 500) ||
+                    (isF5F6F11 && height > 12 && height <= 30 && load <= 500)
             }
         ];
 
@@ -803,8 +814,8 @@ function OccupancySafetyMeasures({
                 if (m.title === "Segurança Estrutural" && (height > 12 || area > 930)) return true;
                 if (m.title === "Compartimentação Vertical" && height > 12) return true;
                 if (m.title === "Hidrantes e Mangotinhos" && (height > 12 || area > triggeringAreaF)) return true;
-                if (m.title === "Chuveiros Automáticos" && height > 30) return true;
-                if (m.title === "Controle de Fumaça" && height > 54) return true;
+                if (m.title === "Chuveiros Automáticos" && (height > 30 || (isF5F6F11 && height > 12))) return true;
+                if (m.title === "Controle de Fumaça" && (height > 54 || (isF5F6F11 && ((height <= 12 && (area > 930 || load > 500)) || (height > 12 && height <= 30 && load > 500) || height > 30)))) return true;
             }
             return false;
         });
@@ -835,6 +846,25 @@ function OccupancySafetyMeasures({
                 }
                 if (isF3 && isStadium && m.title === "Hidrantes e Mangotinhos") {
                     return { ...m, description: "Rede de hidrantes. Em estádios (F-3), instalados em locais de acesso privativo (Nota 9)." };
+                }
+                if (isF5F6F11) {
+                    if (m.title === "Segurança Estrutural" && height <= 12 && area > 930) {
+                        return { ...m, description: "Segurança estrutural contra incêndio (TRRF). Exigido quando a área total for superior a 930 m² (Nota 3)." };
+                    }
+                    if (m.title === "Acesso de Viaturas" && height <= 12 && (area > 930 || project.has_internal_roadway)) {
+                        return { ...m, description: "Vias de acesso para viaturas. Exigido quando a área total for superior a 930 m² e para condomínios com arruamento interno (Nota 5)." };
+                    }
+                    if (m.title === "Chuveiros Automáticos" && height > 12) {
+                        return { ...m, description: "Sistema de chuveiros automáticos. Exigência obrigatória para as divisões F-5, F-6 e F-11 quando a altura for superior a 12 metros." };
+                    }
+                    if (m.title === "Controle de Fumaça") {
+                        if (height <= 12 && (area > 930 || load > 500)) {
+                            return { ...m, description: `Controle de fumaça. Exigido quando a área total for superior a 930 m² (Nota 3) ou lotação superior a 500 pessoas (Nota 4).` };
+                        }
+                        if (height > 12 && height <= 30 && load > 500) {
+                            return { ...m, description: `Controle de fumaça. Exigido quando houver lotação superior a 500 pessoas (Nota 4).` };
+                        }
+                    }
                 }
             }
             return m;
