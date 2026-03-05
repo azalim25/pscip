@@ -779,7 +779,7 @@ function OccupancySafetyMeasures({
 
         // Filter measures based on being PT or Group A/B/C
         const filteredAdv = advMeasures.filter(m => {
-            if (isPT && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD && !isGroupE && !isGroupF) return true;
+            if (isPT && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD && !isGroupE && !isGroupF && !isGroupG) return true;
             if (isGroupA2A3) {
                 if (m.title === "Acesso de Viaturas") return true;
                 if (m.title === "Segurança Estrutural" && height > 12) return true;
@@ -818,10 +818,9 @@ function OccupancySafetyMeasures({
             if (isG1G2) {
                 if (m.title === "Acesso de Viaturas") return true;
                 if (m.title === "Segurança Estrutural") return true;
-                if (m.title === "Compartimentação Vertical") return true;
+                if (m.title === "Compartimentação Vertical" && height > 30) return true;
                 if (m.title === "Hidrantes e Mangotinhos") return true;
                 if (m.title === "Chuveiros Automáticos" && height > 30) return true;
-                if (m.title === "Controle de Fumaça" && height > 30) return true;
             }
             if (isGroupE) {
                 if (m.title === "Acesso de Viaturas" && (height > 12 || area > 930 || project.has_internal_roadway)) return true;
