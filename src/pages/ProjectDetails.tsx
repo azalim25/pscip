@@ -563,6 +563,7 @@ function OccupancySafetyMeasures({
     const triggeringAreaD = isBefore2005 ? 1200 : 930;
     const triggeringAreaE = isBefore2005 ? 1200 : 930;
     const triggeringAreaF = isBefore2005 ? 1200 : 930;
+    const triggeringAreaG = isBefore2005 ? 1200 : 930;
 
     const isGroupE = occupancy?.startsWith('E-') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.startsWith('E-')));
     const isE1toE4 = ['E-1', 'E-2', 'E-3', 'E-4'].some(div => occupancy?.includes(div)) || (isIntegrated && project.mixed_occupancies?.some(m => ['E-1', 'E-2', 'E-3', 'E-4'].some(div => m.occupancy.includes(div))));
@@ -576,6 +577,10 @@ function OccupancySafetyMeasures({
     const isF11 = occupancy?.includes('F-11') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.includes('F-11')));
     const isF5F6F11 = isF5 || isF6 || isF11;
     const isStadium = occupancy?.toLowerCase().includes('estádio') || occupancy?.toLowerCase().includes('ginásio');
+
+    const isGroupG = occupancy?.startsWith('G-') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.startsWith('G-')));
+    const isG1 = occupancy?.includes('G-1') || (isIntegrated && project.mixed_occupancies?.some(m => m.occupancy.includes('G-1')));
+    const isG1G2 = ['G-1', 'G-2'].some(div => occupancy?.includes(div)) || (isIntegrated && project.mixed_occupancies?.some(m => ['G-1', 'G-2'].some(div => m.occupancy.includes(div))));
 
     const measures = [];
 
@@ -609,7 +614,7 @@ function OccupancySafetyMeasures({
         );
     }
 
-    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD && !isGroupE && !isGroupF) || (isGroupA2A3 && height > 54) || (isGroupB && height > 54) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && height > 12) || (isGroupE && (height > 12 || (isE1toE4 && area > 930) || (isE5toE6))) || (isGroupF && (height > 12 || (isF5F6F11 ? (isF6 ? load > 100 : load > 200) : load > 200)))) {
+    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD && !isGroupE && !isGroupF && !isGroupG) || (isGroupA2A3 && height > 54) || (isGroupB && height > 54) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && height > 12) || (isGroupE && (height > 12 || (isE1toE4 && area > 930) || (isE5toE6))) || (isGroupF && (height > 12 || (isF5F6F11 ? (isF6 ? load > 100 : load > 200) : load > 200))) || (isG1G2 && height > 30)) {
         measures.push({
             icon: <Users />,
             title: "Brigada de Incêndio",
@@ -621,7 +626,7 @@ function OccupancySafetyMeasures({
         });
     }
 
-    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD && !isGroupE && !isGroupF) || (isGroupA2A3 && height > 30) || (isGroupB && (area > triggeringAreaB || height > 12)) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && (height > 12 || area > 2000)) || (isGroupE && (height > 12 || area > triggeringAreaE)) || (isGroupF && (height > 12 || area > triggeringAreaF))) {
+    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD && !isGroupE && !isGroupF && !isGroupG) || (isGroupA2A3 && height > 30) || (isGroupB && (area > triggeringAreaB || height > 12)) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && (height > 12 || area > 2000)) || (isGroupE && (height > 12 || area > triggeringAreaE)) || (isGroupF && (height > 12 || area > triggeringAreaF)) || (isG1G2 && height > 12)) {
         measures.push({
             icon: <Bell />,
             title: "Alarme de Incêndio",
@@ -629,9 +634,11 @@ function OccupancySafetyMeasures({
                 ? `Sistema de detecção e alarme. Exigido quando a área total for superior a ${triggeringAreaF}m² (Nota 1).`
                 : isGroupE && height <= 12
                     ? `Sistema de detecção e alarme. Exigido para área > ${triggeringAreaE}m² (Nota 1).`
-                    : isGroupB
-                        ? "Sistema de detecção e alarme. Acionadores manuais obrigatórios nos corredores."
-                        : "Sistema de detecção e alarme de incêndio."
+                    : isG1
+                        ? "Pode haver apenas um acionador manual por pavimento, no máximo a 10 m da saída de emergência (Nota 2)."
+                        : isGroupB
+                            ? "Sistema de detecção e alarme. Acionadores manuais obrigatórios nos corredores."
+                            : "Sistema de detecção e alarme de incêndio."
         });
     }
 
@@ -661,7 +668,7 @@ function OccupancySafetyMeasures({
         });
     }
 
-    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD && !isGroupE && !isGroupF) || (isGroupA2A3 && height > 12) || (isGroupA2A3 && isPartyHall && load > 200) || (isGroupB && height > 12) || (isGroupB && isPartyHall && load > 200) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && (height > 12 || (isPartyHall && load > 200))) || (isGroupE && (height > 12 || (isPartyHall && load > 200))) || (isGroupF && (height > 12 || load > 200))) {
+    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD && !isGroupE && !isGroupF && !isGroupG) || (isGroupA2A3 && height > 12) || (isGroupA2A3 && isPartyHall && load > 200) || (isGroupB && height > 12) || (isGroupB && isPartyHall && load > 200) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && (height > 12 || (isPartyHall && load > 200))) || (isGroupE && (height > 12 || (isPartyHall && load > 200))) || (isGroupF && (height > 12 || load > 200)) || (isG1G2 && height > 30)) {
         measures.push({
             icon: <Paintbrush />,
             title: "CMAR",
@@ -686,7 +693,8 @@ function OccupancySafetyMeasures({
                     (isGroupC && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
                     (isGroupD && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
                     (isGroupE && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
-                    (isGroupF && height <= 12 && area <= 930 && !project.has_internal_roadway)
+                    (isGroupF && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
+                    (isG1G2 && height <= 12 && area <= 930 && !project.has_internal_roadway)
             },
             {
                 icon: <Building2 />,
@@ -698,7 +706,8 @@ function OccupancySafetyMeasures({
                     (isGroupC && height <= 12 && area <= 930) ||
                     (isGroupD && height <= 12) ||
                     (isGroupE && height <= 12) ||
-                    (isGroupF && height <= 12 && area <= 930)
+                    (isGroupF && height <= 12 && area <= 930) ||
+                    (isG1G2 && height <= 12 && area <= 930)
             },
             {
                 icon: <Layers />,
@@ -722,20 +731,24 @@ function OccupancySafetyMeasures({
                     (isGroupC && height <= 12) ||
                     (isGroupD && height <= 12) ||
                     (isGroupE && height <= 12) ||
-                    (isGroupF && height <= 12)
+                    (isGroupF && height <= 12) ||
+                    (isG1G2 && height <= 30)
             },
             {
                 icon: <Droplets />,
                 title: "Hidrantes e Mangotinhos",
-                description: isGroupF && height <= 12
-                    ? `Rede de hidrantes. Exigido quando a área total for superior a ${triggeringAreaF}m² (Nota 1).`
-                    : "Rede de hidrantes e mangotinhos.",
+                description: isG1G2 && height <= 12
+                    ? `Rede de hidrantes. Exigido quando a área total for superior a ${triggeringAreaG}m² (Nota 1).`
+                    : isGroupF && height <= 12
+                        ? `Rede de hidrantes. Exigido quando a área total for superior a ${triggeringAreaF}m² (Nota 1).`
+                        : "Rede de hidrantes e mangotinhos.",
                 isExempt: (isGroupA2A3 && height <= 12 && area <= 1200) ||
                     (isGroupB && height <= 12 && area <= triggeringAreaB) ||
                     (isGroupC && height <= 12 && area <= triggeringAreaC) ||
                     (isGroupD && height <= 12 && area <= triggeringAreaD) ||
                     (isGroupE && height <= 12 && area <= triggeringAreaE) ||
-                    (isGroupF && height <= 12 && area <= triggeringAreaF)
+                    (isGroupF && height <= 12 && area <= triggeringAreaF) ||
+                    (isG1G2 && height <= 12 && area <= triggeringAreaG)
             },
             {
                 icon: <Droplets />,
@@ -745,8 +758,10 @@ function OccupancySafetyMeasures({
                     !(isGroupB && height > 30) &&
                     !(isGroupC && height > 30) &&
                     !(isGroupC && isC3WithF) &&
-                    !(isGroupD && height > 30)) ||
-                    (isF5F6F11 && height <= 12)
+                    !(isGroupD && height > 30) &&
+                    !(isG1G2 && height > 30)) ||
+                    (isF5F6F11 && height <= 12) ||
+                    (isG1G2 && height <= 30)
             },
             {
                 icon: <Flame />,
@@ -756,6 +771,7 @@ function OccupancySafetyMeasures({
                     (isGroupB && height <= 54) ||
                     (isGroupC && height <= 30 && !isC3WithFHighPop && !(height > 12 && area > 2000)) ||
                     (isGroupD && height <= 54) ||
+                    (isG1G2 && height <= 54) ||
                     (isF5F6F11 && height <= 12 && area <= 930 && load <= 500) ||
                     (isF5F6F11 && height > 12 && height <= 30 && load <= 500)
             }
@@ -798,6 +814,14 @@ function OccupancySafetyMeasures({
                 if (m.title === "Hidrantes e Mangotinhos") return true;
                 if (m.title === "Chuveiros Automáticos" && height > 30) return true;
                 if (m.title === "Controle de Fumaça" && height > 54) return true;
+            }
+            if (isG1G2) {
+                if (m.title === "Acesso de Viaturas") return true;
+                if (m.title === "Segurança Estrutural") return true;
+                if (m.title === "Compartimentação Vertical") return true;
+                if (m.title === "Hidrantes e Mangotinhos") return true;
+                if (m.title === "Chuveiros Automáticos" && height > 30) return true;
+                if (m.title === "Controle de Fumaça" && height > 30) return true;
             }
             if (isGroupE) {
                 if (m.title === "Acesso de Viaturas" && (height > 12 || area > 930 || project.has_internal_roadway)) return true;
