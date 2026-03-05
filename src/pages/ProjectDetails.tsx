@@ -618,247 +618,184 @@ function OccupancySafetyMeasures({
         );
     }
 
-    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD && !isGroupE && !isGroupF && !isGroupG) || (isGroupA2A3 && height > 54) || (isGroupB && height > 54) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && height > 12) || (isGroupE && (height > 12 || (isE1toE4 && area > 930) || (isE5toE6))) || (isGroupF && (height > 12 || (isF5F6F11 ? (isF6 ? load > 100 : load > 200) : load > 200))) || (isG1G2 && height > 30) || (isG4 && height > 12) || (isG5 && height > 12) || ((isG3 || isG4 || isG5) && height <= 12 && area > triggeringAreaG)) {
-        measures.push({
+    // Advanced/Specific Measures (Defined for all to allow correct exemption display)
+    const advMeasures = [
+        {
+            icon: <ShieldAlert />,
+            title: "Acesso de Viaturas",
+            description: "Vias de acesso para viaturas do Corpo de Bombeiros.",
+            isExempt: isExistente ||
+                (isGroupA2A3 && height <= 12 && area <= 1200 && !project.has_internal_roadway) ||
+                (isGroupB && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
+                (isGroupC && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
+                (isGroupD && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
+                (isGroupE && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
+                (isGroupF && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
+                (isG1G2 && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
+                (isG3 && area <= 930 && !project.has_internal_roadway) ||
+                (isG4 && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
+                (isG5 && height <= 12 && area <= 930 && !project.has_internal_roadway)
+        },
+        {
+            icon: <Building2 />,
+            title: "Segurança Estrutural",
+            description: (isG4 || isG5) && height <= 12
+                ? `Exigido quando a área total for superior a 930 m² (Nota 2).`
+                : "Segurança estrutural contra incêndio (TRRF).",
+            isExempt: isExistente ||
+                (isGroupA2A3 && height <= 12) ||
+                (isGroupB && height <= 12) ||
+                (isGroupC && height <= 12 && area <= 930) ||
+                (isGroupD && height <= 12) ||
+                (isGroupE && height <= 12) ||
+                (isGroupF && height <= 12 && area <= 930) ||
+                (isG1G2 && height <= 12 && area <= 930) ||
+                isG3 ||
+                ((isG4 || isG5) && height <= 12 && area <= 930)
+        },
+        {
+            icon: <Layers />,
+            title: "Compartimentação Horizontal",
+            description: isG4 && height > 12 && height <= 30
+                ? "Pode ser substituída por chuveiros automáticos (Nota 3)."
+                : (isGroupB && height > 12 && height <= 30) || (isGroupC && height <= 12 && area > 930)
+                    ? "Exigências de compartimentação (pode ser substituída por Sprinklers, exceto em shafts)."
+                    : "Exigências de compartimentação para evitar propagação de calor e fumaça.",
+            isExempt: isExistente ||
+                (isGroupC && height <= 12 && area <= 930) ||
+                (isGroupD && height <= 12) ||
+                (isGroupE && height <= 12) ||
+                (isGroupF && height <= 12) ||
+                isG1G2 || isG3 || (isG4 && height <= 12) || isG5
+        },
+        {
+            icon: <Layers />,
+            title: "Compartimentação Vertical",
+            description: isG4 && height > 12 && height <= 30
+                ? "Pode ser substituída por chuveiros automáticos, exceto para as compartimentações das fachadas e selagens dos shafts e dutos de instalações (Nota 4)."
+                : "Exigências de compartimentação para evitar propagação entre pavimentos.",
+            isExempt: isExistente ||
+                (isGroupA2A3 && height <= 30) ||
+                (isGroupB && height <= 12) ||
+                (isGroupC && height <= 12) ||
+                (isGroupD && height <= 12) ||
+                (isGroupE && height <= 12) ||
+                (isGroupF && height <= 12) ||
+                (isG1G2 && height <= 30) ||
+                isG3 || (isG4 && height <= 12) || (isG5 && height <= 30)
+        },
+        {
+            icon: <Droplets />,
+            title: "Hidrantes e Mangotinhos",
+            description: (isG1G2 || isG3 || isG4 || isG5) && height <= 12
+                ? `Rede de hidrantes. Exigido quando a área total for superior a ${triggeringAreaG}m² (Nota 1).`
+                : isGroupF && height <= 12
+                    ? `Rede de hidrantes. Exigido quando a área total for superior a ${triggeringAreaF}m² (Nota 1).`
+                    : "Rede de hidrantes e mangotinhos.",
+            isExempt: (isGroupA2A3 && height <= 12 && area <= 1200) ||
+                (isGroupB && height <= 12 && area <= triggeringAreaB) ||
+                (isGroupC && height <= 12 && area <= triggeringAreaC) ||
+                (isGroupD && height <= 12 && area <= triggeringAreaD) ||
+                (isGroupE && height <= 12 && area <= triggeringAreaE) ||
+                (isGroupF && height <= 12 && area <= triggeringAreaF) ||
+                (isG1G2 && height <= 12 && area <= triggeringAreaG) ||
+                (isG3 && area <= triggeringAreaG) ||
+                (isG4 && height <= 12 && area <= triggeringAreaG) ||
+                (isG5 && height <= 12 && area <= triggeringAreaG)
+        },
+        {
+            icon: <Droplets />,
+            title: "Chuveiros Automáticos",
+            description: "Sistemas de chuveiros automáticos (Sprinklers).",
+            isExempt: (isExistente &&
+                !(isGroupB && height > 30) &&
+                !(isGroupC && height > 30) &&
+                !(isGroupC && isC3WithF) &&
+                !(isGroupD && height > 30) &&
+                !(isG1G2 && height > 30) &&
+                !(isG4 && height > 30) &&
+                !(isG5 && height > 30)) ||
+                (isF5F6F11 && height <= 12) ||
+                (isG1G2 && height <= 30) ||
+                isG3 ||
+                (isG4 && height <= 30) ||
+                (isG5 && height <= 30)
+        },
+        {
             icon: <Users />,
             title: "Brigada de Incêndio",
             description: isGroupF && height <= 12
                 ? (isF6 ? "Grupo treinado. Quando se tratar de F-6 e o local comportar população superior a 100 pessoas (Nota 6)." : "Grupo treinado. Somente quando o local comportar população superior a 200 pessoas (Nota 2).")
-                : isGroupE && height <= 12
-                    ? (isE5toE6 ? "Exigida para as divisões E-5 e E-6 independentemente da área." : "Exigida para as divisões E-1 a E-4 com área total superior a 930 m².")
-                    : isG3 || (isG4 && height <= 12) || (isG5 && height <= 12)
-                        ? `Exigido quando a área total for superior a ${triggeringAreaG} m² (Nota 1).`
-                        : "Grupo organizado de pessoas treinadas para atuar na prevenção e combate."
-        });
-    }
-
-    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD && !isGroupE && !isGroupF && !isGroupG) || (isGroupA2A3 && height > 30) || (isGroupB && (area > triggeringAreaB || height > 12)) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && (height > 12 || area > 2000)) || (isGroupE && (height > 12 || area > triggeringAreaE)) || (isGroupF && (height > 12 || area > triggeringAreaF)) || (isG1G2 && height > 12) || (isG4 && height > 12) || (isG5 && height > 12) || ((isG3 || isG4 || isG5) && height <= 12 && area > triggeringAreaG)) {
-        measures.push({
-            icon: <Bell />,
-            title: "Alarme de Incêndio",
-            description: isGroupF && height <= 12
-                ? `Sistema de detecção e alarme. Exigido quando a área total for superior a ${triggeringAreaF}m² (Nota 1).`
-                : isGroupE && height <= 12
-                    ? `Sistema de detecção e alarme. Exigido para área > ${triggeringAreaE}m² (Nota 1).`
-                    : isG1
-                        ? "Pode haver apenas um acionador manual por pavimento, no máximo a 10 m da saída de emergência (Nota 2)."
-                        : isG3 || (isG4 && height <= 12) || (isG5 && height <= 12)
-                            ? `Exigido quando a área total for superior a ${triggeringAreaG} m² (Nota 1).`
-                            : isGroupB
-                                ? "Sistema de detecção e alarme. Acionadores manuais obrigatórios nos corredores."
-                                : "Sistema de detecção e alarme de incêndio."
-        });
-    }
-
-    if ((isGroupB && height > 30) || (isGroupC && isC3WithFHighPop) || (isGroupC && height > 12) || (isGroupD && height > 30) || (isGroupE && height > 30) || (isGroupF && (height > 30 || (height > 12 && height <= 30 && (isF5F6F11 || isF1)) || (height <= 12 && ((!isF5F6F11 && isF1 && area > triggeringAreaF) || (isF5F6F11 && (area > triggeringAreaF || load > 500)))))) || (isG4 && height > 30) || (isG5 && height > 12)) {
-        measures.push({
-            icon: <Search />,
-            title: "Detecção de Incêndio",
-            description: isGroupF && height <= 30
-                ? (isF5F6F11
-                    ? (height <= 12 ? (area > triggeringAreaF || load > 500 ? `Exigido por área > 930m² (Nota 1) ou lotação > 500 (Nota 4).` : "Exigência por área ou lotação.") : "Sistema de detecção automática.")
-                    : (height <= 12 ? (area > triggeringAreaF ? "Exigido por área total superior a 930 m² (Nota 1). Também exigida especificamente para a divisão F-1 (Nota 7)." : "Somente para divisão F-1 (Nota 7).") : "Somente para divisão F-1 (Nota 7)."))
-                : isGroupB && height > 30
-                    ? "Sistema de detecção automática, inclusive dentro dos quartos."
-                    : (isGroupC && isC3WithFHighPop && height <= 12 ? "Sistema de detecção automática para áreas do Group F com população > 500." : "Sistema de detecção automática de incêndio.")
-        });
-    }
-
-    if ((isGroupB && height > 30) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && height > 30) || (isGroupE && height > 30) || (isGroupF && (height > 12 || (height <= 12 && ((!isF5F6F11 && isF3 && area > triggeringAreaF) || (isF5F6F11 && load > 500)))))) {
-        measures.push({
-            icon: <FileText />,
-            title: "Plano de Intervenção",
-            description: isGroupF && height <= 12
-                ? (isF5F6F11
-                    ? "Somente quando houver lotação superior a 500 pessoas (Nota 4)."
-                    : (area > triggeringAreaF ? "Exigido por área total superior a 930 m² (Nota 1). Também exigido especificamente para a divisão F-3 (Nota 6)." : "Somente para divisão F-3 (Nota 6)."))
-                : "Plano de intervenção de incêndio para a edificação."
-        });
-    }
-
-    if (isH2H5 || (risk === 'III' && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD && !isGroupE && !isGroupF && !isGroupG) || (isGroupA2A3 && height > 12) || (isGroupA2A3 && isPartyHall && load > 200) || (isGroupB && height > 12) || (isGroupB && isPartyHall && load > 200) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && (height > 12 || (isPartyHall && load > 200))) || (isGroupE && (height > 12 || (isPartyHall && load > 200))) || (isGroupF && (height > 12 || load > 200)) || (isG1G2 && height > 30) || (isG4 && height > 12) || (isG5 && height > 12) || (isG5 && height <= 12 && area > triggeringAreaG)) {
-        measures.push({
-            icon: <Paintbrush />,
-            title: "CMAR",
-            description: isGroupF && height <= 12
-                ? "Somente quando o local comportar população superior a 200 pessoas (Nota 2)."
-                : isGroupE && height <= 12
-                    ? "Exigida nos auditórios com previsão de população superior a 200 pessoas (Nota 3)."
-                    : isG5 && height <= 12
-                        ? `Exigido quando a área total for superior a ${triggeringAreaG} m² (Nota 1).`
-                        : "Controle de Materiais de Acabamento e Revestimento."
-        });
-    }
-
-    if (isG5) {
-        measures.push({
-            icon: <FileText />,
-            title: "Plano de Intervenção",
-            description: height <= 12
-                ? "Somente quando a área total for superior a 5.000 m² (Nota 3)."
-                : "Plano de intervenção de incêndio.",
-            isExempt: height <= 12 && area <= 5000
-        });
-    }
-
-    // Advanced Measures
-    if (isPT || isGroupA2A3) {
-        const advMeasures = [
-            {
-                icon: <ShieldAlert />,
-                title: "Acesso de Viaturas",
-                description: "Vias de acesso para viaturas do Corpo de Bombeiros.",
-                isExempt: isExistente ||
-                    (isGroupA2A3 && height <= 12 && area <= 1200 && !project.has_internal_roadway) ||
-                    (isGroupB && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
-                    (isGroupC && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
-                    (isGroupD && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
-                    (isGroupE && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
-                    (isGroupF && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
-                    (isG1G2 && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
-                    (isG3 && area <= 930 && !project.has_internal_roadway) ||
-                    (isG4 && height <= 12 && area <= 930 && !project.has_internal_roadway) ||
-                    (isG5 && height <= 12 && area <= 930 && !project.has_internal_roadway)
-            },
-            {
-                icon: <Building2 />,
-                title: "Segurança Estrutural",
-                description: (isG4 || isG5) && height <= 12
-                    ? `Exigido quando a área total for superior a 930 m² (Nota 2).`
-                    : "Segurança estrutural contra incêndio (TRRF).",
-                isExempt: isExistente ||
-                    (isGroupA2A3 && height <= 12) ||
-                    (isGroupB && height <= 12) ||
-                    (isGroupC && height <= 12 && area <= 930) ||
-                    (isGroupD && height <= 12) ||
-                    (isGroupE && height <= 12) ||
-                    (isGroupF && height <= 12 && area <= 930) ||
-                    (isG1G2 && height <= 12 && area <= 930) ||
-                    isG3 ||
-                    ((isG4 || isG5) && height <= 12 && area <= 930)
-            },
-            {
-                icon: <Layers />,
-                title: "Compartimentação Horizontal",
-                description: isG4 && height > 12 && height <= 30
-                    ? "Pode ser substituída por chuveiros automáticos (Nota 3)."
-                    : (isGroupB && height > 12 && height <= 30) || (isGroupC && height <= 12 && area > 930)
-                        ? "Exigências de compartimentação (pode ser substituída por Sprinklers, exceto em shafts)."
-                        : "Exigências de compartimentação para evitar propagação de calor e fumaça.",
-                isExempt: isExistente ||
-                    (isGroupC && height <= 12 && area <= 930) ||
-                    (isGroupD && height <= 12) ||
-                    (isGroupE && height <= 12) ||
-                    (isGroupF && height <= 12) ||
-                    isG1G2 || isG3 || (isG4 && height <= 12) || isG5
-            },
-            {
-                icon: <Layers />,
-                title: "Compartimentação Vertical",
-                description: isG4 && height > 12 && height <= 30
-                    ? "Pode ser substituída por chuveiros automáticos, exceto para as compartimentações das fachadas e selagens dos shafts e dutos de instalações (Nota 4)."
-                    : "Exigências de compartimentação para evitar propagação entre pavimentos.",
-                isExempt: isExistente ||
-                    (isGroupA2A3 && height <= 30) ||
-                    (isGroupB && height <= 12) ||
-                    (isGroupC && height <= 12) ||
-                    (isGroupD && height <= 12) ||
-                    (isGroupE && height <= 12) ||
-                    (isGroupF && height <= 12) ||
-                    (isG1G2 && height <= 30) ||
-                    isG3 || (isG4 && height <= 12) || (isG5 && height <= 30)
-            },
-            {
-                icon: <Droplets />,
-                title: "Hidrantes e Mangotinhos",
-                description: (isG1G2 || isG3 || isG4 || isG5) && height <= 12
-                    ? `Rede de hidrantes. Exigido quando a área total for superior a ${triggeringAreaG}m² (Nota 1).`
-                    : isGroupF && height <= 12
-                        ? `Rede de hidrantes. Exigido quando a área total for superior a ${triggeringAreaF}m² (Nota 1).`
-                        : "Rede de hidrantes e mangotinhos.",
-                isExempt: (isGroupA2A3 && height <= 12 && area <= 1200) ||
-                    (isGroupB && height <= 12 && area <= triggeringAreaB) ||
-                    (isGroupC && height <= 12 && area <= triggeringAreaC) ||
-                    (isGroupD && height <= 12 && area <= triggeringAreaD) ||
-                    (isGroupE && height <= 12 && area <= triggeringAreaE) ||
-                    (isGroupF && height <= 12 && area <= triggeringAreaF) ||
-                    (isG1G2 && height <= 12 && area <= triggeringAreaG) ||
-                    (isG3 && area <= triggeringAreaG) ||
-                    (isG4 && height <= 12 && area <= triggeringAreaG) ||
-                    (isG5 && height <= 12 && area <= triggeringAreaG)
-            },
-            {
-                icon: <Droplets />,
-                title: "Chuveiros Automáticos",
-                description: "Sistemas de chuveiros automáticos (Sprinklers).",
-                isExempt: (isExistente &&
-                    !(isGroupB && height > 30) &&
-                    !(isGroupC && height > 30) &&
-                    !(isGroupC && isC3WithF) &&
-                    !(isGroupD && height > 30) &&
-                    !(isG1G2 && height > 30) &&
-                    !(isG4 && height > 30) &&
-                    !(isG5 && height > 30)) ||
-                    (isF5F6F11 && height <= 12) ||
-                    (isG1G2 && height <= 30) ||
-                    isG3 ||
-                    (isG4 && height <= 30) ||
-                    (isG5 && height <= 30)
-            },
-            {
-                icon: <Users />,
-                title: "Brigada de Incêndio",
-                description: (isG3 || isG4 || isG5) && height <= 12
+                : (isG3 || isG4 || isG5) && height <= 12
                     ? `Exigido quando a área total for superior a ${triggeringAreaG} m² (Nota 1).`
                     : "Grupo organizado de pessoas treinadas para atuar na prevenção e combate.",
-                isExempt: (isG3 || (isG4 && height <= 12) || (isG5 && height <= 12)) && area <= triggeringAreaG
-            },
-            {
-                icon: <Bell />,
-                title: "Alarme de Incêndio",
-                description: isG1
-                    ? "Pode haver apenas um acionador manual por pavimento, no máximo a 10 m da saída de emergência (Nota 2)."
-                    : (isG3 || (isG4 && height <= 12) || (isG5 && height <= 12))
-                        ? `Exigido quando a área total for superior a ${triggeringAreaG} m² (Nota 1).`
-                        : "Sistema de detecção e alarme de incêndio.",
-                isExempt: (isG3 || (isG4 && height <= 12) || (isG5 && height <= 12)) && area <= triggeringAreaG
-            },
-            {
-                icon: <Search />,
-                title: "Detecção de Incêndio",
-                description: "Sistema de detecção automática de fumaça e calor.",
-                isExempt: !(isG4 && height > 30) && !(isG5 && height > 12)
-            },
-            {
-                icon: <Paintbrush />,
-                title: "CMAR",
-                description: isG5 && height <= 12
+            isExempt: (isGroupF && height <= 12 && (isF6 ? load <= 100 : load <= 200)) ||
+                ((isG3 || (isG4 && height <= 12) || (isG5 && height <= 12)) && area <= triggeringAreaG)
+        },
+        {
+            icon: <Bell />,
+            title: "Alarme de Incêndio",
+            description: isG1
+                ? "Pode haver apenas um acionador manual por pavimento, no máximo a 10 m da saída de emergência (Nota 2)."
+                : (isG3 || (isG4 && height <= 12) || (isG5 && height <= 12))
                     ? `Exigido quando a área total for superior a ${triggeringAreaG} m² (Nota 1).`
-                    : "Controle de Materiais de Acabamento e Revestimento.",
-                isExempt: (isG5 && height <= 12 && area <= triggeringAreaG)
-            },
-            {
-                icon: <FileText />,
-                title: "Plano de Intervenção",
-                description: isG5 && height <= 12
-                    ? "Somente quando a área total for superior a 5.000 m² (Nota 3)."
+                    : "Sistema de detecção e alarme de incêndio.",
+            isExempt: (isG3 || (isG4 && height <= 12) || (isG5 && height <= 12)) && area <= triggeringAreaG
+        },
+        {
+            icon: <Search />,
+            title: "Detecção de Incêndio",
+            description: "Sistema de detecção automática de fumaça e calor.",
+            isExempt: !(isGroupB && height > 30) &&
+                !(isGroupC && height > 12) &&
+                !(isGroupD && height > 30) &&
+                !(isGroupE && height > 30) &&
+                !(isGroupF && height > 12) &&
+                !(isG4 && height > 30) &&
+                !(isG5 && height > 12)
+        },
+        {
+            icon: <Paintbrush />,
+            title: "CMAR",
+            description: isG5 && height <= 12
+                ? `Exigido quando a área total for superior a ${triggeringAreaG} m² (Nota 1).`
+                : "Controle de Materiais de Acabamento e Revestimento.",
+            isExempt: (isGroupA2A3 && height <= 12) ||
+                (isGroupB && height <= 12) ||
+                (isGroupC && height <= 12 && area <= 2000) ||
+                (isGroupD && height <= 12) ||
+                (isGroupE && height <= 12) ||
+                (isGroupF && height <= 12 && load <= 200) ||
+                (isG1G2 && height <= 30) ||
+                (isG4 && height <= 12) ||
+                (isG5 && height <= 12 && area <= triggeringAreaG)
+        },
+        {
+            icon: <FileText />,
+            title: "Plano de Intervenção",
+            description: isG5 && height <= 12
+                ? "Somente quando a área total for superior a 5.000 m² (Nota 3)."
+                : isGroupF && height <= 12
+                    ? "Somente quando houver lotação superior a 500 pessoas (Nota 4)."
                     : "Plano de intervenção de incêndio.",
-                isExempt: !isG5 || (height <= 12 && area <= 5000)
-            },
-            {
-                icon: <Flame />,
-                title: "Controle de Fumaça",
-                description: "Sistemas para controle de movimentação de fumaça.",
-                isExempt: isExistente ||
-                    (isGroupB && height <= 54) ||
-                    (isGroupC && height <= 30 && !isC3WithFHighPop && !(height > 12 && area > 2000)) ||
-                    (isGroupD && height <= 54) ||
-                    (isG1G2 && height <= 54) ||
-                    (isF5F6F11 && height <= 12 && area <= 930 && load <= 500) ||
-                    (isF5F6F11 && height > 12 && height <= 30 && load <= 500)
-            }
-        ];
+            isExempt: (!isG5 && !isGroupF && height <= 12) ||
+                (isG5 && height <= 12 && area <= 5000) ||
+                (isGroupF && height <= 12 && load <= 500 && area <= triggeringAreaF)
+        },
+        {
+            icon: <Flame />,
+            title: "Controle de Fumaça",
+            description: "Sistemas para controle de movimentação de fumaça.",
+            isExempt: isExistente ||
+                (isGroupB && height <= 54) ||
+                (isGroupC && height <= 30 && !isC3WithFHighPop) ||
+                (isGroupD && height <= 54) ||
+                (isG1G2 && height <= 54) ||
+                (isGroupF && height <= 54 && !isF5F6F11)
+        }
+    ];
 
+    if (isPT || isGroupA2A3) {
         // Filter measures based on being PT or Group A/B/C
         const filteredAdv = advMeasures.filter(m => {
             if (isPT && !isGroupA2A3 && !isGroupB && !isGroupC && !isGroupD && !isGroupE && !isGroupF && !isGroupG) return true;
