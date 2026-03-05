@@ -635,7 +635,7 @@ function OccupancySafetyMeasures({
         });
     }
 
-    if ((isGroupB && height > 30) || (isGroupC && isC3WithFHighPop) || (isGroupC && height > 12) || (isGroupD && height > 30) || (isGroupE && height > 30) || (isGroupF && (height > 30 || (height > 12 && (isF1 || isF5F6F11)) || (height <= 12 && (area > triggeringAreaF || isF1 || (isF5F6F11 && load > 500)))))) {
+    if ((isGroupB && height > 30) || (isGroupC && isC3WithFHighPop) || (isGroupC && height > 12) || (isGroupD && height > 30) || (isGroupE && height > 30) || (isGroupF && (height > 30 || (height > 12 && height <= 30 && (isF5F6F11 || isF1)) || (height <= 12 && ((!isF5F6F11 && isF1 && area > triggeringAreaF) || (isF5F6F11 && (area > triggeringAreaF || load > 500))))))) {
         measures.push({
             icon: <Search />,
             title: "Detecção de Incêndio",
@@ -649,13 +649,13 @@ function OccupancySafetyMeasures({
         });
     }
 
-    if ((isGroupB && height > 30) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && height > 30) || (isGroupE && height > 30) || (isGroupF && (height > 12 || (height <= 12 && (area > triggeringAreaF || isF3 || (isF5F6F11 && load > 500)))))) {
+    if ((isGroupB && height > 30) || (isGroupC && (height > 12 || area > 2000)) || (isGroupD && height > 30) || (isGroupE && height > 30) || (isGroupF && (height > 12 || (height <= 12 && ((!isF5F6F11 && isF3 && area > triggeringAreaF) || (isF5F6F11 && load > 500)))))) {
         measures.push({
             icon: <FileText />,
             title: "Plano de Intervenção",
             description: isGroupF && height <= 12
                 ? (isF5F6F11
-                    ? (load > 500 ? "Somente quando houver lotação superior a 500 pessoas (Nota 4)." : "Exigência por lotação.")
+                    ? "Somente quando houver lotação superior a 500 pessoas (Nota 4)."
                     : (area > triggeringAreaF ? "Exigido por área total superior a 930 m² (Nota 1). Também exigido especificamente para a divisão F-3 (Nota 6)." : "Somente para divisão F-3 (Nota 6)."))
                 : "Plano de intervenção de incêndio para a edificação."
         });
